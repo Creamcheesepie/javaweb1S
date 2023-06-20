@@ -13,7 +13,6 @@
 </nav>
 <!-- 첫 이미지 표시부 -->
 <div class="fullImageSlide m-0 p-0" style="width:100%;height:60%;background-color: skyblue" >
-
 <hr/>
 </div>
 
