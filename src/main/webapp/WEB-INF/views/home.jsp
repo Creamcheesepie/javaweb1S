@@ -5,6 +5,53 @@
 <head>
 	<title>project(가제)</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp"/>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+	<style>
+	.listTitle{
+		font-family: 'IBM Plex Sans KR', sans-serif;
+		font-weight:700;
+	}
+	.subTitle{
+		font-family: 'IBM Plex Sans KR', sans-serif;
+		font-weight:600;
+		font-size: 20px;
+	}
+	.material-symbols-outlined {
+	  font-variation-settings:
+	  'FILL' 0,
+	  'wght' 500,
+	  'GRAD' 0,
+	  'opsz' 48
+	}
+	.galary-icon{
+		font-size:37px;
+		margin : 0;
+		vertical-align:middle;
+	}
+	.listTitle-icon{
+		font-size: 26px;
+		vertical-align:middle;
+	}
+	.subTitle-icon{
+		font-size: 24px;
+		vertical-align:middle;
+	}
+	hr{
+		margin : 10px 0px 10px 0px;
+	}
+	.font-bold{
+		font-weight: 800;
+	}
+	.button-font{
+		font-family: 'IBM Plex Sans KR', sans-serif;
+		font-weight:700;
+		font-size:18px;
+	}
+
+	</style>
 </head>
 <body>
 <!-- 헤더 -->
@@ -25,71 +72,138 @@
 	<div class="col-sm-8">
 	<h2>아무거나 규탄한다! 이것저것 보장하라!</h2>
 	<div id="demo" class="carousel slide" data-ride="carousel">
-
-  <!-- Indicators -->
-  <ul class="carousel-indicators">
-    <li data-target="#demo" data-slide-to="0" class="active"></li>
-    <li data-target="#demo" data-slide-to="1"></li>
-    <li data-target="#demo" data-slide-to="2"></li>
-  </ul>
-
-  <!-- The slideshow -->
-  <div class="carousel-inner" style="height:350px">
-    <div class="carousel-item active">
-      <img src="la.jpg" alt="Los Angeles">
-    </div>
-    <div class="carousel-item">
-      <img src="chicago.jpg" alt="Chicago">
-    </div>
-    <div class="carousel-item">
-      <img src="ny.jpg" alt="New York">
-    </div>
-  </div>
-
-  <!-- Left and right controls -->
-  <a class="carousel-control-prev" href="#demo" data-slide="prev">
-    <span class="carousel-control-prev-icon"></span>
-  </a>
-  <a class="carousel-control-next" href="#demo" data-slide="next">
-    <span class="carousel-control-next-icon"></span>
-  </a>
-
-</div>
-	<hr/>
+	  <!-- Indicators -->
+	  <ul class="carousel-indicators">
+	    <li data-target="#demo" data-slide-to="0" class="active"></li>
+	    <li data-target="#demo" data-slide-to="1"></li>
+	    <li data-target="#demo" data-slide-to="2"></li>
+	  </ul>
+	
+	  <!-- The slideshow -->
+	  <div class="carousel-inner" style="height:350px">
+	    <div class="carousel-item active">
+	      <img src="la.jpg" alt="Los Angeles">
+	    </div>
+	    <div class="carousel-item">
+	      <img src="chicago.jpg" alt="Chicago">
+	    </div>
+	    <div class="carousel-item">
+	      <img src="ny.jpg" alt="New York">
+	    </div>
+	  </div>
+	
+	  <!-- Left and right controls -->
+	  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+	    <span class="carousel-control-prev-icon"></span>
+	  </a>
+	  <a class="carousel-control-next" href="#demo" data-slide="next">
+	    <span class="carousel-control-next-icon"></span>
+	  </a>
+	
+		</div>
+		<hr/>
 	</div>
-	<div class="col-sm-4">
-	<h2>
-	놀고 먹고싶다! 인생을 꿀빨게 해달라!!
-	</h2>
-	<h2>
-	그럴거면 로그인을 해라!!
-	</h2>
-	<hr/>
-	</div>
-	<div class="col-sm-6">
-	<hr/>
-	<h3>여기는 신규 글 영역입니다.</h3>
-	<hr/>
-	</div>
-	<div class="col-sm-6">
-	<hr/>
-	<h3>여기는 인기 글 영역입니다(조회수 기준)</h3>
-	<hr/>
-	</div>
-	<div class="col-sm-6">
-	<hr/>
-	<h3>여기는 mvp회원 영역입니다(추천수 기준)</h3>
-	<hr/>
+		<div class="col-sm-4">
+		<span class="subTitle">
+		회원정보
+		</span>
+		<div class="row">
+			<div class="col-7 p-1">
+				<input type="button" value="로그인" onclick="loginCheck()" class="btn form-control button-font" style="height: 90px; background-color: lightgray;">
+			</div>
+			<div class="col-5	 m-0 p-0 text-center">
+				<input type="button" value="간편로그인" onclick="simpleloginCheck()" class="btn form-control button-font">
+				<input type="button" value="회원가입" onclick="signInCheck()" class="btn form-control button-font">
+				<a href="" style="font-size: 11px">아이디/비밀번호찾기</a>
+			</div>
+		</div>
+		<hr/>
+		<div class="row">
+			<div class="col-12">
+				<span class="subTitle">News</span>
+				
+			</div>
+		</div>
 	</div>
 	<div class="col-sm-6">
-	<hr/>
-	<h3>여기는 우수활동회원 영역입니다.(조회수 기준)</h3>
-	<hr/>
+		<hr/>
+		<h3 class="listTitle">
+		<span class="material-symbols-outlined listTitle-icon">autorenew</span>
+		&nbsp;신규 글</h3>
+		<hr/>
+		<div class="row">
+				<div class="col-2">항목</div>
+				<div class="col-10">제목</div>
+				<div class="col-2">항목</div>
+				<div class="col-10">제목</div>
+				<div class="col-2">항목</div>
+				<div class="col-10">제목</div>
+				<div class="col-2">항목</div>
+				<div class="col-10">제목</div>
+				<div class="col-2">항목</div>
+				<div class="col-10">제목</div>
+				<div class="col-2">항목</div>
+				<div class="col-10">제목</div>
+				<div class="col-2">항목</div>
+				<div class="col-10">제목</div>
+				<div class="col-2">항목</div>
+				<div class="col-10">제목</div>
+				<div class="col-2">항목</div>
+				<div class="col-10">제목</div>
+				<div class="col-2">항목</div>
+				<div class="col-10">제목</div>
+				<div class="col-2">항목</div>
+				<div class="col-10">제목</div>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<hr/>
+			<h3 class="listTitle">
+			<span class="material-symbols-outlined listTitle-icon">auto_awesome</span>
+			&nbsp;인기 글(조회수 기준)</h3>
+		<hr/>
+		<div class="row">
+				<div class="col-2">항목</div>
+				<div class="col-10">is simply dummy text of the printing and t</div>
+				<div class="col-2">항목</div>
+				<div class="col-10">typesetting industry. Lorem</div>
+				<div class="col-2">항목</div>
+				<div class="col-10">psum has been the industry's standard dummy text ever</div>
+				<div class="col-2">항목</div>
+				<div class="col-10">since the 1500s, when an unknown printers</div>
+				<div class="col-2">항목</div>
+				<div class="col-10">took a galley of type and</div>
+				<div class="col-2">항목</div>
+				<div class="col-10">제목</div>
+				<div class="col-2">항목</div>
+				<div class="col-10">제목</div>
+				<div class="col-2">항목</div>
+				<div class="col-10">제목</div>
+				<div class="col-2">항목</div>
+				<div class="col-10">제목</div>
+				<div class="col-2">항목</div>
+				<div class="col-10">제목</div>
+				<div class="col-2">항목</div>
+				<div class="col-10">제목</div>
+		</div>		
+	</div>
+	<div class="col-sm-6">
+	
+	</div>
+	<div class="col-sm-3">
+		<hr/>
+		<h4 class="listTitle"><span class="material-symbols-outlined subTitle-icon">hotel_class</span>&nbsp;저번달 MVP 라이더</h4>
+		<hr/>
+	</div>
+	<div class="col-sm-3">
+		<hr/>
+		<h4 class="listTitle align-self-center"><span class="material-symbols-outlined subTitle-icon">bolt</span>&nbsp;최근 우수 활동 회원</h4>
+		<hr/>
 	</div>
 	<div class="col-sm-12">
-	<hr/>
-	<h1>~~~~~~~~~~~~~~~이곳은 메인 갤러리 영역입니다~~~~~~~~~~~~~~~~~~~~~~~~~~~</h1>
-	<hr/>
+		<hr/>
+		<h1 class="listTitle"><span class="material-symbols-outlined galary-icon">photo_library</span>&nbsp;메인 갤러리</h1>
+		<hr/>
 	</div>
 	<div>
 	</div>
