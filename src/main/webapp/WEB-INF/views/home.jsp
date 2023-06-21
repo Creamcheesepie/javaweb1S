@@ -6,8 +6,8 @@
 	<title>project(가제)</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp"/>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@600;700&display=swap" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 	<style>
 	.listTitle{
@@ -50,6 +50,16 @@
 		font-weight:700;
 		font-size:18px;
 	}
+	.button-font-big{
+		font-family: 'IBM Plex Sans KR', sans-serif;
+		font-weight:700;
+		font-size:24px;
+	}
+	.footerTitle{
+		font-family: 'IBM Plex Sans KR', sans-serif;
+		font-weight:400;
+		font-size:20px;
+	}
 
 	</style>
 </head>
@@ -60,7 +70,6 @@
 </nav>
 <!-- 첫 이미지 표시부 -->
 <div class="fullImageSlide m-0 p-0" style="width:100%;height:60%;background-color: skyblue" >
-<hr/>
 </div>
 
 
@@ -103,20 +112,21 @@
 		</div>
 		<hr/>
 	</div>
-		<div class="col-sm-4">
-		<span class="subTitle">
-		회원정보
-		</span>
+	<div class="col-sm-4">
+		<c:if test="${sLogin !='ok'}">
+		<span class="subTitle">로그인</span>
 		<div class="row">
 			<div class="col-7 p-1">
-				<input type="button" value="로그인" onclick="loginCheck()" class="btn form-control button-font" style="height: 90px; background-color: lightgray;">
+				<input type="button" value="로그인" onclick="loginCheck()" class="btn form-control button-font-big border" style="height:94px;">
 			</div>
-			<div class="col-5	 m-0 p-0 text-center">
-				<input type="button" value="간편로그인" onclick="simpleloginCheck()" class="btn form-control button-font">
-				<input type="button" value="회원가입" onclick="signInCheck()" class="btn form-control button-font">
-				<a href="" style="font-size: 11px">아이디/비밀번호찾기</a>
+			<div class="col-5 p-1 text-center">
+				
+				<input type="button" value="간편로그인" onclick="simpleloginCheck()" class="btn form-control button-font border mb-1" style="height: 43px">
+				<input type="button" value="회원가입" onclick="signInCheck()" class="btn form-control button-font border mt-1" style="height: 43px">
+				
 			</div>
 		</div>
+		
 		<hr/>
 		<div class="row">
 			<div class="col-12">
@@ -124,6 +134,7 @@
 				
 			</div>
 		</div>
+		</c:if>
 	</div>
 	<div class="col-sm-6">
 		<hr/>
@@ -188,6 +199,11 @@
 		</div>		
 	</div>
 	<div class="col-sm-6">
+			<hr/>
+			<h3 class="listTitle">
+			<span class="material-symbols-outlined listTitle-icon">tips_and_updates</span>
+			&nbsp;유저정보</h3>
+		<hr/>
 	
 	</div>
 	<div class="col-sm-3">
@@ -211,8 +227,9 @@
 
 </div>
 <!-- 푸터 -->
-<div class="text-center" style="width:100%;height:130px; background-color: yellow">
-이곳은 푸터인데요?
+<div class="text-center align-self-center" style="width:100%;height:130px; background-color: lightgray">
+<div style="height:35px"></div>
+<span class="footerTitle">Design by chinpang</span>
 </div>
  </body>
 </html>
