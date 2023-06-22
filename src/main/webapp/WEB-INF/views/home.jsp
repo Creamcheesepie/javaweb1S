@@ -135,6 +135,9 @@
 			</div>
 		</div>
 		</c:if>
+		<c:if test="${sLogin =='ok'}">
+		<span class="subTitle">${sNickName}</span>
+		</c:if>
 	</div>
 	<div class="col-sm-6">
 		<hr/>
