@@ -117,7 +117,7 @@
 		<span class="subTitle">로그인</span>
 		<div class="row">
 			<div class="col-7 p-1">
-				<input type="button" value="로그인" onclick="loginCheck()" class="btn form-control button-font-big border" style="height:94px;">
+				<input type="button" value="로그인" onclick="location.href='${ctp}/member/login'" class="btn form-control button-font-big border" style="height:94px;">
 			</div>
 			<div class="col-5 p-1 text-center">
 				
