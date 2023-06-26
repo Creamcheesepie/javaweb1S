@@ -128,23 +128,10 @@
 				else{
 					$("#sendCode").hide();
 					$("#inputCode").slideDown();
-					$("#").show();
-					$("#").show();
+					$("#resend").show();
+					$("#codeCheck").show();
 					
-					let time =300;
-					let min = '';
-					let sec = '';
-					
-					let x = setInterval(() => {
-						min = parseInt(time/60);
-						sec = time%60;
-						$("#timer").HTML(min+"분"+sec+"초");
-						if(time<0){
-							clearInterval(x);
-							document.getElementById("timer").innerHTML="인증시간 만료";
-							timeOut='ok';
-						}
-					}, 1000);
+					timer();
 					
 				}
 			}
@@ -181,12 +168,31 @@
 		})
 	}
 	
+	function timer(){
+		let time =300;
+		let min = '';
+		let sec = '';
+		
+		let x = setInterval(() => {
+			min = parseInt(time/60);
+			sec = time%60;
+			$("#timer").HTML(min+"분"+sec+"초");
+			if(time<0){
+				clearInterval(x);
+				document.getElementById("timer").innerHTML="인증시간 만료";
+				timeOut='ok';
+			}
+		}, 1000);
+	}
+	
+	function
+	
 	
 	
 	</script>
 </head>
 <body>
-	<div class="container-sm" >
+	<div class="container" >
 		<div class="signInTitle text-center" style="margin-top:10%"><span class="material-symbols-outlined titleIcon">person_add</span>&nbsp;회원가입</div>
 		<div style="border-radius: 22px; border:1px; border-style:solid; border-color:lightgray ;width: 400px; height: 100%; padding:15px;margin: 2% auto">
 			<div class="signInSubtitle">닉네임</div>
@@ -227,8 +233,8 @@
 			<div name="inputCode" id="inputCode" style="display:none"><input type="text" name="verCode" id="verCode" class="form-control" ></div>
 			<div>
 				<input type="button" onclick="sendVerificationEmail()" value="인증코드 전송" class="btn border mt-1 form-control" name="sendCode" id="sendCode">
-				<input type="button" onclick="sendVerificationEmail()" value="재전송" class="btn border mt-1 form-control" name="resend" id="resend" style="width: 49%">
-				<input type="button" onclick="codeCheck()" value="본인인증" class="btn border mt-1 form-control" name="codeCheck" id="codeCheck" style="width: 49%">
+				<input type="button" onclick="sendVerificationEmail()" value="재전송" class="btn border mt-1 form-control" name="resend" id="resend" style="width: 49%; display:none">
+				<input type="button" onclick="codeCheck()" value="본인인증" class="btn border mt-1 form-control" name="codeCheck" id="codeCheck" style="width: 49%;display:none">
 			</div>
 			
 			<div class="mt-2 mb-2"><button type="button" onclick="signInNext()" class="btn border form-control button-text">계속 진행하기</button></div>
