@@ -37,7 +37,7 @@
 	}
 	</style>
 </head>
-	<div class="bigTitle text-center" style="margin-top:13%;"><a href="${ctp}/">메인으로</a></div>
+	<div class="bigTitle text-center" style="margin-top:12%;"><a href="${ctp}/">메인으로</a></div>
 	<div class="container" style="border-radius:22px; border:1px; border-style:solid; border-color:lightgray; height:310px;margin-top:2%; width:400px;padding:11px;" >
 		<div class="row">
 			<div class="col-12">
@@ -56,7 +56,7 @@
 		<div class="row mt-3">
 			<div class="col-12 text-center ">
 				<button type="button" onclick="logIn()" class="btn "><span class="btn-text">로그인</span></button>
-				<button type="button" onclick="signIn()" class="btn	"><span class="btn-text">회원가입</span></button>
+				<button type="button" onclick="location.href='${ctp}/member/signIn'" class="btn	"><span class="btn-text">회원가입</span></button>
 			</div>
 			<div class="col-12 text-center mt-2">
 				<a href="#"><span class="mini-Link">아이디/비밀번호 찾기</span></a>

@@ -60,20 +60,14 @@
 		font-weight:400;
 		font-size:20px;
 	}
-
 	</style>
 </head>
 <body>
 <!-- 헤더 -->
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark M-0 P-0">
-	<a class="navbar-brand" href="${ctp}/">메인으로</a>
-</nav>
+<jsp:include page="/WEB-INF/views/include/navbar.jsp"/>
 <!-- 첫 이미지 표시부 -->
 <div class="fullImageSlide m-0 p-0" style="width:100%;height:60%;background-color: skyblue" >
 </div>
-
-
-
 <!-- 게시글 정보 표시부 -->
 <div class="container">
 <hr/>
@@ -122,7 +116,7 @@
 			<div class="col-5 p-1 text-center">
 				
 				<input type="button" value="간편로그인" onclick="simpleloginCheck()" class="btn form-control button-font border mb-1" style="height: 43px">
-				<input type="button" value="회원가입" onclick="signInCheck()" class="btn form-control button-font border mt-1" style="height: 43px">
+				<input type="button" value="회원가입" onclick="location.href='${ctp}/member/signIn'" class="btn form-control button-font border mt-1" style="height: 43px">
 				
 			</div>
 		</div>
@@ -232,7 +226,7 @@
 <!-- 푸터 -->
 <div class="text-center align-self-center" style="width:100%;height:130px; background-color: lightgray">
 <div style="height:35px"></div>
-<span class="footerTitle">Design by chinpang</span>
+<span class="footerTitle">Design by chipang</span>
 </div>
  </body>
 </html>

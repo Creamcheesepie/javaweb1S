@@ -2,5 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.spring.javaweb1S.dao.MemberDAO">
+	
+	<select id="getNickSearch" resultType="com.spring.javaweb1S.vo.MemberVO">
+		select * from member2 where nickName = #{nickName};
+	</select>
+	
+	<select id="getMidSearch" resultType="com.spring.javaweb1S.vo.MemberVO">
+		select * from member2 where mid = #{mid};
+	</select>
+
 
 </mapper>
