@@ -11,5 +11,7 @@ public interface MemberDAO {
 	public MemberVO getMidSearch(@Param("mid") String mid);
 
 	public void setMemberSignIn(@Param("vo") MemberVO vo);
+
+	public void setloginSetting(@Param("m_idx") int m_idx);
 	
 }
