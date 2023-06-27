@@ -36,9 +36,33 @@
 		font-size:42px;	
 	}
 	</style>
+	<script>
+		'use strict';
+		
+		function logIn(){
+			let mid = loginform.mid.value;
+			let pwd = loginform.pwd.value;
+			
+			if(mid.trim()==""){
+				alert("아이디를 입력해주세요.");
+				$("#mid").focus();
+				return false;
+			}
+			
+			if(pwd.trim()==""){
+				alert("비밀번호를 입력해 주세요.");
+				$("#pwd").focus();
+				return false;
+			}
+			
+			loginform.submit();
+			
+		}
+	</script>
 </head>
-	<div class="bigTitle text-center" style="margin-top:12%;"><a href="${ctp}/">메인으로</a></div>
+	<div class="bigTitle text-center" style="margin-top:11%;"><a href="${ctp}/">메인으로</a></div>
 	<div class="container" style="border-radius:22px; border:1px; border-style:solid; border-color:lightgray; height:310px;margin-top:2%; width:400px;padding:11px;" >
+		<form name="loginform" method="post">
 		<div class="row">
 			<div class="col-12">
 				<span class="loginTitle">로그인</span>
@@ -53,9 +77,10 @@
 				<input type="password" name="pwd" class="form-control">
 			</div>
 		</div>
+		</form>
 		<div class="row mt-3">
 			<div class="col-12 text-center ">
-				<button type="button" onclick="logIn()" class="btn "><span class="btn-text">로그인</span></button>
+				<button type="button" onclick="logIn()" class="btn"><span class="btn-text">로그인</span></button>
 				<button type="button" onclick="location.href='${ctp}/member/signIn'" class="btn	"><span class="btn-text">회원가입</span></button>
 			</div>
 			<div class="col-12 text-center mt-2">

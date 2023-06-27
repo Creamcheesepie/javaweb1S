@@ -14,13 +14,14 @@ public class MemberVO {
 	private String address;
 	private int age;
 	private String gender;
+	private String birthday;
 	private String inst;
 	private String photo;
 	private int level;
 	private int point;
 	private int speed;
 	private int duration;
-	private int getHeigth;
+	private int getHeight;
 	private int totalCnt;
 	private int todayCnt;
 	private String signInDate;

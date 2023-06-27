@@ -4,15 +4,19 @@ import java.util.UUID;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaweb1S.service.MemberService;
 import com.spring.javaweb1S.vo.MemberVO;
@@ -26,16 +30,38 @@ public class MemberController {
 	@Autowired
 	JavaMailSender mailSender;
 	
+	
 	@RequestMapping(value = "/login" ,method = RequestMethod.GET)
-	public String memberLogiunGet() {
+	public String memberLoginGet() {
 		return "member/login";
 	}
+	
+	@RequestMapping(value ="/login", method = RequestMethod.POST)
+	public String memberLoginPost(HttpSession session,
+			@RequestParam(name="mid",defaultValue="",required=false)String mid,
+			@RequestParam(name="pwd",defaultValue="",required=false)String pwd
+			) {
+		MemberVO vo = memberService.getLogin(mid,pwd);
+		if(vo==null) {
+			return "member/login";
+		}
+		else {
+			session.setAttribute("sM_idx", vo.getM_idx());
+			session.setAttribute("sMid", vo.getMid());
+			session.setAttribute("sNickName",vo.getNickName());
+			session.setAttribute("sLogin","ok");
+			
+			return "/";
+		}
+	}
+	
 	
 	@RequestMapping(value = "/signIn", method = RequestMethod.GET)
 	public String memberSignInGet() {
 		return "member/signIn";
 	}
 	
+	//닉네임 중복체크 메소드
 	@ResponseBody
 	@RequestMapping(value ="/nickNameCheck",method=RequestMethod.POST)
 	public String nickNameCheckPost(String nickName) {
@@ -50,6 +76,7 @@ public class MemberController {
 		return res;
 	}
 	
+	//아이디 중복체크 메소드
 	@ResponseBody
 	@RequestMapping(value ="/midCheck",method=RequestMethod.POST)
 	public String midCheckPost(String mid) {
@@ -64,6 +91,7 @@ public class MemberController {
 		return res;
 	}
 	
+	//인증 메일 보내는 메소드
 	@ResponseBody
 	@RequestMapping(value="/sendVerificationEmail", method=RequestMethod.POST)
 	public String sendVerificationEmailPost(String email,HttpSession session) throws MessagingException {
@@ -91,6 +119,7 @@ public class MemberController {
 		return res;
 	}
 	
+	//인증코드 비교/확인 메소드
 	@ResponseBody
 	@RequestMapping(value="/verCodeCheck", method=RequestMethod.POST)
 	public String verCodeCheck(String verCode, HttpSession session) {
@@ -102,6 +131,23 @@ public class MemberController {
 		}
 
 		return res;
+	}
+	
+	//프론트 검사가 끝나면 회원 정보를 DB에 저장
+	@RequestMapping(value="/signIn", method = RequestMethod.POST)
+	public String signInPost(Model model,MemberVO vo,MultipartFile fName,
+			HttpServletRequest request,
+			@RequestParam(name="fullmail", defaultValue="",required=false)String email
+			) {
+		String realPath = request.getSession().getServletContext().getRealPath("/resources/data/memberprofile/");
+		String sfName = memberService.fileUpload(fName,realPath);
+		vo.setPhoto(sfName);
+		vo.setEmail(email);
+		System.out.println(vo);
+		
+		memberService.setMemberSignIn(vo);
+		
+		return "member/signInOk";
 	}
 	
 	
