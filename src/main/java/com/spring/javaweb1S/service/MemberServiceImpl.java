@@ -44,6 +44,8 @@ public class MemberServiceImpl implements MemberService {
 	public MemberVO getLogin(String mid, String pwd) {
 		MemberVO pwdVO = getMidSearch(mid);
 		if(passwordEncoder.matches(pwd, pwdVO.getPwd())) {
+			
+			
 			memberDAO.setloginSetting(pwdVO.getM_idx());
 			return pwdVO;
 		}
