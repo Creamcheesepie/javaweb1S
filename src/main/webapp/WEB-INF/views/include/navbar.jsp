@@ -2,87 +2,90 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
 <style>
-	nav {
-	  margin:0 auto;
-	  width:100%;
-	  height:70px;
-	  display:inline-block;
-	  background:#37bc9b;
-	}
-	
-	nav ul {
-	  margin:0;padding:0;
-	  list-style-type:none;
-	  float:left;
-	  display:inline-block;
-	}
-	
-	nav ul li {
-	  position:relative;
-	  margin:0 20px 0 0;
-	  float:left;
-	  display:inline-block;
-	}
-	
-	li > a:after {  } /* Change this in order to change the Dropdown symbol */
-	
-	li > a:only-child:after { content: ''; }
-	
-	nav ul li a {
-	  padding:20px;
-	  display:inline-block;
-	  color:white;
-	  text-decoration:none;
-	}
-	
-	nav ul li a:hover {
-	  opacity:0.5;
-	}
-	
-	nav ul li ul {
-	  display:none;
-	  position:absolute;
-	  left:0;
-	  background:#848484;
-	  float:left;
-	}
-	
-	nav ul li ul li {
-	  width:100%;
-	  border-bottom:1px solid rgba(255,255,255,.3);
-	}
-	
-	nav ul li:hover ul {
-	  display:block;
-	}
-	.navTitle{
-		width: 150px;
-	}
+/* Style The Dropdown Button */
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
 </style>
 
 
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark M-0 P-0">
 	<a class="navbar-brand" href="${ctp}/" style="margin-left: 10px"><span class="navTitle">메인으로</span></a>
-	  <ul>	
-    <li class="navTitle text-center"><a href="#">News</a>
-      <ul>
-        <li class="navSubject"><a href="#">새 소식</a></li>
-        <li class="navSubject"><a href="#">공지사항</a></li>
-      </ul>
-    </li>
-    <li class="navTitle text-center"><a href="#">Board</a>
-      <ul>
-        <li class="navSubject"><a href="#">전체게시판</a></li>
-        <li class="navSubject"><a href="#">잡담게시판</a></li>
-        <li class="navSubject"><a href="#">정보게시판</a></li>
-        <li class="navSubject"><a href="#">질문게시판</a></li>
-      </ul>
-    </li>
-    <li class="navTitle"><a href="#">갤러리</a></li>
-	<c:if test="${sLogin =='ok'}">
-	<li class="navTitle text-center"><a href="${ctp}/member/myPage">마이페이지</a></li>
-	<li class="navTitle text-center"><a href="${ctp}/member/logout">로그아웃</a></li>
-	</c:if>
-  </ul>	
+<ul class="navbar-nav">
+	<li>
+		<a class="nav-link" href="${ctp}/attendance/list">attendance</a>
+	</li>
+</ul>
+<div class="dropdown">
+  <button class="dropbtn">News</button>
+  <div class="dropdown-content">
+    <a href="#">새 소식</a>
+    <a href="#">공지사항</a>
+  </div>
+</div>	
+<div class="dropdown">
+  <button class="dropbtn">Board</button>
+  <div class="dropdown-content">
+    <a href="#">전체 게시판</a>
+    <a href="#">잡담 게시판</a>
+    <a href="#">정보 게시판</a>
+    <a href="#">질문 게시판</a>
+  </div>
+</div>
+<ul class="navbar-nav">
+  <li class="nav-item">
+    <a class="nav-link" href="#">galary</a>
+  </li>
+  <c:if test="${sLogin =='ok'}">
+  <li class="nav-item">
+    <a class="nav-link" href="${ctp}/member/myPage">마이페이지</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="${ctp}/member/logout">로그아웃</a>
+  </li>
+  </c:if>
+</ul>	
 </nav>
