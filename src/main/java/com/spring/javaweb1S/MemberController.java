@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.javaweb1S.common.LevelToString;
 import com.spring.javaweb1S.service.MemberService;
 import com.spring.javaweb1S.vo.MemberVO;
 
@@ -30,14 +31,15 @@ public class MemberController {
 	@Autowired
 	JavaMailSender mailSender;
 	
-	
+	//로그인 창 불러오기
 	@RequestMapping(value = "/login" ,method = RequestMethod.GET)
 	public String memberLoginGet() {
 		return "member/login";
 	}
 	
+	//로그인 시 계정 확인
 	@RequestMapping(value ="/login", method = RequestMethod.POST)
-	public String memberLoginPost(HttpSession session,
+	public String memberLoginPost(HttpSession session,Model model,
 			@RequestParam(name="mid",defaultValue="",required=false)String mid,
 			@RequestParam(name="pwd",defaultValue="",required=false)String pwd
 			) {
@@ -45,17 +47,25 @@ public class MemberController {
 		if(vo==null) {
 			return "member/login";
 		}
-		else {
+		else { //세션에 로그인 후 필요한 정보를 저장
+			LevelToString levelToString = new LevelToString();
+			String strLevel = levelToString.levelToString(vo.getLevel());
+			
 			session.setAttribute("sM_idx", vo.getM_idx());
 			session.setAttribute("sMid", vo.getMid());
 			session.setAttribute("sNickName",vo.getNickName());
 			session.setAttribute("sLogin","ok");
-			
-			return "/";
+			session.setAttribute("sSpeed", vo.getSpeed());
+			session.setAttribute("sDuration", vo.getDuration());
+			session.setAttribute("sGetheight", vo.getGetHeight());
+			session.setAttribute("sPoint", vo.getPoint());
+			session.setAttribute("sLevel", vo.getLevel());
+			session.setAttribute("sStrLevel", strLevel);
+			return "redirect:/";
 		}
 	}
 	
-	
+	//회원가입 창 불러오기
 	@RequestMapping(value = "/signIn", method = RequestMethod.GET)
 	public String memberSignInGet() {
 		return "member/signIn";
@@ -150,7 +160,57 @@ public class MemberController {
 		return "member/signInOk";
 	}
 	
+	@RequestMapping(value = "/logout",method=RequestMethod.GET)
+	public String logoutGet(HttpSession session,Model model) {
+		model.addAttribute("logoutFlag", "ok");
+		session.invalidate();
+		return "redirect:/";
+	}
 	
+	@RequestMapping(value="/myPage",method=RequestMethod.GET)
+	public String myPageGet(HttpSession session,
+			Model model
+			) {
+		int m_idx = (int) session.getAttribute("sM_idx");
+		MemberVO mvo = memberService.getM_idxInfo(m_idx);
+		
+		model.addAttribute("mvo", mvo);
+		
+		return "member/mypage";
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/pwdCheck",method = RequestMethod.POST)
+	public String pwdCheckPost(
+			@RequestParam(name="pwd",defaultValue="",required=false)String pwd,
+			@RequestParam(name="m_idx",defaultValue="",required=false)int m_idx,
+			HttpSession session
+			) {
+		String res= "0";
+		boolean check = memberService.getOnlyPwdCheck(m_idx,pwd);
+		if(check) res="1";
+		session.setAttribute("vFlag", "1");
+		
+		return res;
+	}
+	
+	@RequestMapping(value="/infoCorrectForm",method=RequestMethod.GET)
+	public String infoCorrectFormGet(HttpSession session,Model model) {
+		int m_idx = (int) session.getAttribute("sM_idx");
+		MemberVO vo = memberService.getM_idxInfo(m_idx);
+		model.addAttribute("vo", vo);
+		String vFlag = (String) session.getAttribute("vFlag");
+		if(vFlag.equals("1")) { //지금 방법대로라면 새로고침시 인증정보날아가는 문제로 불편함이 야기도미 >> 이부분 어떻게 고칠지 생각해보기
+			session.setAttribute("vFlag", "0");
+			return "member/infoCorrectForm";
+		}
+		else {
+			session.setAttribute("vFlag", "0");
+			return "redirect:/";
+		}
+			
+	}
 	
 	
 	

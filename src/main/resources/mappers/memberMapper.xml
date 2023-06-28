@@ -10,11 +10,24 @@
 	<select id="getMidSearch" resultType="com.spring.javaweb1S.vo.MemberVO">
 		select * from member2 where mid = #{mid};
 	</select>
+	
+	<select id="getM_idxInfo" resultType="com.spring.javaweb1S.vo.MemberVO">
+		select * from member2 where m_idx = #{m_idx};
+	</select>
 
 
 	<insert id="setMemberSignIn">
 		insert into member2 values(default, #{vo.mid},#{vo.pwd},#{vo.nickName},#{vo.name},#{vo.email},#{vo.tel},#{vo.address},#{vo.age},#{vo.gender},#{vo.birthday},#{vo.inst},#{vo.photo},default,default,#{vo.speed},#{vo.duration},#{vo.getHeight},default,default,default,default,default,default,#{vo.QRcode});
 	</insert>
+	
+	
+	<update id="setLoginFirstSetting">
+	 	update member2 set point=#{point},totalCnt=#{totalCnt},todayCnt=#{todayCnt},lastVisit = now() where m_idx=#{m_idx};
+	</update>
+	
+	<update id="setLoginSetting">
+		update member2 set todayCnt=#{todayCnt},lastVisit = now() where m_idx=#{m_idx};
+	</update>
 	
 
 </mapper>

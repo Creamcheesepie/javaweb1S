@@ -6,6 +6,11 @@
 	<title>project(가제)</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp"/>
 	<jsp:include page="/WEB-INF/views/include/mainCss.jsp"/>
+	<script>
+	if(${logoutFlag} == 'ok'){
+		alert("로그아웃되었습니다.");
+	}
+	</script>
 </head>
 <body>
 <!-- 헤더 -->
@@ -74,8 +79,12 @@
 		</div>
 		</c:if>
 		<c:if test="${sLogin =='ok'}">
-		<div class="subTitle">회원정보</div>
 		<span class="subTitle">${sNickName}님 환영합니다.</span>
+		<div class="statusContent">회원등급 : ${sStrLevel}</div>
+		<div class="subTitle">라이딩 정보</div>
+		<div class="statusContent">평균속도: ${sSpeed}km/h</div>
+		<div class="statusContent">주행시간: ${sDuration}시간</div>
+		<div class="statusContent">획득고도: ${sGetheight}m</div>
 		<!-- 받은 쪽지 알림, 속도,시간,획득고도 정보 표시>예약활동에 맞추어서 갱신하기 -->
 		<span></span>
 		<hr/>
@@ -177,9 +186,6 @@
 
 </div>
 <!-- 푸터 -->
-<div class="text-center align-self-center" style="width:100%;height:130px; background-color: lightgray">
-<div style="height:35px"></div>
-<span class="footerTitle">Design by chipang</span>
-</div>
+<jsp:include page="/WEB-INF/views/include/footer.jsp"/>
  </body>
 </html>

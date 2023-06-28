@@ -38,7 +38,6 @@
 	</style>
 	<script>
 		'use strict';
-		
 		function logIn(){
 			let mid = loginform.mid.value;
 			let pwd = loginform.pwd.value;
@@ -54,9 +53,7 @@
 				$("#pwd").focus();
 				return false;
 			}
-			
 			loginform.submit();
-			
 		}
 	</script>
 </head>
@@ -87,7 +84,6 @@
 				<a href="#"><span class="mini-Link">아이디/비밀번호 찾기</span></a>
 			</div>
 		</div>
-		
 	</div>
 <body>
 </body>

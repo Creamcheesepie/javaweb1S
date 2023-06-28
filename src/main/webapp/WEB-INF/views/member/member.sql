@@ -34,3 +34,5 @@ create table member2(
 
 drop table member2;
 desc member2;
+
+update member2 set point=point+1*10 where m_idx=1;

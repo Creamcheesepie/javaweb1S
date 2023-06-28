@@ -16,6 +16,10 @@ public interface MemberService {
 
 	public String fileUpload(MultipartFile fName, String realPath);
 
+	public MemberVO getM_idxInfo(int m_idx);
+
+	public boolean getOnlyPwdCheck(int m_idx, String pwd);
+
 
 	
 }

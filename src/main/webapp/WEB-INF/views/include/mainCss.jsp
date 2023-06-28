@@ -4,7 +4,18 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri/dist/galmuri.css">
 	<style>
+	.mainTitle{
+		font-family: 'IBM Plex Sans KR', sans-serif;
+		font-weight:700;
+		font-size: 32px;	
+	}
+	.mainTitle-dot{
+		font-family:"Galmuri14", sans-serif;
+		font-weight:400;
+		font-size: 30px;	
+	}
 	.listTitle{
 		font-family: 'IBM Plex Sans KR', sans-serif;
 		font-weight:700;
@@ -50,14 +61,59 @@
 		font-weight:700;
 		font-size:24px;
 	}
-	.footerTitle{
-		font-family: 'IBM Plex Sans KR', sans-serif;
+	.fontdot-20{
+		font-family: 'Galmuri9', sans-serif;
 		font-weight:400;
 		font-size:20px;
 	}
+	.fontdot-10{
+		font-family: 'Galmuri9', sans-serif;
+		font-weight:400;
+		font-size:10px;
+	}
+	.fontdot-12{
+		font-family: 'Galmuri11', sans-serif;
+		font-weight:400;
+		font-size:12px;
+	}
 	.statusContent{
 		font-family: 'IBM Plex Sans KR', sans-serif;
-		font-weight:600;
+		font-weight:400;
+		font-size:16px;
+	}
+	.navTitle{
+		font-family: 'IBM Plex Sans KR', sans-serif;
+		font-weight:700;
+		font-size:22px;
+	}
+	.navSubject{
+		font-family: 'IBM Plex Sans KR', sans-serif;
+		font-weight:700;
+		font-size:18px;
+	}
+	.mainfont-b-22{
+		font-family: 'IBM Plex Sans KR', sans-serif;
+		font-weight:700;
+		font-size:22px;
+	}
+	.mainfont-b-20{
+		font-family: 'IBM Plex Sans KR', sans-serif;
+		font-weight:700;
 		font-size:20px;
+	}
+	.mainfont-b-16{
+		font-family: 'IBM Plex Sans KR', sans-serif;
+		font-weight:700;
+		font-size:16px;
+	}
+	.mainfont-m-16{
+		font-family: 'IBM Plex Sans KR', sans-serif;
+		font-weight:400;
+		font-size:16px;
+	}
+	.mainfont-m-14{
+		font-family: 'IBM Plex Sans KR', sans-serif;
+		font-weight:400;
+		font-size:14px;
 	}
 	</style>
