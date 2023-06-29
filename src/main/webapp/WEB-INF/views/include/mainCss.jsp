@@ -101,11 +101,16 @@
 		font-weight:700;
 		font-size:20px;
 	}
-	.mainfont-b-16{
-		font-family: 'IBM Plex Sans KR', sans-serif;
-		font-weight:700;
-		font-size:16px;
-	}
+		.mainfont-b-18{
+			font-family: 'IBM Plex Sans KR', sans-serif;
+			font-weight:700;
+			font-size:18px;
+		}
+		.mainfont-b-16{
+			font-family: 'IBM Plex Sans KR', sans-serif;
+			font-weight:700;
+			font-size:16px;
+		}
 	.mainfont-m-16{
 		font-family: 'IBM Plex Sans KR', sans-serif;
 		font-weight:400;
@@ -118,6 +123,12 @@
 	}
 	input{
 		font-family: 'IBM Plex Sans KR', sans-serif;
+	}
+	.mainfont-b-20-inactive{
+		font-family: 'IBM Plex Sans KR', sans-serif;
+		font-weight:700;
+		font-size:20px;
+		color: lightgray;
 	}
 	
 	</style>
