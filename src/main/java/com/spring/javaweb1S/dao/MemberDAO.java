@@ -1,7 +1,10 @@
 package com.spring.javaweb1S.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.javaweb1S.vo.DomainVO;
 import com.spring.javaweb1S.vo.MemberVO;
 
 public interface MemberDAO {
@@ -11,12 +14,32 @@ public interface MemberDAO {
 	public MemberVO getMidSearch(@Param("mid") String mid);
 
 	public void setMemberSignIn(@Param("vo") MemberVO vo);
+	
+	public void setEmailInput(@Param("vo") MemberVO vo);
 
 	public void setLoginFirstSetting(@Param("m_idx") int m_idx,@Param("point") int point,@Param("totalCnt") int totalCnt,@Param("todayCnt") int todayCnt);
 
 	public void setLoginSetting(@Param("m_idx") int m_idx,@Param("todayCnt") int todayCnt);
 
 	public MemberVO getM_idxInfo(@Param("m_idx") int m_idx);
+
+	public List<DomainVO> getDomainlist();
+
+	public MemberVO getEmailNameSearch(@Param("emailName") String emailName,@Param("dom_idx") int dom_idx_);
+
+	public String getDomainDom_idx(@Param("dom_idx") int dom_idx_);
+
+	public void setMemberNickNameUpdate(@Param("vo") MemberVO vo);
+
+	public void setMemberNameUpdate(@Param("vo") MemberVO vo);
+
+	public void setMemberAgeUpdate(@Param("vo") MemberVO vo);
+
+	public void setMemberGenderUpdate(@Param("vo") MemberVO vo);
+
+	
+
+	
 
 	
 	

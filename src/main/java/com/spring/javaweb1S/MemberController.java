@@ -1,5 +1,6 @@
 package com.spring.javaweb1S;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.javaweb1S.common.JavaProvide;
 import com.spring.javaweb1S.common.LevelToString;
 import com.spring.javaweb1S.service.MemberService;
+import com.spring.javaweb1S.vo.DomainVO;
 import com.spring.javaweb1S.vo.MemberVO;
 
 @Controller
@@ -67,7 +70,9 @@ public class MemberController {
 	
 	//회원가입 창 불러오기
 	@RequestMapping(value = "/signIn", method = RequestMethod.GET)
-	public String memberSignInGet() {
+	public String memberSignInGet(Model model) {
+		List<DomainVO> domain_vos = memberService.getDomainlist();
+		model.addAttribute("domain_vos",domain_vos);
 		return "member/signIn";
 	}
 	
@@ -104,27 +109,35 @@ public class MemberController {
 	//인증 메일 보내는 메소드
 	@ResponseBody
 	@RequestMapping(value="/sendVerificationEmail", method=RequestMethod.POST)
-	public String sendVerificationEmailPost(String email,HttpSession session) throws MessagingException {
-		String verCode = UUID.randomUUID().toString().substring(0, 6);
-		String res="";
-		
-		String toMail = email;
-		String title = "본인인증 메일입니다.";
-		String content = "<h2>본인인증 코드입니다</h2><hr/>"+verCode+"<hr/>이 코드를 인증 창에 입력해 주시기 바랍니다."	;
-		
-		
-		//메일 전송을위한 객체 2개
-		MimeMessage message = mailSender.createMimeMessage();
-		MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-		
-		messageHelper.setTo(toMail);
-		messageHelper.setSubject(title);
-		messageHelper.setText(content,true);
-		
-		mailSender.send(message);
-		//이메일을 전송하고 나면 인증 코드를 세션에 저장한다.
-		session.setAttribute("verCode", verCode);
-		session.setMaxInactiveInterval(300);
+	public String sendVerificationEmailPost(String emailName,String dom_idx,HttpSession session) throws MessagingException {
+		int dom_idx_ = Integer.parseInt(dom_idx);
+		MemberVO vo = memberService.getEmailNameSearch(emailName,dom_idx_);
+		String res="0";
+		if(vo!=null) {
+			res="1";
+		}
+		else {
+			String domain= memberService.getDomainDom_idx(dom_idx_);
+			String verCode = UUID.randomUUID().toString().substring(0, 6);
+			
+			String toMail = emailName+domain;
+			String title = "본인인증 메일입니다.";
+			String content = "<h2>본인인증 코드입니다</h2><hr/>"+verCode+"<hr/>이 코드를 인증 창에 입력해 주시기 바랍니다."	;
+			
+			
+			//메일 전송을위한 객체 2개
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+			
+			messageHelper.setTo(toMail);
+			messageHelper.setSubject(title);
+			messageHelper.setText(content,true);
+			
+			mailSender.send(message);
+			//이메일을 전송하고 나면 인증 코드를 세션에 저장한다.
+			session.setAttribute("verCode", verCode);
+			session.setMaxInactiveInterval(300);
+		}
 		
 		return res;
 	}
@@ -146,13 +159,13 @@ public class MemberController {
 	//프론트 검사가 끝나면 회원 정보를 DB에 저장
 	@RequestMapping(value="/signIn", method = RequestMethod.POST)
 	public String signInPost(Model model,MemberVO vo,MultipartFile fName,
-			HttpServletRequest request,
-			@RequestParam(name="fullmail", defaultValue="",required=false)String email
+			HttpServletRequest request
 			) {
+		System.out.println(vo);
 		String realPath = request.getSession().getServletContext().getRealPath("/resources/data/memberprofile/");
 		String sfName = memberService.fileUpload(fName,realPath);
 		vo.setPhoto(sfName);
-		vo.setEmail(email);
+		
 		System.out.println(vo);
 		
 		memberService.setMemberSignIn(vo);
@@ -173,9 +186,10 @@ public class MemberController {
 			) {
 		int m_idx = (int) session.getAttribute("sM_idx");
 		MemberVO mvo = memberService.getM_idxInfo(m_idx);
+		String domain = memberService.getDomainDom_idx(mvo.getDom_idx());
 		
+		model.addAttribute("domain", domain);
 		model.addAttribute("mvo", mvo);
-		
 		return "member/mypage";
 	}
 	
@@ -191,27 +205,81 @@ public class MemberController {
 		boolean check = memberService.getOnlyPwdCheck(m_idx,pwd);
 		if(check) res="1";
 		session.setAttribute("vFlag", "1");
-		
 		return res;
 	}
 	
+	//정보 수정 폼 접근하기
 	@RequestMapping(value="/infoCorrectForm",method=RequestMethod.GET)
 	public String infoCorrectFormGet(HttpSession session,Model model) {
-		int m_idx = (int) session.getAttribute("sM_idx");
-		MemberVO vo = memberService.getM_idxInfo(m_idx);
-		model.addAttribute("vo", vo);
 		String vFlag = (String) session.getAttribute("vFlag");
-		if(vFlag.equals("1")) { //지금 방법대로라면 새로고침시 인증정보날아가는 문제로 불편함이 야기도미 >> 이부분 어떻게 고칠지 생각해보기
+		if(vFlag.equals("1")) { //지금 방법대로라면 새로고침시 인증정보날아가는 문제로 불편함이 야기됨 >> 이부분 어떻게 고칠지 생각해보기
 			session.setAttribute("vFlag", "0");
+			int m_idx = (int) session.getAttribute("sM_idx");
+			MemberVO vo = memberService.getM_idxInfo(m_idx);
+			List<DomainVO> domain_vos= memberService.getDomainlist();
+			JavaProvide javaProvide = new JavaProvide();
+			
+			String strAddress = javaProvide.splitArrMakeOneString(vo.getAddress(), "/");
+			
+			model.addAttribute("address", strAddress);
+			model.addAttribute("domain_vos",domain_vos);
+			model.addAttribute("vo", vo);
 			return "member/infoCorrectForm";
 		}
 		else {
 			session.setAttribute("vFlag", "0");
 			return "redirect:/";
 		}
-			
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/nickNameChange",method=RequestMethod.POST)
+	public int nickNameChangePost(
+			@RequestParam(name="m_idx",defaultValue="0",required=false)int m_idx,
+			@RequestParam(name="nickName",defaultValue="",required=false)String nickName
+			) {
+		MemberVO vo = new MemberVO();
+		vo.setM_idx(m_idx);
+		vo.setNickName(nickName);
+		int res = memberService.setMemberNickNameUpdate(vo);
+		return res;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/nameChange",method=RequestMethod.POST)
+	public void nameChangePost(
+			@RequestParam(name="m_idx",defaultValue="0",required=false)int m_idx,
+			@RequestParam(name="name",defaultValue="",required=false)String name
+			) {
+		MemberVO vo = new MemberVO();
+		vo.setM_idx(m_idx);
+		vo.setName(name);
+		memberService.setMemberNameUpdate(vo);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/ageChange",method=RequestMethod.POST)
+	public void ageChangePost(
+			@RequestParam(name="m_idx",defaultValue="0",required=false)int m_idx,
+			@RequestParam(name="age",defaultValue="",required=false)int age
+			) {
+		MemberVO vo = new MemberVO();
+		vo.setM_idx(m_idx);
+		vo.setAge(age);
+		memberService.setMemberAgeUpdate(vo);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/genderChange",method=RequestMethod.POST)
+	public void genderChangePost(
+			@RequestParam(name="m_idx",defaultValue="0",required=false)int m_idx,
+			@RequestParam(name="gender",defaultValue="",required=false)String gender
+			) {
+		MemberVO vo = new MemberVO();
+		vo.setM_idx(m_idx);
+		vo.setGender(gender);
+		memberService.setMembergenderUpdate(vo);
+	}
 	
 	
 }

@@ -116,4 +116,8 @@
 		font-weight:400;
 		font-size:14px;
 	}
+	input{
+		font-family: 'IBM Plex Sans KR', sans-serif;
+	}
+	
 	</style>

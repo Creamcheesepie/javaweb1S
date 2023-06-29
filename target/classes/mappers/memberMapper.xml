@@ -12,13 +12,34 @@
 	</select>
 	
 	<select id="getM_idxInfo" resultType="com.spring.javaweb1S.vo.MemberVO">
-		select * from member2 where m_idx = #{m_idx};
+		select m.*,e.* from member2 m, email e where m.m_idx = e.m_idx and m.m_idx=#{m_idx};
+	</select>
+	
+	<select id="getDomainlist" resultType="com.spring.javaweb1S.vo.DomainVO">
+		select dom_idx, domain from domain;
+	</select>
+	
+	<select id="getEmailNameSearch" resultType="com.spring.javaweb1S.vo.MemberVO">
+		select m_idx from email	where dom_idx = #{dom_idx} and  emailName = #{emailName};
+	</select>
+	
+	<select id="getDomainDom_idx" resultType="String">
+		select domain from domain where dom_idx = #{dom_idx};
 	</select>
 
 
+
+
 	<insert id="setMemberSignIn">
-		insert into member2 values(default, #{vo.mid},#{vo.pwd},#{vo.nickName},#{vo.name},#{vo.email},#{vo.tel},#{vo.address},#{vo.age},#{vo.gender},#{vo.birthday},#{vo.inst},#{vo.photo},default,default,#{vo.speed},#{vo.duration},#{vo.getHeight},default,default,default,default,default,default,#{vo.QRcode});
+		insert into member2 values(default, #{vo.mid},#{vo.pwd},#{vo.nickName},#{vo.name},#{vo.tel},#{vo.address},#{vo.age},#{vo.gender},#{vo.birthday},#{vo.inst},#{vo.photo},default,default,#{vo.speed},#{vo.duration},#{vo.getHeight},default,default,default,default,default,default,#{vo.QRcode});
 	</insert>
+	
+	<insert id="setEmailInput">
+		insert into email values ((select m_idx from member2 where mid=#{vo.mid}),#{vo.emailName},#{vo.dom_idx},null);
+	</insert>
+	
+	
+	
 	
 	
 	<update id="setLoginFirstSetting">
@@ -29,5 +50,20 @@
 		update member2 set todayCnt=#{todayCnt},lastVisit = now() where m_idx=#{m_idx};
 	</update>
 	
+	<update id="setMemberNickNameUpdate">
+		update member2 set nickName=#{vo.nickName} where m_idx = #{vo.m_idx};
+	</update>
+	
+	<update id="setMemberNameUpdate">
+		update member2 set name=#{vo.name} where m_idx = #{vo.m_idx};
+	</update>
+	
+	<update id="setMemberAgeUpdate">
+		update member2 set age=#{vo.age} where m_idx = #{vo.m_idx};
+	</update>
+	
+	<update id="setMemberGenderUpdate">
+		update member2 set gender=#{vo.gender} where m_idx = #{vo.m_idx};
+	</update>
 
 </mapper>

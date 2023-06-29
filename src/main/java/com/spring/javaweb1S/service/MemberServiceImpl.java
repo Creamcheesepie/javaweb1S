@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaweb1S.dao.MemberDAO;
 import com.spring.javaweb1S.dao.PointDAO;
+import com.spring.javaweb1S.vo.DomainVO;
 import com.spring.javaweb1S.vo.MemberVO;
 
 @Service
@@ -40,6 +42,7 @@ public class MemberServiceImpl implements MemberService {
 	public void setMemberSignIn(MemberVO vo) {
 		vo.setPwd(passwordEncoder.encode(vo.getPwd()));
 		memberDAO.setMemberSignIn(vo);
+		memberDAO.setEmailInput(vo);
 	}
 
 	@Override
@@ -101,6 +104,56 @@ public class MemberServiceImpl implements MemberService {
 		MemberVO vo =  memberDAO.getM_idxInfo(m_idx);
 		return passwordEncoder.matches(pwd, vo.getPwd());
 	}
+
+	@Override
+	public List<DomainVO> getDomainlist() {
+		return memberDAO.getDomainlist();
+	}
+
+	@Override
+	public MemberVO getEmailNameSearch(String emailName, int dom_idx_) {
+		
+		return memberDAO.getEmailNameSearch(emailName,dom_idx_);
+	}
+
+	@Override
+	public String getDomainDom_idx(int dom_idx_) {
+		
+		return memberDAO.getDomainDom_idx(dom_idx_);
+	}
+
+	@Override
+	public int setMemberNickNameUpdate(MemberVO vo) {
+		int res = 0;
+		MemberVO nickSearchVO = memberDAO.getNickSearch(vo.getNickName());
+		
+		if(nickSearchVO!=null) {
+			res=1;
+			return res;
+		}
+		else {
+			memberDAO.setMemberNickNameUpdate(vo);
+			res=0;
+			return res;
+		}
+	}
+
+	@Override
+	public void setMemberNameUpdate(MemberVO vo) {
+		memberDAO.setMemberNameUpdate(vo);
+	}
+
+	@Override
+	public void setMemberAgeUpdate(MemberVO vo) {
+		memberDAO.setMemberAgeUpdate(vo);
+	}
+
+	@Override
+	public void setMembergenderUpdate(MemberVO vo) {
+		memberDAO.setMemberGenderUpdate(vo);
+	}
+
+
 
 
 	

@@ -9,7 +9,7 @@ public class MemberVO {
 	private String pwd;
 	private String nickName;
 	private String name;
-	private String email;
+	
 	private String tel;
 	private String address;
 	private int age;
@@ -29,4 +29,9 @@ public class MemberVO {
 	private int memberDel;
 	private int infoSw;
 	private String QRcode;
+	
+	private String emailName;
+	private int dom_idx;
+	private String domain;
+	
 }

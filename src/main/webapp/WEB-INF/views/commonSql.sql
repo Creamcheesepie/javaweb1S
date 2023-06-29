@@ -9,3 +9,5 @@ create table pointSetter(
 desc pointSetter
 insert into pointSetter values (1,'loginPoint',10,null,null);
 select point from pointSetter where part = 1; 
+
+create table 

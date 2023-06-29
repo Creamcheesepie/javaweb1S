@@ -74,7 +74,7 @@
 		<div class="col-sm-2 mainfont-b-16" style="height: 160px">프로필 사진
 			<hr>
 			<c:if test="${mvo.photo!=null}">
-				<img src="" style="height: 180px">
+				<img src="${ctp}/resources/data/memberprofile/${mvo.photo}" style="height: 100px ;width:127px">
 			</c:if>
 			<c:if test="${mvo.photo==null}">
 				<img src="${ctp}/resources/data/memberprofile/noimage.jpg" style="height: 100px ;width:127px">
@@ -91,7 +91,7 @@
 			&nbsp;<br/>
 			등급 : ${sStrLevel}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;포인트 : ${mvo.point}<br/>
 			성별 : ${mvo.gender}<br/>
-			이메일 : ${mvo.email}<br/>
+			이메일 : ${mvo.emailName}${domain}<br/>
 			전화번호 : ${mvo.tel}<br/>
 		</div>
 		<div class="col-sm-12">

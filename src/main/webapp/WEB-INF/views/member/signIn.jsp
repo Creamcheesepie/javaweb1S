@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -149,10 +150,12 @@
 		if(checkedMid == inputAgainMid && checkedMid.trim()!=""){
 			$("#idChecked").html('<font color="red">확인완료!</font>');
 			idCheckSw = "1";
+			return false;
 		}
 		else{
 			$("#idChecked").html('중복확인');
 			idCheckSw = "0";
+			return false;
 		}
 	}
 	
@@ -161,33 +164,33 @@
 		if(checkedNick == inputAgainNick && checkedNick.trim()!="" ){
 			$("#nickChecked").html('<font color="red">확인완료!</font>');
 			nickCheckSw = "1";
+			return false;
 		}
 		else{
 			$("#nickChecked").html('중복확인');
 			nickCheckSw = "0";
+			return false
 		}
 	}
 	
 	//인증메일 발송
 	function sendVerificationEmail(){
-		let frontEmail = $("#email").val();
-		let domain = $("#domain").val();
+		let emailName = $("#emailName").val();
+		let dom_idx = $("#dom_idx").val();
 		
-		if(frontEmail.trim()==""){
+		if(emailName.trim()==""){
 			alert("이메일을 입력해 주세요.");
 			$("#email").focus();
 			return false;
 		}
 		
-		let email = frontEmail+"@"+domain;
-		
 		$.ajax({
 			type:"post",
 			url:"${ctp}/member/sendVerificationEmail",
-			data:{email:email},
+			data:{emailName:emailName,dom_idx:dom_idx},
 			success:function(res){
 				if(res=='1'){
-					alert("잘못된 이메일 주소입니다 다시 확인해 주세요.")
+					alert("이미 가입된 메일입니다. 다른 이메일을 사용해 주세요.")
 					$("#email").focus();
 					return false;
 				}
@@ -334,7 +337,7 @@
 		else if(emailOk=="false"){
 			alert("이메일 인증이 이루어지지 않았습니다. 이메일 인증을 진행해 주세요.");
 			signInBefore();
-			$("#sendCode").focuse();
+			$("#sendCode").focus();
 			return false;
 		}
 		else{
@@ -343,9 +346,7 @@
 			let detailAddress = signInForm.detailAddress.value + " ";
 			let extraAddress = signInForm.extraAddress.value + " "; //공백을 넣어주는 이유? : 나중에 정보 수정시 값 불러오기 용이하게 하기 위함.
 			signInForm.address.value  = postcode +"/"+ roadAddress +"/"+ detailAddress+"/"+ extraAddress +"/";
-			let email = signInForm.email.value;
-			let	domain = signInForm.domain.value;
-			signInForm.fullmail.value = email+"@"+domain;
+			
 			
 			
 			signInForm.submit();
@@ -389,15 +390,13 @@
 			<div><input type="text" name="name" id="name" class="form-control"></div>
 			<div class="signInSubtitle mt-2">이메일</div>
 			<div class="input-group">
-				<input type="text" name="email" id="email" class="form-control">
+				<input type="text" name="emailName" id="emailName" class="form-control">
 				<div class="input-group-append">
 				<span class="input-group-text">@</span>
-				<select name="domain" id="domain" class="form-control">
-					<option value="naver.com">naver.com</option>
-					<option value="google.com">google.com</option>
-					<option value="daum.net">daum.net</option>
-					<option value="hanmail.net">hanmail.net</option>
-					<option value="nate.com">nate.com</option>	
+				<select name="dom_idx" id="dom_idx" class="form-control">
+					<c:forEach var="vo" items="${domain_vos}" varStatus="st">
+					<option value="${vo.dom_idx}">${fn:substring(vo.domain,1,fn:length(vo.domain))}</option>
+					</c:forEach>
 				</select>
 				</div>
 			</div>
