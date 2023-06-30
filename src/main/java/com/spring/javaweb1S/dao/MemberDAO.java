@@ -37,6 +37,18 @@ public interface MemberDAO {
 
 	public void setMemberGenderUpdate(@Param("vo") MemberVO vo);
 
+	public void setMemberEmailUpdate(@Param("vo") MemberVO vo);
+
+	public void setMemberTelUpdate(@Param("vo") MemberVO vo);
+
+	public void setMemberBirthdayUpdate(@Param("vo") MemberVO vo);
+
+	public void setMemberInstUpdate(@Param("vo") MemberVO vo);
+
+	public void setMemberAddressUpdate(@Param("vo") MemberVO vo);
+
+	
+
 	
 
 	

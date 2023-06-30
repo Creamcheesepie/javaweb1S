@@ -232,6 +232,7 @@ public class MemberController {
 		}
 	}
 	
+	//닉네임 변경
 	@ResponseBody
 	@RequestMapping(value = "/nickNameChange",method=RequestMethod.POST)
 	public int nickNameChangePost(
@@ -245,6 +246,7 @@ public class MemberController {
 		return res;
 	}
 	
+	//이름 변경
 	@ResponseBody
 	@RequestMapping(value="/nameChange",method=RequestMethod.POST)
 	public void nameChangePost(
@@ -257,6 +259,7 @@ public class MemberController {
 		memberService.setMemberNameUpdate(vo);
 	}
 	
+	// 나이 변경
 	@ResponseBody
 	@RequestMapping(value="/ageChange",method=RequestMethod.POST)
 	public void ageChangePost(
@@ -269,6 +272,7 @@ public class MemberController {
 		memberService.setMemberAgeUpdate(vo);
 	}
 	
+	//성별 변경
 	@ResponseBody
 	@RequestMapping(value="/genderChange",method=RequestMethod.POST)
 	public void genderChangePost(
@@ -279,6 +283,80 @@ public class MemberController {
 		vo.setM_idx(m_idx);
 		vo.setGender(gender);
 		memberService.setMembergenderUpdate(vo);
+	}
+	
+	//인증코드 비교/확인 후 이메일 변경
+	@ResponseBody
+	@RequestMapping(value="/emailChange", method=RequestMethod.POST)
+	public String emailChange(String verCode, HttpSession session,
+			@RequestParam(name="m_idx",defaultValue="0",required=false)int m_idx,
+			@RequestParam(name="dom_idx",defaultValue="0",required=false)int dom_idx,
+			@RequestParam(name="emailName",defaultValue="0",required=false)String emailName
+			) {
+		String res="1";
+		MemberVO vo = new MemberVO();
+		
+		vo.setM_idx(m_idx);
+		vo.setDom_idx(dom_idx);
+		vo.setEmailName(emailName);
+		
+		String sCode =(String)session.getAttribute("verCode");
+		if(verCode.equals(sCode)) {
+			memberService.setMemberEmailUpdate(vo);
+			res="2";
+		}
+		return res;
+	}
+	
+	//전화번호 변경
+	@ResponseBody
+	@RequestMapping(value="/telChange",method=RequestMethod.POST)
+	public void telChangePost(
+			@RequestParam(name="m_idx",defaultValue="0",required=false)int m_idx,
+			@RequestParam(name="tel",defaultValue="",required=false)String tel
+			) {
+		MemberVO vo = new MemberVO();
+		vo.setM_idx(m_idx);
+		vo.setTel(tel);
+		memberService.setMemberTelUpdate(vo);
+	}
+	
+	//생일 변경
+	@ResponseBody
+	@RequestMapping(value="/birthdayChange",method=RequestMethod.POST)
+	public void birthdayChangePost(
+			@RequestParam(name="m_idx",defaultValue="0",required=false)int m_idx,
+			@RequestParam(name="birthday",defaultValue="",required=false)String birthday
+			) {
+		MemberVO vo = new MemberVO();
+		vo.setM_idx(m_idx);
+		vo.setBirthday(birthday);
+		memberService.setMemberBirthdayUpdate(vo);
+	}
+	
+	//자기소개 변경
+	@ResponseBody
+	@RequestMapping(value="/instChange",method=RequestMethod.POST)
+	public void instChangePost(
+			@RequestParam(name="m_idx",defaultValue="0",required=false)int m_idx,
+			@RequestParam(name="inst",defaultValue="",required=false)String inst
+			) {
+		MemberVO vo = new MemberVO();
+		vo.setM_idx(m_idx);
+		vo.setInst(inst);
+		memberService.setMemberInstUpdate(vo);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/addressChange",method=RequestMethod.POST)
+	public void addressChangePost(
+			@RequestParam(name="m_idx",defaultValue="0",required=false)int m_idx,
+			@RequestParam(name="address",defaultValue="",required=false)String address
+			) {
+		MemberVO vo = new MemberVO();
+		vo.setM_idx(m_idx);
+		vo.setAddress(address);
+		memberService.setMemberAddressUpdate(vo);
 	}
 	
 	

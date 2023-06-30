@@ -153,6 +153,32 @@ public class MemberServiceImpl implements MemberService {
 		memberDAO.setMemberGenderUpdate(vo);
 	}
 
+	@Override
+	public void setMemberEmailUpdate(MemberVO vo) {
+		memberDAO.setMemberEmailUpdate(vo);
+	}
+
+	@Override
+	public void setMemberTelUpdate(MemberVO vo) {
+		memberDAO.setMemberTelUpdate(vo);
+	}
+
+	@Override
+	public void setMemberBirthdayUpdate(MemberVO vo) {
+		memberDAO.setMemberBirthdayUpdate(vo);
+	}
+
+	@Override
+	public void setMemberInstUpdate(MemberVO vo) {
+		memberDAO.setMemberInstUpdate(vo);
+	}
+
+	@Override
+	public void setMemberAddressUpdate(MemberVO vo) {
+		memberDAO.setMemberAddressUpdate(vo);
+	}
+
+
 
 
 

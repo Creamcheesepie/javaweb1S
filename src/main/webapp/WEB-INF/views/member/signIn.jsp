@@ -60,6 +60,8 @@
 	let nickCheckSw = 0;
 	let pwdOk = "false";
 	let rePwdOk = "false";
+	let intervalTimer = "";
+	
 	//정규식
 	const midRegEx = /^[a-zA-Z0-9]{4,20}[^\W]/; //아이디 정규식
 	const pwdRegEx = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/g; //비밀번호 정규식
@@ -252,13 +254,13 @@
 		var min = 0;
 		var sec = 0;
 		
-		var x = setInterval(() => {
+		intervalTimer = setInterval(() => {
 			min = parseInt(time/60);
 			sec = time%60;
 			document.getElementById("timer").innerHTML= min+"분"+sec+"초";
 			time --;
 			if(time<0 || stopper=="stop"){
-				clearInterval(x);	
+				intervalTimer(x);	
 				document.getElementById("timer").innerHTML="인증시간 만료";
 				timeOut='ok';
 			}

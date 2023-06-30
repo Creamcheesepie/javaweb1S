@@ -65,5 +65,29 @@
 	<update id="setMemberGenderUpdate">
 		update member2 set gender=#{vo.gender} where m_idx = #{vo.m_idx};
 	</update>
+	
+	<update id="setMemberEmailUpdate">
+		update email set emailName=#{vo.emailName},dom_idx=#{vo.dom_idx} where m_idx = #{vo.m_idx};
+	</update>
+	
+	<update id="setMemberTelUpdate">
+		update member2 set tel = #{vo.tel} where m_idx = #{vo.m_idx};
+	</update>
+	
+	<update id="setMemberbirthdayUpdate">
+		update member2 set birthday = #{vo.birthday} where m_idx = #{vo.m_idx};
+	</update>
+	
+	<update id="setMemberInstUpdate">
+		update member2 set inst = #{vo.inst} where m_idx = #{vo.m_idx};
+	</update>
+	
+	<update id="setMemberAddressUpdate">
+		update member2 set address = #{vo.address} where m_idx = #{vo.m_idx};
+	</update>
+	
+	
+	
+	
 
 </mapper>

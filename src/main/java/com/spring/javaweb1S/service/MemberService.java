@@ -37,6 +37,17 @@ public interface MemberService {
 
 	public void setMembergenderUpdate(MemberVO vo);
 
+	public void setMemberEmailUpdate(MemberVO vo);
+
+	public void setMemberTelUpdate(MemberVO vo);
+
+	public void setMemberBirthdayUpdate(MemberVO vo);
+
+	public void setMemberInstUpdate(MemberVO vo);
+
+	public void setMemberAddressUpdate(MemberVO vo);
+
+	
 	
 
 

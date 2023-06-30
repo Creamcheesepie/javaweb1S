@@ -67,6 +67,8 @@
 	let m_idx = '${vo.m_idx}';
 	let checkedNick='';
 	let nickCheckSw = '';
+	let timeOut ='';
+	let intervalTimer ='';
 	
 	const nickNameRegEx = /^[a-zA-Z0-9가-힣]{2,19}[a-zA-Z0-9가-힣]*$/g; //닉네임 정규식
 	const nameRegEx = /^[a-zA-Z가-힣]{1,19}[a-zA-Z가-힣]*$/g; //이름 정규식
@@ -188,7 +190,6 @@
 	function ageChange(){
 		let age = $("#age").val();
 		
-		
 		$.ajax({
 			type:"post",
 			data:{m_idx:m_idx,age:age},
@@ -218,10 +219,177 @@
 		})
 	}
 	
+	//주소 변경 폼(모달)
 	function addressChangeForm(){
 			
 			$("#addressChangeModal").modal();
 	}
+	
+	//인증메일 발송
+	function sendVerificationEmail(){
+		let emailName = $("#emailName").val();
+		let dom_idx = $("#dom_idx").val();
+		
+		if(emailName.trim()==""){
+			alert("이메일을 입력해 주세요.");
+			$("#email").focus();
+			return false;
+		}
+		
+		$.ajax({
+			type:"post",
+			url:"${ctp}/member/sendVerificationEmail",
+			data:{emailName:emailName,dom_idx:dom_idx},
+			success:function(res){
+				if(res=='1'){
+					alert("이미 가입된 메일입니다. 다른 이메일을 사용해 주세요.")
+					$("#email").focus();
+					return false;
+				}
+				else{
+					$("#sendCode").hide();
+					$("#inputCode").slideDown();
+					$("#resend").show();
+					$("#codeCheck").show();
+					timeOut = 'no';
+					timer("no");
+					alert("이메일이 발송되었습니다. 인증코드를 확인해주세요. ");
+					
+					function timer(){
+						var time = 300;
+						var min = 0;
+						var sec = 0;
+						intervalTimer = setInterval(() => {
+							min = parseInt(time/60);
+							sec = time%60;
+							document.getElementById("timer").innerHTML= min+"분"+sec+"초";
+							time --;
+							if(time<0){
+								clearInterval(intervalTimer);	
+								document.getElementById("timer").innerHTML="인증시간 만료";
+								timeOut='ok';
+							}
+						}, 1000);
+					}
+				}
+			},
+			error:function(){
+				alert("전송오류가 발생하였습니다. 같은 문제가 반복된다면 관리자나 운영자에게 문의해 주세요.");
+			}
+		})
+	}
+	
+	function reSendVerificationEmail(){
+		clearInterval(intervalTimer);
+		sendVerificationEmail()
+	}
+	
+	//인증번호 확인 후 이메일 변경
+	function emailChange(){
+		let emailName = $("#emailName").val();
+		let dom_idx = $("#dom_idx").val();
+		if(timeOut=='ok'){
+			alert("인증 시간이 만료되었습니다. 인증번호를 다시 전송받아 입력해 주세요.")
+			$("#resend").focus();
+			return false;
+		}
+		
+		let verCode = $("#verCode").val();
+		
+		$.ajax({
+			type:"post",
+			url:"${ctp}/member/emailChange",
+			data:{verCode:verCode,m_idx:m_idx,emailName:emailName,dom_idx:dom_idx},
+			success:function(res){
+				if(res=='1'){
+					alert("인증코드가 다릅니다 다시 확인해 주세요.");
+				}
+				else{
+					alert("이메일이 변경되었습니다.");
+					$("#inputCode").slideUp();
+					$("#resend").hide();
+					$("#codeCheck").hide();
+					$("#timer").hide();
+					$("#cerCodeOk").show();
+					timer("stop");
+					emailOk="true";
+				}
+			},
+			error:function(){
+				alert("전송오류가 발생하였습니다. 같은 현상이 반복된다면 관리자 또는 운영자에게 연락해 주세요.");
+			}
+		})
+	}
+	
+	function telChange(){
+		let tel = $("#tel").val();
+		
+		$.ajax({
+			type:"post",
+			data:{m_idx:m_idx,tel:tel},
+			url:"${ctp}/member/telChange",
+			success:function(){
+				alert("전화번호를 바꾸었습니다.");
+			},
+			error:function(){
+				alert("전송오류가 발생하였습니다. 같은 문제가 계속된다면 관리자 또는 운영자에게 문의해 주세요.");
+			}
+		})
+	}
+	
+	function birthdayChange(){
+		let birthday = $("#birthday").val();
+		
+		$.ajax({
+			type:"post",
+			data:{m_idx:m_idx,birthday:birthday},
+			url:"${ctp}/member/birthdayChange",
+			success:function(){
+				alert("생일을 바꾸었습니다.");
+			},
+			error:function(){
+				alert("전송오류가 발생하였습니다. 같은 문제가 계속된다면 관리자 또는 운영자에게 문의해 주세요.");
+			}
+		})
+	}
+	
+	function instChange(){
+		let inst = $("#inst").val();
+		
+		$.ajax({
+			type:"post",
+			data:{m_idx:m_idx,inst:inst},
+			url:"${ctp}/member/instChange",
+			success:function(){
+				alert("자기소개를 바꾸었습니다.");
+			},
+			error:function(){
+				alert("전송오류가 발생하였습니다. 같은 문제가 계속된다면 관리자 또는 운영자에게 문의해 주세요.");
+			}
+		})
+	}
+	
+	function addressChange(){
+		let postcode = address-form.postcode.value + " ";
+		let roadAddress = address-form.roadAddress.value + " ";
+		let detailAddress = address-form.detailAddress.value + " ";
+		let extraAddress = address-form.extraAddress.value + " "; //공백을 넣어주는 이유? : 나중에 정보 수정시 값 불러오기 용이하게 하기 위함.
+		let address = postcode +"/"+ roadAddress +"/"+ detailAddress+"/"+ extraAddress +"/";
+		
+		$.ajax({
+			type:"post",
+			data:{m_idx:m_idx,address:address},
+			url:"${ctp}/member/addressChange",
+			success:function(){
+				alert("주소를 바꾸었습니다.");
+			},
+			error:function(){
+				alert("전송오류가 발생하였습니다. 같은 문제가 계속된다면 관리자 또는 운영자에게 문의해 주세요.");
+			}
+		})
+	}
+	
+	
 	</script>
 </head>
 <body>
@@ -230,7 +398,7 @@
 	<span class="mainTitle">내 정보수정</span>
 	<hr>
 	<div class="row">
-		<div class="col-sm-12 mainfont-b-16" style="height: 160px">프로필 사진
+		<div class="col-12 mainfont-b-16" style="height: 160px">프로필 사진
 			<hr>
 			<c:if test="${vo.photo!=null}">
 				<img src="${ctp}/resources/data/memberprofile/${vo.photo}" style="height: 100px ;width:127px">
@@ -238,6 +406,14 @@
 			<c:if test="${vo.photo==null}">
 				<img src="${ctp}/resources/data/memberprofile/noimage.jpg" style="height: 100px ;width:127px">
 			</c:if>
+		</div>
+		<div class="col-9">
+		<div class="input-group change-form">
+				<div><input type="file" name="fName" id="fName" class="form-control-file border" accept=".jpg,.png,.gif"></div>
+				<div class="input-group-append">
+				<button type="button" class="btn btn-sm border" name="nickChange" id="nickChange" onclick="nickChange()">변경하기</button>
+				</div>
+			</div>
 		</div>
 		<div class="col-sm-8 mainfont-b-20 mr-0 pr-0 mt-2">
 			<div>닉네임<span class="miniAlert" name="nickChecked" id="nickChecked"></span></div>
@@ -285,9 +461,9 @@
 			</div>
 		</div>
 		<div class="col-sm-12 mainfont-b-20 mt-2">
-			이메일 
+			이메일
 			<div class="input-group">
-				<input type="text" name="email" id="email" class="form-control" value="${vo.emailName}">
+				<input type="text" name="emailName" id="emailName" class="form-control" value="${vo.emailName}">
 				<div class="input-group-append">
 				<span class="input-group-text">@</span>
 				<select name="dom_idx" id="dom_idx" class="form-control">
@@ -295,7 +471,15 @@
 						<option value="${dom_vo.dom_idx}" <c:if test="${dom_vo.dom_idx==vo.dom_idx}">selected</c:if>>${fn:substring(dom_vo.domain,1,fn:length(dom_vo.domain))}</option>
 					</c:forEach>
 				</select>
-				</div>
+				</div> 
+			</div>
+			<div name="timer" id="timer" class="miniAlert"></div>
+			<div name="cerCodeOk" id="cerCodeOk" class="miniAlert" style="font-size: 16px;display:none;">변경완료</div>
+			<div name="inputCode" id="inputCode" style="display:none"><input type="text" name="verCode" id="verCode" class="form-control" ></div>
+			<div>
+				<input type="button" onclick="sendVerificationEmail()" value="인증코드 전송" class="btn border mt-1 form-control" name="sendCode" id="sendCode">
+				<input type="button" onclick="reSendVerificationEmail()" value="재전송" class="btn border mt-1 form-control" name="resend" id="resend" style="width: 49%; display:none">
+				<input type="button" onclick="emailChange()" value="변경하기" class="btn border mt-1 form-control" name="codeCheck" id="codeCheck" style="width: 49%;display:none">
 			</div>
 		</div>
 		<div class="col-sm-12">
@@ -311,12 +495,12 @@
 				</div>
 			</div>
 		</div>
-		<div class="change-form-half">
-		생일 
+		<div class="change-form-half text-right">
+		<div class="text-left">생일</div>
 		<div class="input-group">
 			<div><input type="date" name="birthday" name="birthday" class="form-control" value="${fn:substring(vo.birthday,0,10)}"></div>  
 			<div class="input-group-append">
-				<button type="button" class="btn border" onclick="genderChange()">변경하기</button>
+				<button type="button" class="btn border" onclick="birthdayChange()">변경하기</button>
 			</div>
 		</div>
 		</div>
@@ -333,7 +517,14 @@
 		<div class="col-sm-12 mainfont-b-20 mt-2">
 		자기소개
 		<div style="margin-top: 1%">
-			<textarea class="inst mainfont-m-16" rows="4" readonly>${vo.inst}</textarea>
+			<div class="input-group">
+				<textarea class="inst mainfont-m-16 form-control" rows="4">${vo.inst}</textarea>
+				<div class="input-group-append">
+					<button type="button" class="btn border" onclick="instChange()">변경하기</button>
+				</div>
+			</div>
+		
+			
 		</div>		
 		</div>
 		<div class="col-12 text-center mt-2">
@@ -354,11 +545,11 @@
        </div>
        <!-- Modal body -->
        <div class="modal-body">
-       <span class="mainfont-b-20">내 주소 찾기</span>	
+       <span class="mainfont-b-20">내 주소 찾기</span>
+      <form name="address-form">
 			<div class="form-group" style="margin-top: 3%"> <!-- 주소 div 시작 -->
 				<div class="row">
 					<div class="col">
-			      <input type="hidden" name="address" id="address">
 			      <div class="input-group mb-1">
 			        <input type="text" name="postcode" id="sample6_postcode" placeholder="우편번호" class="form-control">
 			        <div class="input-group-append">
@@ -383,8 +574,9 @@
 		    </div>
 	      </div>
 		    </div><!-- 주소 div 끝 -->
+		  </form>	
 		    <div class="text-center">
-		    	<div class="addressButton text-center"><button type="button" class="btn form-control border">변경하기</button></div>
+		    	<div class="addressButton text-center"><button type="button" onclick="addressChange()" class="btn form-control border">변경하기</button></div>
 		    </div>
        </div>
        <!-- Modal footer -->
