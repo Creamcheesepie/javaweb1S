@@ -197,12 +197,13 @@
 					return false;
 				}
 				else{
+					clearInterval(intervalTimer);
 					$("#sendCode").hide();
 					$("#inputCode").slideDown();
 					$("#resend").show();
 					$("#codeCheck").show();
+					timer();
 					timeOut = 'no';
-					timer("no");
 					alert("이메일이 발송되었습니다. 인증코드를 확인해주세요. ");
 				}
 			},
@@ -238,7 +239,6 @@
 					$("#codeCheck").hide();
 					$("#timer").hide();
 					$("#cerCodeOk").show();
-					timer("stop");
 					emailOk="true";
 				}
 			},
@@ -249,7 +249,7 @@
 	}
 	
 	//타이머
-	function timer(stopper){
+	function timer(){
 		var time = 300;
 		var min = 0;
 		var sec = 0;
@@ -259,8 +259,8 @@
 			sec = time%60;
 			document.getElementById("timer").innerHTML= min+"분"+sec+"초";
 			time --;
-			if(time<0 || stopper=="stop"){
-				intervalTimer(x);	
+			if(time<0){
+				clearInterval(intervalTimer);
 				document.getElementById("timer").innerHTML="인증시간 만료";
 				timeOut='ok';
 			}

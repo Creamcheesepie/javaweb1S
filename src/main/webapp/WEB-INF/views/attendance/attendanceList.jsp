@@ -26,9 +26,18 @@
 				</c:if>
 			</div>
 			<div class="col-4"><input type="text" name="attendanceContent" id="attendanceContent" placeholder="한마디 적어주세요"  class="form-control"/></div>
-			<div class="col-2"><button type="button" class="form-control"><span>출석!</span></button></div>
+			<div class="col-2">
+				<c:if test="${sLogin != 'ok'}" >
+					<button type="button" class="form-control"><span>로그인하러가기</span></button>
+				</c:if>
+				<c:if test="${sLogin == 'ok'}">
+					<button type="button" class="form-control"><span>출석!</span></button>
+				</c:if>	
+			</div>
 			<div class="col-2"></div>
-			<div class="col-12"><hr/></div>
+			<div class="col-2"></div>
+			<div class="col-8"><hr/></div>
+			<div class="col-2"></div>
 			<div class="col-2"></div>
 			<div class="col-2">작성자</div>
 			<div class="col-4">내용</div>

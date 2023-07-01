@@ -86,7 +86,13 @@
 		update member2 set address = #{vo.address} where m_idx = #{vo.m_idx};
 	</update>
 	
+	<update id="setMemberPhotoUpdate">
+		update member2 set photo = #{sfName} where m_idx = #{m_idx};
+	</update>
 	
+	<update id="setMemberPwdUpdate">
+		update member2 set pwd = #{vo.pwd} where m_idx = #{vo.m_idx};
+	</update>
 	
 	
 

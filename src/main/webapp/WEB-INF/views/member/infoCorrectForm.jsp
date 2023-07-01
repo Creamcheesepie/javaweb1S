@@ -389,6 +389,13 @@
 		})
 	}
 	
+	function photoChangeSubmit(){
+		photoChangeForm.submit();
+	}
+	
+	function goPwdChangeForm(){
+		pwdChangeForm.submit();
+	}
 	
 	</script>
 </head>
@@ -408,13 +415,15 @@
 			</c:if>
 		</div>
 		<div class="col-9">
-		<div class="input-group change-form">
+		<form name="photoChangeForm" method="post" action="${ctp}/member/photoChange" enctype="multipart/form-data">
+		<div class="input-group change-form" >
 				<div><input type="file" name="fName" id="fName" class="form-control-file border" accept=".jpg,.png,.gif"></div>
 				<div class="input-group-append">
-				<button type="button" class="btn btn-sm border" name="nickChange" id="nickChange" onclick="nickChange()">변경하기</button>
+				<button type="button" class="btn btn-sm border" name="photoChange" id="photoChange" onclick="photoChangeSubmit()">변경하기</button>
 				</div>
 			</div>
-		</div>
+		</form>
+		</div>	
 		<div class="col-sm-8 mainfont-b-20 mr-0 pr-0 mt-2">
 			<div>닉네임<span class="miniAlert" name="nickChecked" id="nickChecked"></span></div>
 			<div class="input-group change-form">
@@ -523,13 +532,12 @@
 					<button type="button" class="btn border" onclick="instChange()">변경하기</button>
 				</div>
 			</div>
-		
-			
+		<form name="pwdChangeForm" method="post" action="${ctp}/member/pwdChange"></form>
 		</div>		
 		</div>
 		<div class="col-12 text-center mt-2">
 			<button type="button" class="btn border" onclick="location.href='${ctp}/member/myPage'">내정보로</button>
-			<button type="button" class="btn border">비밀번호 변경</button>
+			<button type="button" class="btn border" onclick="goPwdChangeForm()">비밀번호 변경</button>
 			<button type="button" class="btn border">탈퇴신청</button>
 		</div>
 	</div>

@@ -228,7 +228,7 @@ public class MemberController {
 		}
 		else {
 			session.setAttribute("vFlag", "0");
-			return "redirect:/";
+			return "unusualApproach";
 		}
 	}
 	
@@ -357,6 +357,77 @@ public class MemberController {
 		vo.setM_idx(m_idx);
 		vo.setAddress(address);
 		memberService.setMemberAddressUpdate(vo);
+	}
+	
+	@RequestMapping(value="/photoChange",method=RequestMethod.POST)
+	public String photoChangePost(MultipartFile fName,HttpServletRequest request) {
+	 String realPath = request.getSession().getServletContext().getRealPath("/resources/data/memberprofile/");
+	 String sfName = memberService.fileUpload(fName, realPath);
+	 int m_idx = (int) request.getSession().getAttribute("sM_idx");
+	 
+	 memberService.setMemberPhotoUpdate(m_idx,sfName);
+	
+	 request.getSession().setAttribute("vFlag", "1");
+		return "redirect:/member/infoCorrectForm";
+	}
+	
+	@RequestMapping(value="/pwdChange",method=RequestMethod.POST)
+	public String pwdChangePost(Model model,HttpSession session) {
+		int m_idx = (int) session.getAttribute("sM_idx");
+		MemberVO emailInfoVo = memberService.getEmailNameByM_idx(m_idx); 
+		
+		model.addAttribute("emailInfoVo", emailInfoVo);
+		return "member/pwdChangeForm";
+	}
+	
+	@RequestMapping(value="/pwdChange",method=RequestMethod.GET)
+	public String pwdChangeGet() {
+		return "unusualApproach";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "sendPwdVerificationEmail",method=RequestMethod.POST)
+	public String sendPwdVerificationEmailPost(HttpSession session,
+			@RequestParam(name="emailName",defaultValue="",required=false)String emailName,
+			@RequestParam(name="dom_idx",defaultValue="0",required=false)int dom_idx
+			) throws MessagingException {
+		String domain= memberService.getDomainDom_idx(dom_idx);
+		String verCode = UUID.randomUUID().toString().substring(0, 6);
+		
+		String toMail = emailName+domain;
+		String title = "본인인증 메일입니다.";
+		String content = "<h2>본인인증 코드입니다</h2><hr/>"+verCode+"<hr/>이 코드를 인증 창에 입력해 주시기 바랍니다."	;
+		
+		
+		//메일 전송을위한 객체 2개
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+		
+		messageHelper.setTo(toMail);
+		messageHelper.setSubject(title);
+		messageHelper.setText(content,true);
+		
+		mailSender.send(message);
+		//이메일을 전송하고 나면 인증 코드를 세션에 저장한다.
+		session.setAttribute("verCode", verCode);
+		session.setMaxInactiveInterval(300);
+		
+		return "1";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="pwdChangeCheck",method=RequestMethod.POST)
+	public String pwdChangeCheckPost(HttpSession session,
+			@RequestParam(name="pwd",defaultValue="",required=false)String pwd,
+			@RequestParam(name="m_idx",defaultValue="0",required=false)int m_idx
+			) {
+		MemberVO vo = new MemberVO();
+		vo.setM_idx(m_idx);
+		vo.setPwd(pwd);
+		memberService.setMemberPwdUpdate(vo);
+		session.invalidate();
+		
+		return "1";
 	}
 	
 	

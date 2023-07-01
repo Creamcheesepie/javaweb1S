@@ -47,6 +47,12 @@ public interface MemberService {
 
 	public void setMemberAddressUpdate(MemberVO vo);
 
+	public void setMemberPhotoUpdate(int m_idx, String sfName);
+
+	public MemberVO getEmailNameByM_idx(int m_idx);
+
+	public void setMemberPwdUpdate(MemberVO vo);
+
 	
 	
 

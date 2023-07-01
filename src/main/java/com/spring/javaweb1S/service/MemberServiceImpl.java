@@ -178,6 +178,27 @@ public class MemberServiceImpl implements MemberService {
 		memberDAO.setMemberAddressUpdate(vo);
 	}
 
+	@Override
+	public void setMemberPhotoUpdate(int m_idx, String sfName) {
+		memberDAO.setMemberPhotoUpdate(m_idx,sfName);
+	}
+
+	@Override
+	public MemberVO getEmailNameByM_idx(int m_idx) {
+		MemberVO allinfovo = memberDAO.getM_idxInfo(m_idx);
+		MemberVO emailInfoVo = new MemberVO();
+		emailInfoVo.setEmailName(allinfovo.getEmailName());
+		emailInfoVo.setDom_idx(allinfovo.getDom_idx());
+		emailInfoVo.setDomain(memberDAO.getDomainDom_idx(emailInfoVo.getDom_idx()));
+		return emailInfoVo;
+	}
+
+	@Override
+	public void setMemberPwdUpdate(MemberVO vo) {
+		vo.setPwd(passwordEncoder.encode(vo.getPwd()));
+		memberDAO.setMemberPwdUpdate(vo);
+	}
+
 
 
 

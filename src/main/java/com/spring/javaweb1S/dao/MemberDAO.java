@@ -47,6 +47,10 @@ public interface MemberDAO {
 
 	public void setMemberAddressUpdate(@Param("vo") MemberVO vo);
 
+	public void setMemberPhotoUpdate(@Param("m_idx") int m_idx,@Param("sfName") String sfName);
+
+	public void setMemberPwdUpdate(@Param("vo") MemberVO vo);
+
 	
 
 	
