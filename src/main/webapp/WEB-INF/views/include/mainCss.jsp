@@ -133,5 +133,11 @@
 		font-size:20px;
 		color: lightgray;
 	}
+	.mainfont-b-16-inactive{
+		font-family: 'IBM Plex Sans KR', sans-serif;
+		font-weight:700;
+		font-size:16px;
+		color: lightgray;
+	}
 	
 	</style>

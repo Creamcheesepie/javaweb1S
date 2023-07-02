@@ -74,6 +74,7 @@
 				<input type="password" name="pwd" class="form-control">
 			</div>
 		</div>
+		<input type="hidden" name="from" value="${from}">
 		</form>
 		<div class="row mt-3">
 			<div class="col-12 text-center ">

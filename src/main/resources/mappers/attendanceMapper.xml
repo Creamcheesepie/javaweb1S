@@ -3,5 +3,8 @@
 
 <mapper namespace="com.spring.javaweb1S.dao.AttendanceDAO">
 	
-
+	<select id="getAttendanceList" resultType="com.spring.javaweb1S.vo.AttendanceVO">
+		select A.att_idx,M.nickName,A.content,A.wdate,A.ddate from member2 M , attendance A where M.m_idx = A.m_idx;
+	</select>
 </mapper>
+

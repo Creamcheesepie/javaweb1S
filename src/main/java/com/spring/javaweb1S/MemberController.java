@@ -44,7 +44,8 @@ public class MemberController {
 	@RequestMapping(value ="/login", method = RequestMethod.POST)
 	public String memberLoginPost(HttpSession session,Model model,
 			@RequestParam(name="mid",defaultValue="",required=false)String mid,
-			@RequestParam(name="pwd",defaultValue="",required=false)String pwd
+			@RequestParam(name="pwd",defaultValue="",required=false)String pwd,
+			@RequestParam(name="from",defaultValue="",required=false)String from
 			) {
 		MemberVO vo = memberService.getLogin(mid,pwd);
 		if(vo==null) {
@@ -64,7 +65,13 @@ public class MemberController {
 			session.setAttribute("sPoint", vo.getPoint());
 			session.setAttribute("sLevel", vo.getLevel());
 			session.setAttribute("sStrLevel", strLevel);
-			return "redirect:/";
+			
+			if(from.equals("attendanceList")) {
+				return "redirect:/attendance/list";
+			}
+			else {
+				return "redirect:/";
+			}
 		}
 	}
 	
@@ -117,9 +124,10 @@ public class MemberController {
 			res="1";
 		}
 		else {
+			
 			String domain= memberService.getDomainDom_idx(dom_idx_);
 			String verCode = UUID.randomUUID().toString().substring(0, 6);
-			
+			/*
 			String toMail = emailName+domain;
 			String title = "본인인증 메일입니다.";
 			String content = "<h2>본인인증 코드입니다</h2><hr/>"+verCode+"<hr/>이 코드를 인증 창에 입력해 주시기 바랍니다."	;
@@ -134,11 +142,12 @@ public class MemberController {
 			messageHelper.setText(content,true);
 			
 			mailSender.send(message);
+			*/
 			//이메일을 전송하고 나면 인증 코드를 세션에 저장한다.
+			System.out.println(verCode);
 			session.setAttribute("verCode", verCode);
 			session.setMaxInactiveInterval(300);
 		}
-		
 		return res;
 	}
 	
