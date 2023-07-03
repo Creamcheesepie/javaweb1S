@@ -66,6 +66,12 @@ public class MemberController {
 			session.setAttribute("sLevel", vo.getLevel());
 			session.setAttribute("sStrLevel", strLevel);
 			
+			if(!from.equals("")) {
+				System.out.println(from);//왜 , 가 들어오는지????
+				from = from.substring(0, from.length()-1);
+				System.out.println(from);
+			}
+			
 			if(from.equals("attendanceList")) {
 				return "redirect:/attendance/list";
 			}

@@ -26,6 +26,10 @@
 	<select id="getDomainDom_idx" resultType="String">
 		select domain from domain where dom_idx = #{dom_idx};
 	</select>
+	
+	<select id="getPointByM_idx" resultType="int">
+		select point from member2 where m_idx = #{m_idx};
+	</select>
 
 
 

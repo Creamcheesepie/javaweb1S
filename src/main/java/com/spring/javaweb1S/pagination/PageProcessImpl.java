@@ -18,6 +18,8 @@ public class PageProcessImpl implements PageProcess {
 		vo.setNowPage(nowPage);
 		vo.setPageSize(pageSize);
 		vo.setTRC(pageDAO.getTRC(tableName));
+		int totalPage =(vo.getTRC()%pageSize)==0?(vo.getTRC()/pageSize) : (vo.getTRC()/pageSize)+1;
+		vo.setTotalPage(totalPage);
 		vo.setSin((nowPage-1)*pageSize);
 		vo.setCssn(vo.getTRC()-vo.getSin());
 		vo.setBlockSize(blockSize);

@@ -4,6 +4,6 @@ import org.apache.ibatis.annotations.Param;
 
 public interface PointDAO {
 
-	int getPoint(@Param("part") int part);
+	public int getPoint(@Param("part") int part);
 
 }

@@ -51,6 +51,8 @@ public interface MemberDAO {
 
 	public void setMemberPwdUpdate(@Param("vo") MemberVO vo);
 
+	public int getPointByM_idx(@Param("m_idx") int m_idx);
+
 	
 
 	

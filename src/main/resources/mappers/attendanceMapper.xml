@@ -4,7 +4,34 @@
 <mapper namespace="com.spring.javaweb1S.dao.AttendanceDAO">
 	
 	<select id="getAttendanceList" resultType="com.spring.javaweb1S.vo.AttendanceVO">
-		select A.att_idx,M.nickName,A.content,A.wdate,A.ddate from member2 M , attendance A where M.m_idx = A.m_idx;
+		select A.att_idx,M.nickName,A.content,A.wdate,A.ddate from member2 M , attendance A where M.m_idx = A.m_idx order by att_idx desc;
 	</select>
+	
+	<select id="getLatestAttendanceByM_idx" resultType="com.spring.javaweb1S.vo.AttendanceVO">
+		select * from attendance where m_idx = #{m_idx} order by att_idx desc limit 1;
+	</select>
+	
+	
+	
+	<insert id="setAttendanceWrite">
+		insert into attendance values(default, #{vo.m_idx},#{vo.content},default,null,null,#{vo.hostIp});
+	</insert>
+	
+	<update id="setAttendancePointUp">
+		update member2 set point=#{point} where m_idx = #{m_idx};
+	</update>
+	
+	<update id="setAttendanceUpdate">
+		update attendance set content = #{vo.content}, cdate=now() where att_idx = #{vo.att_idx};
+	</update>
+	
+	<update id="setAttendanceDelete">
+		update attendance set ddate = now() where att_idx = #{att_idx};
+	</update>
+	
+	<update id="setAttendanceRestore">
+		update attendance set ddate = NULL where att_idx = #{att_idx};
+	</update>
+	
 </mapper>
 

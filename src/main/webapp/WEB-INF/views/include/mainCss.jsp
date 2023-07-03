@@ -19,6 +19,11 @@
 		font-weight:400;
 		font-size: 30px;	
 	}
+	.subTitle-dot{
+		font-family:"Galmuri11", sans-serif;
+		font-weight:400;
+		font-size: 24px;	
+	}
 	.listTitle{
 		font-family: 'IBM Plex Sans KR', sans-serif;
 		font-weight:700;
@@ -137,6 +142,12 @@
 		font-family: 'IBM Plex Sans KR', sans-serif;
 		font-weight:700;
 		font-size:16px;
+		color: lightgray;
+	}
+	.mainfont-b-18-inactive{
+		font-family: 'IBM Plex Sans KR', sans-serif;
+		font-weight:700;
+		font-size:18px;
 		color: lightgray;
 	}
 	

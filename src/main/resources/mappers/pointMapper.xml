@@ -3,7 +3,7 @@
 
 <mapper namespace="com.spring.javaweb1S.dao.PointDAO">
 	<select id="getPoint" resultType="int">
-		select point from pointSetter where part = part; 
+		select point from pointSetter where part = #{part}; 
 	</select>
 	
 </mapper>
