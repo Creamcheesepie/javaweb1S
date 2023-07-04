@@ -2,6 +2,7 @@ package com.spring.javaweb1S;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class AttendanceController {
 	
 	@ResponseBody
 	@RequestMapping(value="/write", method=RequestMethod.POST)
-	public int AttendanceWrite(Model model,HttpSession session,
+	public int AttendanceWrite(Model model,HttpSession session,HttpServletRequest request,
 			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
 			@RequestParam(name="pageSize",defaultValue="15",required=false)int pageSize,
 			AttendanceVO vo

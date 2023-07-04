@@ -36,7 +36,7 @@ create table board2(
 	on update cascade
 	on delete restrict
 )
-	insert into board2 values(default,1,'공지 게시판 테스트 중입니다2.','테스트 테스트합니다22',default,default,default,null,null,1);
+	insert into board2 values(default,1,'공지 게시판 테스트 중입니다.22','테스트 테스트합니다22',default,default,default,null,null,1);
 
 create table board2_reply(
 	rep_idx				int						not null primary key auto_increment,

@@ -362,6 +362,7 @@ public class MemberController {
 		memberService.setMemberInstUpdate(vo);
 	}
 	
+	//주소변경
 	@ResponseBody
 	@RequestMapping(value="/addressChange",method=RequestMethod.POST)
 	public void addressChangePost(
@@ -374,6 +375,7 @@ public class MemberController {
 		memberService.setMemberAddressUpdate(vo);
 	}
 	
+	//전화번호 변경
 	@RequestMapping(value="/photoChange",method=RequestMethod.POST)
 	public String photoChangePost(MultipartFile fName,HttpServletRequest request) {
 	 String realPath = request.getSession().getServletContext().getRealPath("/resources/data/memberprofile/");
@@ -386,6 +388,7 @@ public class MemberController {
 		return "redirect:/member/infoCorrectForm";
 	}
 	
+	//비밀번호 변경
 	@RequestMapping(value="/pwdChange",method=RequestMethod.POST)
 	public String pwdChangePost(Model model,HttpSession session) {
 		int m_idx = (int) session.getAttribute("sM_idx");

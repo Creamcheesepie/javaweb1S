@@ -2,6 +2,8 @@ package com.spring.javaweb1S;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +26,7 @@ public class BoardController {
 	@Autowired
 	PageProcess page;
 	
-	
+	//운영자가 쓸 수 있는 뉴스 게시판
 	@RequestMapping(value = "/news/{category}",method=RequestMethod.GET)
 	public String boardNewsGet(Model model,
 			@PathVariable("category") String strCategory,
@@ -44,6 +46,25 @@ public class BoardController {
 		model.addAttribute("pageVO", pageVO);
 		return "board/newsBoard";
 	}
+	
+	
+	@RequestMapping(value = "/newsWrite/{category}",method=RequestMethod.GET)
+	public String boardNewsWriteGet(Model model,
+			@PathVariable("category") String strCategory) {
+		return "redirect:/usualapproach";
+	}
+	
+	@RequestMapping(value = "/newsWrite/{category}",method=RequestMethod.POST)
+	public String boardNewsWritePost(Model model,
+			@PathVariable("category") String strCategory,HttpSession session) {
+		
+		int category = Integer.parseInt(strCategory);
+		String categoryName = boardService.getCategoryNameByCategory(category);
+		
+		model.addAttribute("category_Name", categoryName);
+		return "board/newsBoardWrite";
+	}
+	
 	
 	@RequestMapping(value = "/list/{category}",method=RequestMethod.GET)
 	public String boardListGet(Model model,

@@ -48,6 +48,11 @@
 		margin : 0;
 		vertical-align:middle;
 	}
+	.write-icon{
+		font-size:26px;
+		margin : 0;
+		vertical-align:middle;
+	}
 	.listTitle-icon{
 		font-size: 26px;
 		vertical-align:middle;

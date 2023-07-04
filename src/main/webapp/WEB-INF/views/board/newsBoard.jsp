@@ -19,7 +19,18 @@
 <jsp:include page="/WEB-INF/views/include/navbar.jsp"/>
 <div class="container">
 	<div class="mainTitle" style="margin-top: 3%">News</div>
-	<div class="mainTitle">${category_Name}</div>
+	<div class="row">
+		<div class="col-6">
+			<div class="mainTitle">${category_Name}</div>
+		</div>
+		<div class="col-6 text-right">
+			<c:if test="${sLevel<2}">
+				<form method="post" action="${ctp}/board/newsWrite/${category}">
+				<button type="submit" class="btn border" ><span class="material-symbols-outlined write-icon">edit_notifications</span><span class="mainfont-b-18">글 작성</span></button>
+				</form>
+			</c:if>
+		</div>
+	</div>
 	<div class="row" style="min-height: 80vh">
 		<div class="col-sm-2 text-center"><!-- 사이드바 영역 -->
 			<a href="${ctp}/board/news/2" class="subTitle-dot">
@@ -34,7 +45,6 @@
 		</div><!-- 사이드바 영역 끝 -->
 		<div class="col-sm-10"><!-- 본문 리스트 영역 -->
 			<div class="row text-center mainfont-m-16">
-
 				<div class="col-2">작성자</div>
 				<div class="col-6">제목</div>
 				<div class="col-1">조회수</div>
@@ -66,8 +76,7 @@
 					<div class="input-group mb-3">
           	<input type="text" name="searchStr" class="form-control">
             <div class="input-group-append">
-            		
-                <button type="button" class="input-group-text" class="btn btn-border">검색</button>
+               <button type="button" class="input-group-text" class="btn btn-border">검색</button>
             </div>
         </div>
 				</div>

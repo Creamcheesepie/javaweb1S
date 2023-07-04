@@ -40,14 +40,19 @@
   
   <!-- 인터셉터 설정 -->
   <beans:bean id="navbarSetterInterceptor" class="com.spring.javaweb1S.interceptor.NavBarSetterInterceptor"/>
-  
+  <beans:bean id="adminInterceptor" class="com.spring.javaweb1S.interceptor.AdminInterceptor"/>
   
   <interceptors>
   	<interceptor>
   		<mapping path="/**"/>
   		<exclude-mapping path="/member/login"/>
   		<exclude-mapping path="/member/signin"/>
+  		<exclude-mapping path="/attendance/write"/>
   		<beans:ref bean="navbarSetterInterceptor"/>
+  	</interceptor>
+  	<interceptor>
+  		<mapping path="/board/newsWrite/**"/>
+  		<beans:ref bean="adminInterceptor"/>
   	</interceptor>
   </interceptors>
 	

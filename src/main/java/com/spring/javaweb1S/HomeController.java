@@ -24,7 +24,7 @@ public class HomeController {
 	
 	@RequestMapping(value="/usualapproach", method = RequestMethod.GET)
 	public String usualApproachGet() {
-		return "";
+		return "unusualApproach";
 	}
 	
 }
