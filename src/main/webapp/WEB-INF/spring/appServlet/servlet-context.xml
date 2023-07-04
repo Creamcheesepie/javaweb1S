@@ -37,6 +37,18 @@
   	<beans:property name="maxUploadSize" value="20971520"/>
   	<beans:property name="defaultEncoding" value="utf-8"/>
   </beans:bean>
-  	
+  
+  <!-- 인터셉터 설정 -->
+  <beans:bean id="navbarSetterInterceptor" class="com.spring.javaweb1S.interceptor.NavBarSetterInterceptor"/>
+  
+  
+  <interceptors>
+  	<interceptor>
+  		<mapping path="/**"/>
+  		<exclude-mapping path="/member/login"/>
+  		<exclude-mapping path="/member/signin"/>
+  		<beans:ref bean="navbarSetterInterceptor"/>
+  	</interceptor>
+  </interceptors>
 	
 </beans:beans>

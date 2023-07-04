@@ -24,6 +24,9 @@
 		font-weight:400;
 		font-size: 24px;	
 	}
+	.inactive{
+		color: lightgray;	
+	}
 	.listTitle{
 		font-family: 'IBM Plex Sans KR', sans-serif;
 		font-weight:700;
@@ -119,6 +122,11 @@
 			font-weight:700;
 			font-size:16px;
 		}
+	.mainfont-m-18{
+		font-family: 'IBM Plex Sans KR', sans-serif;
+		font-weight:400;
+		font-size:18px;
+	}
 	.mainfont-m-16{
 		font-family: 'IBM Plex Sans KR', sans-serif;
 		font-weight:400;

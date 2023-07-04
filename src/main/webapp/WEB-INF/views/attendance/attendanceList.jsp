@@ -217,7 +217,7 @@
 						<span class="mainfont-b-18-inactive"><a href="javascript:attendanceRestoreOpen('${att_vo.att_idx}')">${att_vo.content}</a></span>
 					</c:if>
 					<c:if test="${att_vo.nickName != sNickName && not empty att_vo.ddate}">
-						<span class="mainfont-b-18-inactive"><a href="javascript:attendanceRestoreOpen('${att_vo.att_idx}')">${att_vo.content}</a></span>
+						<span class="mainfont-b-18-inactive">${att_vo.content}</span>
 					</c:if>
 				</div>
 				<div class="col-3">

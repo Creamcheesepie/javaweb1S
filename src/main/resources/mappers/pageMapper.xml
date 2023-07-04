@@ -6,4 +6,8 @@
 		select count(*) from ${tableName};
 	</select>
 	
+	<select id="getTRCwithCategory" resultType="int">
+		select count(*) from ${tableName} where category = #{category};
+	</select>
+	
 </mapper>

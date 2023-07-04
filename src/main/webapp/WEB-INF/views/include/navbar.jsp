@@ -62,17 +62,18 @@
 <div class="dropdown">
   <button class="dropbtn">News</button>
   <div class="dropdown-content">
-    <a href="#">새 소식</a>
-    <a href="#">공지사항</a>
+    <a href="${ctp}/board/news/2">새 소식</a>
+    <a href="${ctp}/board/news/1">공지사항</a>
   </div>
 </div>	
 <div class="dropdown">
   <button class="dropbtn">Board</button>
   <div class="dropdown-content">
-    <a href="#">전체 게시판</a>
-    <a href="#">잡담 게시판</a>
-    <a href="#">정보 게시판</a>
-    <a href="#">질문 게시판</a>
+    <a href="${ctp}/board/list/all">게시판 전부보기</a>
+  <c:forEach var="nav_vo" items="${nav_vos}" varStatus="st">
+  	<a href="${ctp}/board/list/${nav_vo.category}">${nav_vo.name} 게시판</a>
+  </c:forEach>
+
   </div>
 </div>
 <ul class="navbar-nav">

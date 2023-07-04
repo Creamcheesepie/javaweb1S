@@ -27,12 +27,13 @@ public class AttendanceServiceImpl implements AttendanceService {
 	@Override
 	public List<AttendanceVO> getAttendanceList(int sin, int pageSize) {
 		List<AttendanceVO> vos = attendanceDAO.getAttendanceList(sin, pageSize);
-
+		
 		for(AttendanceVO tempVO : vos) {	
 			if(tempVO.getDdate()!=null) {
 				tempVO.setContent("삭제된 항목입니다.");
 			}
 		}
+		
 		return vos;
 	}
 
@@ -52,6 +53,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 			if(!latestDate.equals(nowDate)) {
 				attendanceDAO.setAttendanceWrite(vo);
 				attendancePointUP(vo.getM_idx());
+				
 				res=1;
 				return res;
 			}

@@ -3,5 +3,21 @@
 
 <mapper namespace="com.spring.javaweb1S.dao.BoardDAO">
 	
+	<select id="getCategoryByName" resultType="int">
+		select category from board2_category where name = #{categoryName};
+	</select>
+	
+	<select id="getCategoryNameByCategory" resultType="String">
+		select name from board2_category where category = #{category}; 
+	</select>
+	
+	<select id="getCategoryList" resultType="com.spring.javaweb1S.vo.CategoryVO">
+		select category,name,stat from board2_category where <![CDATA[category>2]]> and <![CDATA[category<100]]>;
+	</select>
+	
+	<select id="getboardList" resultType="com.spring.javaweb1S.vo.BoardVO">
+		select B.boa_idx,B.m_idx,M.nickName,M.name,M.mid,B.title,B.content,B.viewCnt,B.recommendCnt,B.wdate,B.cdate,B.ddate,B.category,C.name as categoryName from board2 B, member2 M, board2_category C where M.m_idx=B.m_idx and B.category = C.category and B.category = #{category} order by B.boa_idx limit #{sin}, #{pageSize};
+	</select>
+	
 </mapper>
 

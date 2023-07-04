@@ -11,9 +11,11 @@ select * from board2_category;
 
 insert into board2_category values (1, '공지사항',default,null,default);
 insert into board2_category values (2, '새 소식',default,null,default);
+insert into board2_category values (3, '잡담',default,null,default);
+insert into board2_category values (4, '일상',default,null,default);
 insert into board2_category values (126, '삭제글 보관함',default,null,default);
 insert into board2_category values (127, '신고글 보관함',default, null, default);
-
+select category,name,stat from board2_category where category>2 and category<100 ;
 
 
 create table board2(
@@ -34,7 +36,7 @@ create table board2(
 	on update cascade
 	on delete restrict
 )
-
+	insert into board2 values(default,1,'공지 게시판 테스트 중입니다2.','테스트 테스트합니다22',default,default,default,null,null,1);
 
 create table board2_reply(
 	rep_idx				int						not null primary key auto_increment,
@@ -53,3 +55,25 @@ create table board2_reply(
 	on update cascade
 	on delete restrict
 )
+
+
+		select 
+				B.boa_idx,
+				B.m_idx,
+				M.nickName,
+				M.name,
+				M.mid,
+				B.content,
+				B.viewCnt,
+				B.recommendCnt,
+				B.wdate,
+				B.cdate,
+				B.ddate,
+				B.category,
+				C.name as categoryName
+			from 
+			 board2 B, member2 M, board2_category C 
+			 		where M.m_idx = B.m_idx 
+			 		and B.category = C.category 
+			 	order by B.boa_idx 
+			 	limit 0, 10;
