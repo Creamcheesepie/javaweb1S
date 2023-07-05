@@ -23,6 +23,15 @@
 		select B.boa_idx,B.m_idx,M.nickName,M.name,M.mid,B.title,B.content,B.viewCnt,B.recommendCnt,B.wdate,B.cdate,B.ddate,B.category,C.name as categoryName,M.level,M.speed,M.getheight,M.duration,M.photo from board2 B, member2 M, board2_category C where M.m_idx=B.m_idx and B.category = C.category and B.boa_idx = #{boa_idx}; 
 	</select>
 	
+	<select id="getCategorySearchList" resultType="com.spring.javaweb1S.vo.BoardVO">
+		<if test='searchOption.equals("content")'>
+			select B.boa_idx,B.m_idx,M.nickName,M.name,M.mid,B.title,B.viewCnt,B.recommendCnt,B.wdate,B.category,C.name as categoryName from board2 B, member2 M, board2_category C where M.m_idx=B.m_idx and B.category = C.category and B.category = #{category} and content like concat('%',#{searchStr},'%') order by B.boa_idx desc limit #{sin}, #{pageSize};
+		</if>
+		<if test='!searchOption.equals("content")'>
+			select B.boa_idx,B.m_idx,M.nickName,M.name,M.mid,B.title,B.viewCnt,B.recommendCnt,B.wdate,B.category,C.name as categoryName from board2 B, member2 M, board2_category C where M.m_idx=B.m_idx and B.category = C.category and B.category = #{category} and ${searchOption}=#{searchStr} order by B.boa_idx desc limit #{sin}, #{pageSize};
+		</if>
+	</select>
+	
 	
 	
 	<insert id="setBoardWriteInput">

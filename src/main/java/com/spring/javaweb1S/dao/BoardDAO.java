@@ -21,4 +21,6 @@ public interface BoardDAO {
 
 	public BoardVO getboardRead(@Param("boa_idx") int boa_idx);
 
+	public List<BoardVO> getCategorySearchList(@Param("searchStr") String searchStr,@Param("searchOption") String searchOption,@Param("category") int category,@Param("sin") int sin,@Param("pageSize") int pageSize);
+
 }

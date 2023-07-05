@@ -84,13 +84,22 @@ public class BoardController {
 		return "board/newsBoardRead";
 	}
 	
-	@RequestMapping(value = "/newsSearch/${category}", method=RequestMethod.POST)
+	@RequestMapping(value = "/newsSearch/{category}", method=RequestMethod.GET)
 	public String boardNewsSearchPost(Model model,
 			@PathVariable("category") int category,
-			@RequestParam(name="searchStr",defaultValue="",required=false)String SearchStr,
-			@RequestParam(name="searchOption",defaultValue="",required=false) String SearchOption
+			@RequestParam(name="searchStr",defaultValue="",required=false)String searchStr,
+			@RequestParam(name="searchOption",defaultValue="",required=false) String searchOption,
+			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
+			@RequestParam(name="pageSize",defaultValue="20",required=false)int pageSize
 			) {
-		//검색기능 구현하기
+		int blockSize = 5; 
+		PageVO pageVO = page.pageProcessorBoardSeach(searchStr,searchOption,nowPage, pageSize, blockSize, category);
+		
+		List<BoardVO> search_vos = boardService.getCategorySearchList(searchStr,searchOption,category,pageVO.getSin(),pageVO.getPageSize());
+		
+		
+		model.addAttribute("pageVO",pageVO);
+		model.addAttribute("newsList_vos", search_vos);
 		return "board/newsBoard";
 	}
 	

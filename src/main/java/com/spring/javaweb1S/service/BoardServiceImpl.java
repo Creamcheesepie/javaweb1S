@@ -46,6 +46,13 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.getboardRead(boa_idx);
 	}
 
+	@Override
+	public List<BoardVO> getCategorySearchList(String searchStr, String searchOption, int category, int sin,int pageSize) {
+		
+		return  boardDAO.getCategorySearchList(searchStr,searchOption,category,sin,pageSize);
+	}
+
+
 
 
 

@@ -10,4 +10,13 @@
 		select count(*) from ${tableName} where category = #{category};
 	</select>
 	
+	<select id="getTRCbyBoardSearch" resultType="int"><!-- 검색 상황에 따라 count해야하는 상황이 달라짐 -->
+		<if test='searchOption.equals("nickName") or searchOption.equals("mid")'>
+			select count(*) from board2 B, member2 M where B.m_idx=M.m_idx and M.${searchOption} = #{searchStr} and category = #{category};
+		</if>
+		<if test='!searchOption.equals("nickName") and !searchOption.equals("mid")'>
+			select count(*) from board2  where ${searchOption} = #{searchStr} and category = #{category};
+		</if>
+	</select>
+	
 </mapper>

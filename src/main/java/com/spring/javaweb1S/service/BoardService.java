@@ -19,6 +19,11 @@ public interface BoardService {
 
 	public BoardVO getboardRead(int boa_idx);
 
+	public List<BoardVO> getCategorySearchList(String searchStr, String searchOption, int category, int sin,
+			int pageSize);
+
+	
+
 
 
 
