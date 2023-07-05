@@ -6,6 +6,14 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri/dist/galmuri.css">
 	<style>
+	body {
+	  min-height: 100vh;
+	  display: flex;
+	  flex-direction: column;
+	}
+	.footer{
+		margin-top: auto;
+	}
 	textarea {
     resize: none;
   }
@@ -92,6 +100,11 @@
 		font-weight:400;
 		font-size:12px;
 	}
+	.fontdot-12-condensed{
+		font-family: "Galmuri11", sans-serif;
+		font-stretch: condensed;
+		font-size:12px;
+	}
 	.statusContent{
 		font-family: 'IBM Plex Sans KR', sans-serif;
 		font-weight:400;
@@ -162,6 +175,16 @@
 		font-weight:700;
 		font-size:18px;
 		color: lightgray;
+	}
+	.board_content{
+		border-radius:5px;
+		border-style:solid;
+		border-color: lightgray;
+		border-width: 1px;
+	}
+	.profile_img{
+		width: 100px;
+		height: 127px;
 	}
 	
 	</style>

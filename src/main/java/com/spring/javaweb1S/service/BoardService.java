@@ -15,6 +15,12 @@ public interface BoardService {
 
 	public List<BoardVO> getboardList(int category, int sin, int pageSize);
 
+	public void setBoardWriteInput(BoardVO vo);
+
+	public BoardVO getboardRead(int boa_idx);
+
+
+
 
 
 }

@@ -2,6 +2,8 @@ package com.spring.javaweb1S.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,18 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardVO> getboardList(int category, int sin, int pageSize) {
 		return boardDAO.getboardList(category,sin,pageSize);
 	}
+
+	@Override
+	public void setBoardWriteInput(BoardVO vo) {
+		boardDAO.setBoardWriteInput(vo);
+	}
+
+	@Override
+	public BoardVO getboardRead(int boa_idx) {
+		return boardDAO.getboardRead(boa_idx);
+	}
+
+
 
 
 	

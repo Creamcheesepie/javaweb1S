@@ -15,7 +15,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter{
 		int level= session.getAttribute("sLevel")==null?99:(int)session.getAttribute("sLevel");
 		
 		if(level>2) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/usualapproach");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/unusualapproach");
 			dispatcher.forward(request, response);
 			return false;
 		}

@@ -21,6 +21,7 @@
 			background-color:white;
 			height:100% ;
 			margin-top: 8%;
+			margin-bottom: 5%;
 			border-radius: 22px;
 			border-style: solid;
 			border-color: lightgray;

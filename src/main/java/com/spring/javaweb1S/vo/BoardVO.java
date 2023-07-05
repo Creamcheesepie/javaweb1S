@@ -16,6 +16,14 @@ public class BoardVO {
 	private String wdate;
 	private String cdate;
 	private String ddate;
-	private String category;
+	private int category;
+	
 	private String categoryName;
+	
+	private String photo;
+	private int speed;
+	private int duration;
+	private int getheight;
+	private int level;
+	private String strLevel;
 }

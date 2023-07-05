@@ -18,6 +18,7 @@
 	<resources mapping="/boardTemp/**" location="/resources/data/boardTemp/" />
 	<resources mapping="/board/**" location="/resources/data/board/" />
 	<resources mapping="/font/**" location="/resources/data/font/" />
+	<resources mapping="/ckeditor/**" location="/resources/ckeditor/"/>
 	
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
@@ -48,6 +49,11 @@
   		<exclude-mapping path="/member/login"/>
   		<exclude-mapping path="/member/signin"/>
   		<exclude-mapping path="/attendance/write"/>
+  		<exclude-mapping path="/tempImage"/>
+  		<exclude-mapping path="/tempImage/**"/>
+  		<exclude-mapping path="/boardTemp/**"/>
+  		<exclude-mapping path="/ckeditor/**"/>
+  		<exclude-mapping path="/resources/**"/>
   		<beans:ref bean="navbarSetterInterceptor"/>
   	</interceptor>
   	<interceptor>

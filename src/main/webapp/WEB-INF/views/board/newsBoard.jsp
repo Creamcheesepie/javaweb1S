@@ -11,8 +11,17 @@
 	<jsp:include page="/WEB-INF/views/include/mainCss.jsp"/>
 	<script>
 		"use strict";
-		document.title = '${category_Name}';
+		document.title = '${category_Name} 목록';
 		
+		function newsSearch(){
+			let searchStr = newsSearchForm.searchStr.value;
+			
+			if(searchStr.trim()==""){
+				alert("검색할 단어를 입력해 주세요.");
+				return false;
+			}
+			 newsSearchForm.submit;
+		}
 	</script>
 </head>
 <body>
@@ -31,7 +40,7 @@
 			</c:if>
 		</div>
 	</div>
-	<div class="row" style="min-height: 80vh">
+	<div class="row">
 		<div class="col-sm-2 text-center"><!-- 사이드바 영역 -->
 			<a href="${ctp}/board/news/2" class="subTitle-dot">
 				<c:if test="${category==2}">새 소식</c:if>
@@ -55,44 +64,48 @@
 			<div class="row text-center">
 				<c:forEach var="newsList_vo" items="${newsList_vos}" varStatus="st">
 					<div class="col-2">${newsList_vo.nickName}</div>
-					<div class="col-6">${newsList_vo.title}</div>
+					<div class="col-6">
+						<a href="${ctp}/board/newsRead/${newsList_vo.boa_idx}/${category}">${newsList_vo.title}</a>
+					</div>
 					<div class="col-1">${newsList_vo.viewCnt}</div>
 					<div class="col-1">${newsList_vo.recommendCnt}</div>
 					<div class="col-2">${fn:substring(newsList_vo.wdate,0,10)}</div>
 					<div class="col-12"><hr/></div>
 				</c:forEach>
 			</div>
+			<form name="newsSearchForm" method="post" action="${ctp}/board/newsSearch/${category}">
 			<div class="row"><!-- 검색창 영역 -->
 			<div class="col-3"></div> 
 				<div class="col-1 m-0 p-0">
-				  <select class="form-control" id="sel1">
-				    <option>제목</option>
-				    <option>내용</option>
-				    <option>닉네임</option>
-				    <option>아이디</option>
+				  <select class="form-control" name="searchOption" id="searchOption">
+				    <option value="title">제목</option>
+				    <option value="content">내용</option>
+				    <option value="nickName">닉네임</option>
+				    <option value="mid">아이디</option>
 				  </select>
 				</div>
 				<div class="col-5 m-0 p-0">
 					<div class="input-group mb-3">
           	<input type="text" name="searchStr" class="form-control">
             <div class="input-group-append">
-               <button type="button" class="input-group-text" class="btn btn-border">검색</button>
+               <button type="button" onclick="newsSearch()" class="input-group-text" class="btn btn-border">검색</button>
             </div>
-        </div>
+        	</div>
 				</div>
 				<div class="col-3"></div>
 			</div><!-- 검색창 영역끝 -->
+			</form>
 			<div class="row">
 				<div class="col-12">
 				<ul class="pagination text-center justify-content-center border-secondary">	
-					<c:if test="${pageVO.nowPage>1}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/attendance/list?pageSize=${pageVO.pageSize}&nowPage=1">첫페이지</a></li></c:if>
-					<c:if test="${pageVO.curBlock>0}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/attendance/list?pageSize=${pageVO.pageSize}&nowPage=${(pageVO.curBlock-1)*pageVO.blockSize+1}">이전블록</a></li></c:if>
+					<c:if test="${pageVO.nowPage>1}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/news/${category}?pageSize=${pageVO.pageSize}&nowPage=1">첫페이지</a></li></c:if>
+					<c:if test="${pageVO.curBlock>0}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/news/${category}?pageSize=${pageVO.pageSize}&nowPage=${(pageVO.curBlock-1)*pageVO.blockSize+1}">이전블록</a></li></c:if>
 					<c:forEach var="i" begin="${pageVO.curBlock*pageVO.blockSize+1}" end="${pageVO.curBlock*pageVO.blockSize + pageVO.blockSize}" varStatus="st">
 						<c:if test="${i<=pageVO.totalPage && i== pageVO.nowPage}"><li class="page-item active bg-secondary"><a class="page-link bg-secondary" href="#">${i}</a></li></c:if>
-						<c:if test="${i<=pageVO.totalPage && i!= pageVO.nowPage}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/attendance/list?pageSize=${pageVO.pageSize}&nowPage=${i}">${i}</a></li></c:if>
+						<c:if test="${i<=pageVO.totalPage && i!= pageVO.nowPage}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/news/${category}?pageSize=${pageVO.pageSize}&nowPage=${i}">${i}</a></li></c:if>
 					</c:forEach>
-					<c:if test="${pageVO.curBlock<pageVO.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/attendance/list?pageSize=${pageVO.pageSize}&nowPage=${(pageVO.curBlock+1)*pageVO.blockSize+1}">다음블록</a></li></c:if>
-					<c:if test="${pageVO.nowPage<pageVO.totalPage}"><li class="page-item"><a class="page-link  text-secondary" href="${ctp}/attendance/list?pageSize=${pageVO.pageSize}&nowPage=${pageVO.totalPage}">마지막페이지</a></li></c:if>
+					<c:if test="${pageVO.curBlock<pageVO.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/news/${category}?pageSize=${pageVO.pageSize}&nowPage=${(pageVO.curBlock+1)*pageVO.blockSize+1}">다음블록</a></li></c:if>
+					<c:if test="${pageVO.nowPage<pageVO.totalPage}"><li class="page-item"><a class="page-link  text-secondary" href="${ctp}/board/news/${category}?pageSize=${pageVO.pageSize}&nowPage=${pageVO.totalPage}">마지막페이지</a></li></c:if>
 				</ul>
 				</div>
 			</div>

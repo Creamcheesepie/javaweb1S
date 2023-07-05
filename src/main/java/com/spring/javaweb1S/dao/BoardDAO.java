@@ -17,4 +17,8 @@ public interface BoardDAO {
 
 	public List<BoardVO> getboardList(@Param("category") int category,@Param("sin") int sin,@Param("pageSize") int pageSize);
 
+	public void setBoardWriteInput(@Param("vo") BoardVO vo);
+
+	public BoardVO getboardRead(@Param("boa_idx") int boa_idx);
+
 }
