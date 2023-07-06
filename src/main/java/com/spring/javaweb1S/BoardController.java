@@ -1,5 +1,6 @@
 package com.spring.javaweb1S;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -11,12 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.javaweb1S.common.JavaProvide;
 import com.spring.javaweb1S.pagination.PageProcess;
 import com.spring.javaweb1S.service.BoardService;
 import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.PageVO;
+import com.spring.javaweb1S.vo.ReplyVO;
 
 @Controller
 @RequestMapping("/board")
@@ -26,6 +29,7 @@ public class BoardController {
 	
 	@Autowired
 	PageProcess page;
+
 	
 	//운영자가 쓸 수 있는 뉴스 게시판
 	@RequestMapping(value = "/news/{category}",method=RequestMethod.GET)
@@ -66,10 +70,15 @@ public class BoardController {
 		return "board/newsBoardWrite";
 	}
 	
+	//뉴스 게시판 개별글 조회
 	@RequestMapping(value = "/newsRead/{boa_idx}/{category}",method=RequestMethod.GET)
-	public String boardNewsReadGet(Model model,
+	public String boardNewsReadGet(Model model,HttpSession session,
 			@PathVariable("boa_idx") int boa_idx,
-			@PathVariable("category") String strCategory
+			@PathVariable("category") String strCategory,
+			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
+			@RequestParam(name="pageSize",defaultValue="20",required=false)int pageSize,
+			@RequestParam(name="repNowPage", defaultValue="1",required=false)int repNowPage,
+			@RequestParam(name="repPageSize",defaultValue="20",required=false)int repPageSize
 			) {
 		JavaProvide provide = new JavaProvide();
 		int category = Integer.parseInt(strCategory);
@@ -78,14 +87,34 @@ public class BoardController {
 		BoardVO vo = boardService.getboardRead(boa_idx);
 		vo.setStrLevel(provide.levelToString(vo.getLevel()));
 		
+		//조회수 처리
+		ArrayList<String> contentIdx = (ArrayList<String>)session.getAttribute("sContentIdx");
+		if(contentIdx == null) {
+			contentIdx = new ArrayList<String>();
+		}
+		String tempContentIdx = "board"+boa_idx;
+		if(!contentIdx.contains(tempContentIdx)) {
+			contentIdx.add(tempContentIdx);
+			boardService.setViewCntUp(vo.getBoa_idx());
+		}
+		session.setAttribute("sContentIdx", contentIdx);
+		
+		int blockSize=5;
+		PageVO repPageVO = page.pageProcessorByBoa_idx("board2_reply", repPageSize, repNowPage, blockSize,boa_idx);		
+		
+		//댓글 목록 가져오기
+		List<ReplyVO> replyVOS = boardService.getboardReplyList(boa_idx,repPageVO); 
+		
+		
 		model.addAttribute("categoryName", categoryName);
 		model.addAttribute("category", category);
+		model.addAttribute("replyVOS", replyVOS);
 		model.addAttribute("newsRead_vo", vo);
 		return "board/newsBoardRead";
 	}
 	
-	@RequestMapping(value = "/newsSearch/{category}", method=RequestMethod.GET)
-	public String boardNewsSearchPost(Model model,
+	@RequestMapping(value = "/news/{category}/search", method=RequestMethod.GET)
+	public String boardNewsSearchGet(Model model,
 			@PathVariable("category") int category,
 			@RequestParam(name="searchStr",defaultValue="",required=false)String searchStr,
 			@RequestParam(name="searchOption",defaultValue="",required=false) String searchOption,
@@ -94,13 +123,18 @@ public class BoardController {
 			) {
 		int blockSize = 5; 
 		PageVO pageVO = page.pageProcessorBoardSeach(searchStr,searchOption,nowPage, pageSize, blockSize, category);
-		
+		String categoryName = boardService.getCategoryNameByCategory(category);
 		List<BoardVO> search_vos = boardService.getCategorySearchList(searchStr,searchOption,category,pageVO.getSin(),pageVO.getPageSize());
 		
+		JavaProvide provide  = new JavaProvide();
+		searchOption = provide.searchOptionToKorean(searchOption);
 		
+		model.addAttribute("searchOption",searchOption);
+		model.addAttribute("searchStr", searchStr);
+		model.addAttribute("category_Name", categoryName);
 		model.addAttribute("pageVO",pageVO);
 		model.addAttribute("newsList_vos", search_vos);
-		return "board/newsBoard";
+		return "board/newsBoardSearch";
 	}
 	
 	
@@ -140,6 +174,27 @@ public class BoardController {
 		boardService.setBoardWriteInput(vo);
 		
 		return "redirect:/board/news/"+strCategory;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/recommendCheck", method = RequestMethod.POST)
+	public int boardRecommendCheckPost(HttpSession session,
+			@RequestParam(name="boa_idx",defaultValue="",required=false)int boa_idx
+			) {
+		int res =0;
+		int m_idx = (int)session.getAttribute("sM_idx");
+		res = boardService.setBoardUpdateCheck(boa_idx,m_idx);
+		return res;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/replyInput", method = RequestMethod.POST)
+	public int boardReplyInputPost(ReplyVO vo) {
+		int res=0;
+		
+		res = boardService.setReplyInput(vo);
+		
+		return res;
 	}
 	
 	

@@ -73,7 +73,7 @@
 					<div class="col-12"><hr/></div>
 				</c:forEach>
 			</div>
-			<form name="newsSearchForm" method="get" action="${ctp}/board/newsSearch/${category}">
+			<form name="newsSearchForm" method="get" action="${ctp}/board/news/${category}/search">
 			<div class="row"><!-- 검색창 영역 -->
 			<div class="col-3"></div> 
 				<div class="col-1 m-0 p-0">

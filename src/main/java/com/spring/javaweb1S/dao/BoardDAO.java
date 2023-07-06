@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Param;
 
 import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.CategoryVO;
+import com.spring.javaweb1S.vo.PageVO;
+import com.spring.javaweb1S.vo.ReplyVO;
 
 public interface BoardDAO {
 
@@ -22,5 +24,21 @@ public interface BoardDAO {
 	public BoardVO getboardRead(@Param("boa_idx") int boa_idx);
 
 	public List<BoardVO> getCategorySearchList(@Param("searchStr") String searchStr,@Param("searchOption") String searchOption,@Param("category") int category,@Param("sin") int sin,@Param("pageSize") int pageSize);
+
+	public void setViewCntUp(@Param("boa_idx") int boa_idx);
+
+	public String getRecommendDate(@Param("boa_idx") int boa_idx,@Param("m_idx") int m_idx);
+
+	public void setBoardRecommendUpdate(@Param("boa_idx") int boa_idx,@Param("i") int i);
+
+	public void setRecommendInformation(@Param("boa_idx") int boa_idx,@Param("m_idx") int m_idx);
+
+	public void setRecommendDelete(@Param("boa_idx") int boa_idx,@Param("m_idx") int m_idx);
+
+	public int setReplyInput(@Param("vo") ReplyVO vo);
+
+	public String getMaxRep_group(@Param("vo") ReplyVO vo);
+
+	public List<ReplyVO> getboardReplyList(@Param("boa_idx") int boa_idx,@Param("vo") PageVO repPageVO);
 
 }

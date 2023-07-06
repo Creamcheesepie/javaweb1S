@@ -26,4 +26,5 @@ public class BoardVO {
 	private int getheight;
 	private int level;
 	private String strLevel;
+	private String inst;
 }

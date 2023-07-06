@@ -183,8 +183,8 @@
 		border-width: 1px;
 	}
 	.profile_img{
-		width: 100px;
-		height: 127px;
+		width: 127px;
+		height: 100px;
 	}
 	
 	</style>

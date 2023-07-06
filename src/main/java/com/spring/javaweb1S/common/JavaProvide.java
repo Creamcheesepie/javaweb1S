@@ -80,10 +80,15 @@ public class JavaProvide {
 			default:
 				break;
 		}
-		
-		
 		return strLevel;
 	}
 	
+	public String searchOptionToKorean(String searchOption) {
+		if(searchOption.equals("title")) searchOption = "제목";
+		else if (searchOption.equals("content")) searchOption = "내용";
+		else if (searchOption.equals("nickName")) searchOption = "닉네임";
+		else if (searchOption.equals("mid")) searchOption = "아이디";
+		return searchOption;
+	}
 	
 }

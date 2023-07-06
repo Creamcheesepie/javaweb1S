@@ -11,4 +11,6 @@ insert into pointSetter values (1,'loginPoint',10,null,null);
 insert into pointSetter values (2,'attendanceWrite',40,null,null);
 select point from pointSetter where part = 1; 
 
-create table 
+create table
+
+select count(*) from board2 B, member2 M where ${searchOption} like concat('%',#{searchStr},'%') and B.${searchOption} = #{searchStr} and category = #{category}

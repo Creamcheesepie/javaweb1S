@@ -30,7 +30,7 @@
 	<div class="mainTitle" style="margin-top: 3%">News</div>
 	<div class="row">
 		<div class="col-6">
-			<div class="mainTitle">${category_Name}</div>
+			<div class="mainTitle">${category_Name}&nbsp;-&nbsp;${searchOption}&nbsp;:&nbsp;${searchStr}&nbsp;검색결과</div>
 		</div>
 		<div class="col-6 text-right">
 			<c:if test="${sLevel<2}">
@@ -73,7 +73,7 @@
 					<div class="col-12"><hr/></div>
 				</c:forEach>
 			</div>
-			<form name="newsSearchForm" method="get" action="${ctp}/board/newsSearch/${category}">
+			<form name="newsSearchForm" method="get" action="${ctp}/board/news/${category}/search">
 			<div class="row"><!-- 검색창 영역 -->
 			<div class="col-3"></div> 
 				<div class="col-1 m-0 p-0">
@@ -98,14 +98,14 @@
 			<div class="row">
 				<div class="col-12">
 				<ul class="pagination text-center justify-content-center border-secondary">	
-					<c:if test="${pageVO.nowPage>1}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/news/${category}?pageSize=${pageVO.pageSize}&nowPage=1">첫페이지</a></li></c:if>
-					<c:if test="${pageVO.curBlock>0}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/news/${category}?pageSize=${pageVO.pageSize}&nowPage=${(pageVO.curBlock-1)*pageVO.blockSize+1}">이전블록</a></li></c:if>
+					<c:if test="${pageVO.nowPage>1}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/news/${category}/search?pageSize=${pageVO.pageSize}&nowPage=1">첫페이지</a></li></c:if>
+					<c:if test="${pageVO.curBlock>0}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/news/${category}/search?pageSize=${pageVO.pageSize}&nowPage=${(pageVO.curBlock-1)*pageVO.blockSize+1}">이전블록</a></li></c:if>
 					<c:forEach var="i" begin="${pageVO.curBlock*pageVO.blockSize+1}" end="${pageVO.curBlock*pageVO.blockSize + pageVO.blockSize}" varStatus="st">
 						<c:if test="${i<=pageVO.totalPage && i== pageVO.nowPage}"><li class="page-item active bg-secondary"><a class="page-link bg-secondary" href="#">${i}</a></li></c:if>
-						<c:if test="${i<=pageVO.totalPage && i!= pageVO.nowPage}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/news/${category}?pageSize=${pageVO.pageSize}&nowPage=${i}">${i}</a></li></c:if>
+						<c:if test="${i<=pageVO.totalPage && i!= pageVO.nowPage}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/news/${category}/search?pageSize=${pageVO.pageSize}&nowPage=${i}">${i}</a></li></c:if>
 					</c:forEach>
-					<c:if test="${pageVO.curBlock<pageVO.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/news/${category}?pageSize=${pageVO.pageSize}&nowPage=${(pageVO.curBlock+1)*pageVO.blockSize+1}">다음블록</a></li></c:if>
-					<c:if test="${pageVO.nowPage<pageVO.totalPage}"><li class="page-item"><a class="page-link  text-secondary" href="${ctp}/board/news/${category}?pageSize=${pageVO.pageSize}&nowPage=${pageVO.totalPage}">마지막페이지</a></li></c:if>
+					<c:if test="${pageVO.curBlock<pageVO.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/news/${category}/search?pageSize=${pageVO.pageSize}&nowPage=${(pageVO.curBlock+1)*pageVO.blockSize+1}">다음블록</a></li></c:if>
+					<c:if test="${pageVO.nowPage<pageVO.totalPage}"><li class="page-item"><a class="page-link  text-secondary" href="${ctp}/board/news/${category}/search?pageSize=${pageVO.pageSize}&nowPage=${pageVO.totalPage}">마지막페이지</a></li></c:if>
 				</ul>
 				</div>
 			</div>

@@ -8,6 +8,74 @@
 <title>Insert title here</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp"/>
 	<jsp:include page="/WEB-INF/views/include/mainCss.jsp"/>
+	<script>
+		'use strict';
+		document.title = '${newsRead_vo.title}';
+		
+		function recommendCheck(boa_idx){
+			$.ajax({
+				type:"post",
+				data:{boa_idx:boa_idx},
+				url:"${ctp}/board/recommendCheck",
+				success:function(res){
+					if(res==1){
+						alert("게시글을 추천하였습니다.");
+						location.reload();
+						return false;
+					}
+					else if(res==2){
+						alert("게시글 추천을 취소하였습니다.");
+						location.reload();
+						return false;
+					}
+				},
+				error:function(){
+					alert("전송오류가 발생하였습니다. 같은 오류가 반복되면 관리자 또는 운영자에게 문의해주세요.");
+				}
+			})
+		}
+		
+		function replyUpdate(boa_idx,m_idx){
+			let replyContent = $("#replyContent").val();
+			
+			if(replyContent.trim()==""){
+				alert("댓글 내용을 입력해 주세요");
+				$("#replyContent").focus();
+				return false;
+			}
+			
+			$.ajax({
+				type:"post",
+				data:{boa_idx:boa_idx,m_idx:m_idx,content:replyContent},
+				url:"${ctp}/board/replyInput",
+				success:function(){
+					alert("댓글이 등록되었습니다");
+					location.reload();
+				},
+				error:function(){
+					alert("전송오류가 발생하였습니다. 같은 오류가 반복되면 관리자 또는 운영자에게 문의해주세요.");
+				}
+			})
+		}
+		
+		function openAnswerReply(level){
+			let size = level*50;
+			let marginSize = 'margin-left:'+size;
+			
+			$("#answerReplyForm").attr("style",marginSize)
+			$("#answerReplyForm").show()
+
+			$("#openAnswer").hide();
+			$("#closeAnswer").show();
+		}
+	
+		function closeAnswerReply(level){
+			$("#closeAnswer").hide();
+			$("#answerReplyForm").hide();
+			$("#openAnswer").show();
+		}
+	
+	</script>
 </head>
 <body> 
 <jsp:include page="/WEB-INF/views/include/navbar.jsp"/>
@@ -35,12 +103,12 @@
 		<div class="col-sm-10"><!-- 본문 리스트 영역 -->
 			<div class="row mainfont-m-16">
 				<div class="col-1 text-center align-self-center">
-					<span class="mainfont-b-20">제목</span>
+					<span class="mainfont-b-22">제목</span>
 				</div>
-				<div class="col-9	">
-					<span class="mainfont-b-20">${newsRead_vo.title}</span>
+				<div class="col-8	">
+					<span class="mainfont-b-22">${newsRead_vo.title}</span>
 				</div>
-				<div class="col-2 text-right align-self-center">
+				<div class="col-3 text-right align-self-center">
 					조회수&nbsp;${newsRead_vo.viewCnt}
 					추천수&nbsp;${newsRead_vo.recommendCnt}
 				</div>
@@ -49,7 +117,7 @@
 					 ${newsRead_vo.content}
 				</div>
 				<div class="col-12 text-center">
-					<button type="button" class="btn border">추천하기</button>
+					<button type="button" class="btn border" onclick="recommendCheck('${newsRead_vo.boa_idx}')">추천하기</button>
 					<button type="button" class="btn border">문의하기</button>
 				</div>
 				<div class="col-12"><hr/></div>
@@ -57,8 +125,8 @@
 				<img alt="" src="${ctp}/resources/data/memberprofile/${newsRead_vo.photo}" class="profile_img"> 
 				</div>
 				<div class="col-6">
-				작성자 ${newsRead_vo.nickName}(${newsRead_vo.mid})<br>
-				등급 ${newsRead_vo.strLevel}
+				<span class="mainfont-b-18">${newsRead_vo.nickName}(${newsRead_vo.mid})</span><span class="fontdot-12">${newsRead_vo.strLevel}</span><br>
+				<span class="minafont-m-16">${newsRead_vo.inst}</span>
 				</div>
 				<div class="col-4 text-right align-self-end fontdot-12">
 					<a>친구신청</a> 
@@ -70,15 +138,58 @@
 					<a>사용자신고</a>
 				</div>
 				<div class="col-12"><hr/></div>
+				<div class="col-12 mainfont-b-20 mb-3">댓글</div>
+				<div class="col-12"><!-- 댓글 목록 영역 -->
+					<c:forEach var="reply_vo" items="${replyVOS}">
+						<div class="row">
+							<div class="col-1 align-self-center">
+								<img src="${ctp}/resources/data/memberprofile/${reply_vo.photo}" style="height: 60px ;width:80px">
+							</div>
+							<div class="col-11">
+								<div class="row">
+									<div class="col-12">
+										<span class="fontdot-12">${reply_vo.nickName}(${reply_vo.mid})&nbsp;&nbsp;${reply_vo.wdate}</span>
+									</div>
+									<div class="col-10 mainfont-m-16" style="height:100%">
+										<span>${reply_vo.content}</span>
+									</div>
+									<div class="col-2 text-right">
+										<button type="button" name="openAnswer" id="openAnswer" onclick="openAnswerReply('${reply_vo.rep_level}')" class="btn border mainfont-b-16">답글</button>
+										<button type="button" name="closeAnswer" id="closeAnswer" onclick="closeAnswerReply('${reply_vo.rep_level}')" class="btn border mainfont-b-16" style="display: none">답글닫기</button>
+									</div>
+									<div class="col-12 text-right align-self-end">
+										<c:if test="${reply_vo.m_idx != sM_idx}">
+											<span  class="fontdot-12">
+												<a>쪽지</a> 
+												| 
+												<a>차단</a> 
+												| 
+												<a>신고</a>
+											</span>
+										</c:if>
+									</div>
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div name="answerReplyForm" id="answerReplyForm">
+							<div class="row" style="">
+								<div class="col-10 mr-0 pr-0">
+									<textarea rows="3" class="form-control" name="replyContent" id="replyContent"></textarea>
+								</div>
+								<div class="col-2 ml-0 pl-0">
+									<button type="button" class="btn border form-control" style="height:100%;" onclick="answerReplyUpdate('${newsRead_vo.boa_idx}','${reply_vo.rep_group}','${sM_idx}')">답글달기</button>				
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
 				<div class="col-12">${sNickName}(${sMid})</div>
 				<div class="col-10 mr-0 pr-0">
-					<textarea rows="3" class="form-control"></textarea>
+					<textarea rows="3" class="form-control" name="replyContent" id="replyContent"></textarea>
 				</div>
 				<div class="col-2 ml-0 pl-0">
-					<button type="button" class="btn border form-control" style="height:100%;">댓글달기</button>				
-				</div>
-				<div class="col-12"><!-- 댓글 목록 영역 -->
-					
+					<button type="button" class="btn border form-control" style="height:100%;" onclick="replyUpdate('${newsRead_vo.boa_idx}','${sM_idx}')">댓글달기</button>				
 				</div>
 				<div class="col-12">
 					<hr>

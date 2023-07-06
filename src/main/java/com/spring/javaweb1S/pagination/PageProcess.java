@@ -9,4 +9,6 @@ public interface PageProcess {
 
 	public PageVO pageProcessorBoardSeach(String searchStr, String searchOption, int nowPage, int pageSize, int blockSize,
 			int category);
+
+	public PageVO pageProcessorByBoa_idx(String string, int repPageSize, int repNowPage, int blockSize, int boa_idx);
 }
