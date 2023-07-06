@@ -197,5 +197,27 @@ public class BoardController {
 		return res;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/answerReply", method = RequestMethod.POST)
+	public int boardAnswerReplyInputPost(
+			@RequestParam(name="content",defaultValue="",required=false)String content,
+			@RequestParam(name="boa_idx",defaultValue="0",required=false)int boa_idx,
+			@RequestParam(name="rep_group",defaultValue="0",required=false)int rep_group,
+			@RequestParam(name="m_idx",defaultValue="",required=false)int m_idx,
+			@RequestParam(name="t_nickName",defaultValue="",required=false)String t_nickName,
+			@RequestParam(name="rep_level",defaultValue="",required=false)int rep_level
+			) {
+		ReplyVO vo = new ReplyVO();
+		vo.setBoa_idx(boa_idx);
+		vo.setRep_group(rep_group);
+		vo.setM_idx(m_idx);
+		vo.setRep_level(rep_level+1);
+		vo.setContent("<p>@"+t_nickName+"</p>"+content);
+		System.out.println(vo); 
+		boardService.setAnswerReplyInput(vo);
+		
+		return 0;
+	};
+	
 	
 }

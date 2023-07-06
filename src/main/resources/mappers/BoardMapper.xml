@@ -41,7 +41,7 @@
 	</select>
 	
 	<select id="getboardReplyList" resultType="com.spring.javaweb1S.vo.ReplyVO">
-		select R.*,M.nickName,M.mid,M.photo from board2_reply R , member2 M where M.m_idx=R.m_idx and boa_idx = #{boa_idx} order by rep_idx desc limit #{vo.sin},#{vo.pageSize};
+		select R.*,M.nickName,M.mid,M.photo from board2_reply R , member2 M where M.m_idx=R.m_idx and boa_idx = #{boa_idx} order by rep_group, rep_idx asc limit #{vo.sin},#{vo.pageSize};
 	</select>
 	
 	
@@ -57,6 +57,11 @@
 	<insert id="setReplyInput">
 		insert into board2_reply values(default,#{vo.boa_idx},#{vo.m_idx},#{vo.content},#{vo.rep_group},#{vo.rep_level},default,null,null);
 	</insert>
+	
+	<insert id="setAnswerReplyInput"> <!-- 상단이랑 동일한 코드로 일단은 분리하였으나 추우 합칠것! -->
+		insert into board2_reply values(default,#{vo.boa_idx},#{vo.m_idx},#{vo.content},#{vo.rep_group},#{vo.rep_level},default,null,null);
+	</insert>
+	
 	
 	
 	

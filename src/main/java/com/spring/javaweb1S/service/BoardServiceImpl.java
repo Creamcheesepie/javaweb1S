@@ -95,6 +95,11 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.getboardReplyList(boa_idx,repPageVO);
 	}
 
+	@Override
+	public void setAnswerReplyInput(ReplyVO vo) {
+		boardDAO.setAnswerReplyInput(vo);
+	}
+
 
 
 

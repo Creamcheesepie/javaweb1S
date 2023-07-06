@@ -32,6 +32,8 @@ public interface BoardService {
 
 	public List<ReplyVO> getboardReplyList(int boa_idx,PageVO repPageVO);
 
+	public void setAnswerReplyInput(ReplyVO vo);
+
 	
 
 

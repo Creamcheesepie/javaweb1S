@@ -41,4 +41,6 @@ public interface BoardDAO {
 
 	public List<ReplyVO> getboardReplyList(@Param("boa_idx") int boa_idx,@Param("vo") PageVO repPageVO);
 
+	public void setAnswerReplyInput(@Param("vo") ReplyVO vo);
+
 }

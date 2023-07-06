@@ -62,6 +62,7 @@
 			let size = level*50;
 			let marginSize = 'margin-left:'+size;
 			
+			
 			$("#answerReplyForm").attr("style",marginSize)
 			$("#answerReplyForm").show()
 
@@ -73,6 +74,29 @@
 			$("#closeAnswer").hide();
 			$("#answerReplyForm").hide();
 			$("#openAnswer").show();
+		}
+		
+		function answerReplyUpdate(boa_idx,rep_group,sM_idx,t_nickName,rep_level){
+			let ansReplyContent = $("#ansReplyContent").val();
+			
+			if(ansReplyContent.trim()==""){
+				alert("답글의 내용을 입력해주세요.");
+				$("#ansReplyContent").focus();
+				return false;
+			}
+			
+			$.ajax({
+				type:"post",
+				data:{content:ansReplyContent,boa_idx:boa_idx,rep_group:rep_group,m_idx:sM_idx,t_nickName:t_nickName,rep_level:rep_level},
+				url:"${ctp}/board/answerReply",
+				success:function(){
+					alert("답글이 등록되었습니다.");
+					location.reload();
+				},
+				error:function(){
+					alert("전송오류가 발생하였습니다. 같은 오류가 반복되면 관리자 또는 운영자에게 문의해주세요.");			
+				}
+			})
 		}
 	
 	</script>
@@ -140,7 +164,41 @@
 				<div class="col-12"><hr/></div>
 				<div class="col-12 mainfont-b-20 mb-3">댓글</div>
 				<div class="col-12"><!-- 댓글 목록 영역 -->
-					<c:forEach var="reply_vo" items="${replyVOS}">
+					<c:forEach var="reply_vo" items="${replyVOS}" varStatus="st">
+					<div class="row">
+					<c:if test="${reply_vo.rep_level==1}">
+						<div class="col-1"></div>
+					</c:if>
+					<c:if test="${reply_vo.rep_level==2}">
+						<div class="col-2"></div>
+					</c:if>
+					<c:if test="${reply_vo.rep_level==3}">
+						<div class="col-3"></div>
+					</c:if>
+					<c:if test="${reply_vo.rep_level==4}">
+						<div class="col-4"></div>
+					</c:if>
+					<c:if test="${reply_vo.rep_level>4}">
+						<div class="col-5"></div>
+					</c:if>
+					<c:if test="${reply_vo.rep_level==0}">
+						<div class="col-12">
+					</c:if>
+					<c:if test="${reply_vo.rep_level==1}">
+						<div class="col-11">
+					</c:if>
+					<c:if test="${reply_vo.rep_level==2}">
+						<div class="col-10">
+					</c:if>
+					<c:if test="${reply_vo.rep_level==3}">
+						<div class="col-9">
+					</c:if>
+					<c:if test="${reply_vo.rep_level==4}">
+						<div class="col-8">
+					</c:if>
+					<c:if test="${reply_vo.rep_level>4}">
+						<div class="col-7">
+					</c:if>
 						<div class="row">
 							<div class="col-1 align-self-center">
 								<img src="${ctp}/resources/data/memberprofile/${reply_vo.photo}" style="height: 60px ;width:80px">
@@ -172,16 +230,18 @@
 							</div>
 						</div>
 						<hr>
-						<div name="answerReplyForm" id="answerReplyForm">
+						<div name="answerReplyForm" id="answerReplyForm" style="display: none;">
 							<div class="row" style="">
 								<div class="col-10 mr-0 pr-0">
-									<textarea rows="3" class="form-control" name="replyContent" id="replyContent"></textarea>
+									<textarea rows="3" class="form-control" name="ansReplyContent" id="ansReplyContent"></textarea>
 								</div>
 								<div class="col-2 ml-0 pl-0">
-									<button type="button" class="btn border form-control" style="height:100%;" onclick="answerReplyUpdate('${newsRead_vo.boa_idx}','${reply_vo.rep_group}','${sM_idx}')">답글달기</button>				
+									<button type="button" class="btn border form-control" style="height:100%;" onclick="answerReplyUpdate('${newsRead_vo.boa_idx}','${reply_vo.rep_group}','${sM_idx}','${reply_vo.nickName}','${reply_vo.rep_level}')">답글달기</button>				
 								</div>
 							</div>
 						</div>
+						</div>
+					</div>
 					</c:forEach>
 				</div>
 				<div class="col-12">${sNickName}(${sMid})</div>
