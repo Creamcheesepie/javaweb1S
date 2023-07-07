@@ -36,7 +36,7 @@ public class BoardController {
 	public String boardNewsGet(Model model,
 			@PathVariable("category") String strCategory,
 			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
-			@RequestParam(name="pageSize",defaultValue="20",required=false)int pageSize
+			@RequestParam(name="pageSize",defaultValue="5",required=false)int pageSize
 			) {
 		int category = Integer.parseInt(strCategory);
 		int blockSize = 5;
@@ -75,8 +75,7 @@ public class BoardController {
 	public String boardNewsReadGet(Model model,HttpSession session,
 			@PathVariable("boa_idx") int boa_idx,
 			@PathVariable("category") String strCategory,
-			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
-			@RequestParam(name="pageSize",defaultValue="20",required=false)int pageSize,
+			@RequestParam(name="pageSize",defaultValue="5",required=false)int pageSize,
 			@RequestParam(name="repNowPage", defaultValue="1",required=false)int repNowPage,
 			@RequestParam(name="repPageSize",defaultValue="20",required=false)int repPageSize
 			) {
@@ -84,6 +83,7 @@ public class BoardController {
 		int category = Integer.parseInt(strCategory);
 		String categoryName = boardService.getCategoryNameByCategory(category);
 		
+		//게시글 정보 가져오기
 		BoardVO vo = boardService.getboardRead(boa_idx);
 		vo.setStrLevel(provide.levelToString(vo.getLevel()));
 		
@@ -99,13 +99,29 @@ public class BoardController {
 		}
 		session.setAttribute("sContentIdx", contentIdx);
 		
-		int blockSize=5;
-		PageVO repPageVO = page.pageProcessorByBoa_idx("board2_reply", repPageSize, repNowPage, blockSize,boa_idx);		
-		
+		//추천여부확인
+		int user_m_idx = session.getAttribute("sM_idx")==null?0:(int)session.getAttribute("sM_idx");
+		String RecommendCheck = boardService.getBoardReccomendCheck(boa_idx,user_m_idx); 
+		System.out.println(RecommendCheck);
+		//null값 여부 확인 위해서는 String이 어쩔 수 없이 요구됨...
+    
 		//댓글 목록 가져오기
+		int blockSize=5;
+		PageVO repPageVO = page.pageProcessorByBoa_idx("board2_reply", repPageSize, repNowPage, blockSize,boa_idx);
 		List<ReplyVO> replyVOS = boardService.getboardReplyList(boa_idx,repPageVO); 
 		
+		//이전글 다음글 처리
+		List<BoardVO> prevNextContentVOS = boardService.getPrevNextContentbyBoa_idx(vo);
 		
+		//현재 페이지 가져오기
+		int nowPage = page.pageFinderByBoa_idxWithCategory("board2", pageSize, boa_idx, "boa_idx", category);
+		System.out.println(nowPage);
+		
+		System.out.println(prevNextContentVOS);
+		model.addAttribute("nowPage", nowPage);
+		model.addAttribute("rec_check", RecommendCheck);
+		model.addAttribute("prevNextContentVOS", prevNextContentVOS);
+		model.addAttribute("repPageVO", repPageVO);
 		model.addAttribute("categoryName", categoryName);
 		model.addAttribute("category", category);
 		model.addAttribute("replyVOS", replyVOS);
@@ -113,6 +129,7 @@ public class BoardController {
 		return "board/newsBoardRead";
 	}
 	
+	//글 검색하기
 	@RequestMapping(value = "/news/{category}/search", method=RequestMethod.GET)
 	public String boardNewsSearchGet(Model model,
 			@PathVariable("category") int category,
@@ -149,6 +166,7 @@ public class BoardController {
 		return "board/boardList";
 	}
 	
+	//게시글 작성
 	@RequestMapping(value = "/writeInput/{category}",method = RequestMethod.POST)
 	public String boardWriteInputPost(HttpSession session,
 			@PathVariable("category") String strCategory,
@@ -176,6 +194,7 @@ public class BoardController {
 		return "redirect:/board/news/"+strCategory;
 	}
 	
+	//추천하기
 	@ResponseBody
 	@RequestMapping(value = "/recommendCheck", method = RequestMethod.POST)
 	public int boardRecommendCheckPost(HttpSession session,
@@ -187,16 +206,16 @@ public class BoardController {
 		return res;
 	}
 	
+	//댓글달기
 	@ResponseBody
 	@RequestMapping(value = "/replyInput", method = RequestMethod.POST)
 	public int boardReplyInputPost(ReplyVO vo) {
 		int res=0;
-		
 		res = boardService.setReplyInput(vo);
-		
 		return res;
 	}
 	
+	//대댓글 달기
 	@ResponseBody
 	@RequestMapping(value = "/answerReply", method = RequestMethod.POST)
 	public int boardAnswerReplyInputPost(
@@ -213,11 +232,89 @@ public class BoardController {
 		vo.setM_idx(m_idx);
 		vo.setRep_level(rep_level+1);
 		vo.setContent("<p>@"+t_nickName+"</p>"+content);
-		System.out.println(vo); 
-		boardService.setAnswerReplyInput(vo);
 		
+		boardService.setAnswerReplyInput(vo);
 		return 0;
 	};
+	
+	//본문글 수정처리 폼 출력
+	@RequestMapping(value = "/newsUpdateForm/{boa_idx}/{category}",method= RequestMethod.POST)
+	public String newsUpdateFormPost(Model model, HttpSession session,
+			@PathVariable("boa_idx") int boa_idx,
+			@PathVariable("category") int category
+			) {
+		JavaProvide provide = new JavaProvide();
+		BoardVO updateForm_vo = boardService.getboardUpdateForm(boa_idx);
+		String categoryName = boardService.getCategoryNameByCategory(category);
+		
+		String realPath=session.getServletContext().getRealPath("/resources/data/");
+		provide.contentImageDelete(updateForm_vo.getContent(), realPath,"board/" );
+		updateForm_vo.setContent(updateForm_vo.getContent().replace("/board/","/boardTemp/"));
+		
+		model.addAttribute("categoryName", categoryName);
+		model.addAttribute("category",category);
+		model.addAttribute("updateForm_vo", updateForm_vo);
+		return "board/newsBoardUpdate";
+	}
+	
+	//주소창을 통한 직접입력 접근 차단 위한 메소드
+	@RequestMapping(value = "/newsUpdateForm/{boa_idx}/{category}",method= RequestMethod.GET)
+	public String newsUpdateFormPost() {
+		return "redirect:/unusualapproach";
+	}
+	
+	//수정한 글을 DB에 반영하기
+	@RequestMapping(value = "/newsUpateSet/{boa_idx}/{category}")
+	public String newsUpdateSet(HttpSession session,
+			@PathVariable("boa_idx") int boa_idx,
+			@PathVariable("category") int category,
+			@RequestParam(name="title",defaultValue="",required=false) String title,
+			@RequestParam(name="content",defaultValue="",required=false) String content
+			) {
+		int m_idx = (int)session.getAttribute("sM_idx");
+		
+		JavaProvide provide = new JavaProvide();
+		String realPath=session.getServletContext().getRealPath("/resources/data/");
+		//임시폴더에 저장된 이미지를 본 폴더에 저장
+		provide.imageCheckCopy(content,realPath , "boardTemp/");
+		//content 안의 경로를 본 폴더로 수정
+		content = content.replace("/boardTemp/","/board/");
+		
+		BoardVO vo = new BoardVO();
+		vo.setBoa_idx(boa_idx);
+		vo.setM_idx(m_idx);
+		vo.setTitle(title);
+		vo.setContent(content);
+		vo.setCategory(category);
+		//내용을 DB에 저장
+		boardService.setBoardUpdateInput(vo);
+		
+		return "redirect:/board/newsRead/"+boa_idx+"/"+category+"/";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/newsDeleteForm/{boa_idx}/{category}",method = RequestMethod.POST)
+	public String newsDeleteForm(HttpSession session,
+			@PathVariable("boa_idx") int boa_idx,
+			@PathVariable("category") int category,
+			@RequestParam(name="delM_idx",defaultValue="0",required=false)int m_idx
+			) {
+		String res="";
+		int sM_idx = (int)session.getAttribute("sM_idx");
+		
+		if(m_idx!=sM_idx) res="2";
+		else {
+			boardService.setBoardDeleteUpdate(boa_idx);
+			res="1";
+		}
+		return res;
+	}
+	
+	//주소창을 통한 직접입력 접근 차단 위한 메소드
+	@RequestMapping(value = "/newsDeleteForm/{boa_idx}/{category}",method= RequestMethod.GET)
+	public String newsDeleteFormGet() {
+		return "redirect:/unusualapproach";
+	}
 	
 	
 }

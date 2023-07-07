@@ -79,6 +79,24 @@ public class PageProcessImpl implements PageProcess {
 		
 		return vo;
 	}
+
+	@Override
+	public int pageFinderByBoa_idx(String tableName, int pageSize, int idx,String idxName) {
+		int currentRecordCount = pageDAO.getCurrentRecordCount(tableName,idx,idxName);
+		int nowPage = (currentRecordCount%pageSize)==0?(currentRecordCount/pageSize):(currentRecordCount/pageSize)+1;
+		return nowPage;
+	}
+	
+	@Override
+	public int pageFinderByBoa_idxWithCategory(String tableName, int pageSize, int idx,String idxName,int category) {
+		int currentRecordCount = pageDAO.getCurrentRecordCountWithCategory(tableName,idx,idxName,category);
+		System.out.println(currentRecordCount);
+		currentRecordCount = currentRecordCount+1;
+		int nowPage = (currentRecordCount%pageSize)==0?(currentRecordCount/pageSize):(currentRecordCount/pageSize)+1;
+		return nowPage;
+	}
+	
+	
 	
 	
 }

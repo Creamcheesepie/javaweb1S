@@ -65,7 +65,12 @@
 				<c:forEach var="newsList_vo" items="${newsList_vos}" varStatus="st">
 					<div class="col-2">${newsList_vo.nickName}</div>
 					<div class="col-6">
+						<c:if test="${newsList_vo.ddate == null}">
 						<a href="${ctp}/board/newsRead/${newsList_vo.boa_idx}/${category}">${newsList_vo.title}</a>
+						</c:if>
+						<c:if test="${newsList_vo.ddate != null}">
+						<span class="mainfont-b-16 inactive">삭제된 글입니다</span>
+						</c:if>
 					</div>
 					<div class="col-1">${newsList_vo.viewCnt}</div>
 					<div class="col-1">${newsList_vo.recommendCnt}</div>

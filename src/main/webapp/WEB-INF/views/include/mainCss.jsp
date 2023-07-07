@@ -186,5 +186,7 @@
 		width: 127px;
 		height: 100px;
 	}
-	
+	.inactive{
+		color : lightgray;
+	}
 	</style>

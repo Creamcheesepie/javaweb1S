@@ -34,6 +34,16 @@ public interface BoardService {
 
 	public void setAnswerReplyInput(ReplyVO vo);
 
+	public List<BoardVO> getPrevNextContentbyBoa_idx(BoardVO vo);
+
+	public String getBoardReccomendCheck(int boa_idx,int user_m_idx);
+
+	public BoardVO getboardUpdateForm(int boa_idx);
+
+	public void setBoardUpdateInput(BoardVO vo);
+
+	public void setBoardDeleteUpdate(int boa_idx);
+
 	
 
 

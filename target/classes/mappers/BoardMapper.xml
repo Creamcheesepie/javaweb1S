@@ -16,7 +16,7 @@
 	</select>
 	
 	<select id="getboardList" resultType="com.spring.javaweb1S.vo.BoardVO">
-		select B.boa_idx,B.m_idx,M.nickName,M.name,M.mid,B.title,B.viewCnt,B.recommendCnt,B.wdate,B.category,C.name as categoryName from board2 B, member2 M, board2_category C where M.m_idx=B.m_idx and B.category = C.category and B.category = #{category} order by B.boa_idx desc limit #{sin}, #{pageSize};
+		select B.boa_idx,B.m_idx,M.nickName,M.name,M.mid,B.title,B.viewCnt,B.recommendCnt,B.wdate,B.ddate,B.category,C.name as categoryName from board2 B, member2 M, board2_category C where M.m_idx=B.m_idx and B.category = C.category and B.category = #{category} order by B.boa_idx desc limit #{sin}, #{pageSize};
 	</select>
 	
 	<select id="getboardRead" resultType="com.spring.javaweb1S.vo.BoardVO">
@@ -25,10 +25,10 @@
 	
 	<select id="getCategorySearchList" resultType="com.spring.javaweb1S.vo.BoardVO">
 		<if test='searchOption.equals("content") or searchOption.equals("title")'>
-			select B.boa_idx,B.m_idx,M.nickName,M.name,M.mid,B.title,B.viewCnt,B.recommendCnt,B.wdate,B.category,C.name as categoryName from board2 B, member2 M, board2_category C where M.m_idx=B.m_idx and B.category = C.category and B.category = #{category} and ${searchOption} like concat('%',#{searchStr},'%') order by B.boa_idx desc limit #{sin}, #{pageSize};
+			select B.boa_idx,B.m_idx,M.nickName,M.name,M.mid,B.title,B.viewCnt,B.recommendCnt,B.wdate,B.category,C.name as categoryName from board2 B, member2 M, board2_category C where M.m_idx=B.m_idx and B.category = C.category and B.category = #{category} and ${searchOption} like concat('%',#{searchStr},'%') and ddate is null order by B.boa_idx desc limit #{sin}, #{pageSize};
 		</if>
 		<if test='!searchOption.equals("content") and !searchOption.equals("title")'>
-			select B.boa_idx,B.m_idx,M.nickName,M.name,M.mid,B.title,B.viewCnt,B.recommendCnt,B.wdate,B.category,C.name as categoryName from board2 B, member2 M, board2_category C where M.m_idx=B.m_idx and B.category = C.category and B.category = #{category} and ${searchOption} = #{searchStr} order by B.boa_idx desc limit #{sin}, #{pageSize};
+			select B.boa_idx,B.m_idx,M.nickName,M.name,M.mid,B.title,B.viewCnt,B.recommendCnt,B.wdate,B.category,C.name as categoryName from board2 B, member2 M, board2_category C where M.m_idx=B.m_idx and B.category = C.category and B.category = #{category} and ${searchOption} = #{searchStr} and ddate is null order by B.boa_idx desc limit #{sin}, #{pageSize};
 		</if>
 	</select>
 	
@@ -42,6 +42,20 @@
 	
 	<select id="getboardReplyList" resultType="com.spring.javaweb1S.vo.ReplyVO">
 		select R.*,M.nickName,M.mid,M.photo from board2_reply R , member2 M where M.m_idx=R.m_idx and boa_idx = #{boa_idx} order by rep_group, rep_idx asc limit #{vo.sin},#{vo.pageSize};
+	</select>
+	
+	<select id="getPrevNextContentbyBoa_idx" resultType="com.spring.javaweb1S.vo.BoardVO">
+		select boa_idx,title from board2 where boa_idx in(
+							(select boa_idx from board2 where <![CDATA[boa_idx>#{vo.boa_idx}]]> and category=#{vo.category} and ddate is null limit 1),
+							(select boa_idx from board2 where <![CDATA[boa_idx<#{vo.boa_idx}]]> and category=#{vo.category} and ddate is null order by boa_idx desc limit 1));
+	</select>
+	
+	<select id="getBoardReccomendCheck" resultType="String">
+		select boa_idx from board2_recommend where boa_idx = #{boa_idx} and m_idx = #{user_m_idx};
+	</select>
+	
+	<select id="getboardUpdateForm" resultType="com.spring.javaweb1S.vo.BoardVO">
+		select boa_idx,title,content,wdate,cdate from board2 where boa_idx = #{boa_idx}; 
 	</select>
 	
 	
@@ -71,6 +85,14 @@
 	
 	<update id="setBoardRecommendUpdate">
 		update board2 set recommendCnt = recommendCnt+${i} where boa_idx = #{boa_idx};
+	</update>
+	
+	<update id="setBoardUpdateInput">
+		update board2 set title = #{vo.title}, content = #{vo.content} ,cdate = now() where boa_idx = #{vo.boa_idx};
+	</update>
+	
+	<update id="setBoardDeleteUpdate">
+		update board2 set ddate=now() where boa_idx = #{boa_idx};
 	</update>
 	
 	

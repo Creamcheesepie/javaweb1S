@@ -43,4 +43,14 @@ public interface BoardDAO {
 
 	public void setAnswerReplyInput(@Param("vo") ReplyVO vo);
 
+	public List<BoardVO> getPrevNextContentbyBoa_idx(@Param("vo") BoardVO vo);
+
+	public String getBoardReccomendCheck(@Param("boa_idx") int boa_idx,@Param("user_m_idx")  int user_m_idx);
+
+	public BoardVO getboardUpdateForm(@Param("boa_idx") int boa_idx);
+
+	public void setBoardUpdateInput(@Param("vo") BoardVO vo);
+
+	public void setBoardDeleteUpdate(@Param("boa_idx") int boa_idx);
+
 }

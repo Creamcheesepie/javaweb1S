@@ -52,6 +52,25 @@ public class JavaProvide {
 		}
 	}
 	
+	public void contentImageDelete(String content, String realPath,String servletPath){
+		if(content.indexOf("src=\"/") == -1) return;
+		
+		String nextImg = content.substring(content.indexOf(servletPath)+servletPath.length());
+		boolean sw = true;
+		
+		while(sw) {
+			String imgFile = nextImg.substring(0,nextImg.indexOf("\""));
+			String ofPath = realPath+"board/"+imgFile;
+			
+			File file = new File(ofPath);
+			if(file.exists())file.delete();
+			if(nextImg.indexOf("src=\"/")==-1) sw = false;
+			else {
+				nextImg = nextImg.substring(content.indexOf("servletPath")+servletPath.length());
+			}
+		}
+	}
+	
 	public String levelToString(int level) {
 		String strLevel = "";
 		

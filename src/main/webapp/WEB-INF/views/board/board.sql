@@ -109,3 +109,4 @@ create table board2_reply(
 	on delete restrict
 )
 
+select boa_idx,title from board2 in(select bao_idx from board2 where boa_idx> limit1),(select bao_idx from board2 where <![CDATA[boa_idx<#{boa_idx}]]> order by desc limit1);

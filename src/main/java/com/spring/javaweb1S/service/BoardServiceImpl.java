@@ -100,6 +100,31 @@ public class BoardServiceImpl implements BoardService {
 		boardDAO.setAnswerReplyInput(vo);
 	}
 
+	@Override
+	public List<BoardVO> getPrevNextContentbyBoa_idx(BoardVO vo) {
+		return boardDAO.getPrevNextContentbyBoa_idx(vo);
+	}
+
+	@Override
+	public String getBoardReccomendCheck(int boa_idx,int user_m_idx) {
+		return boardDAO.getBoardReccomendCheck(boa_idx,user_m_idx);
+	}
+
+	@Override
+	public BoardVO getboardUpdateForm(int boa_idx) {
+		return boardDAO.getboardUpdateForm(boa_idx);
+	}
+
+	@Override
+	public void setBoardUpdateInput(BoardVO vo) {
+		boardDAO.setBoardUpdateInput(vo);
+	}
+
+	@Override
+	public void setBoardDeleteUpdate(int boa_idx) {
+		boardDAO.setBoardDeleteUpdate(boa_idx);
+	}
+
 
 
 

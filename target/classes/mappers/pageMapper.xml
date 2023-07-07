@@ -23,4 +23,12 @@
 		</if>
 	</select>
 	
+	<select id="getCurrentRecordCount" resultType="int">
+		select count(${idxName}) from ${tableName} where <![CDATA[${idxName}>#{idx}]]>;
+	</select>
+	
+	<select id="getCurrentRecordCountWithCategory" resultType="int">
+		select count(${idxName}) from ${tableName} where <![CDATA[${idxName}>#{idx}]]> and category = #{category} ;
+	</select>
+	
 </mapper>

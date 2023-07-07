@@ -58,26 +58,22 @@
 			})
 		}
 		
-		function openAnswerReply(level){
-			let size = level*50;
-			let marginSize = 'margin-left:'+size;
-			
-			
-			$("#answerReplyForm").attr("style",marginSize)
-			$("#answerReplyForm").show()
+		function openAnswerReply(count){
 
-			$("#openAnswer").hide();
-			$("#closeAnswer").show();
+			$("#answerReplyForm"+count).show()
+
+			$("#openAnswer"+count).hide();
+			$("#closeAnswer"+count).show();
 		}
 	
-		function closeAnswerReply(level){
-			$("#closeAnswer").hide();
-			$("#answerReplyForm").hide();
-			$("#openAnswer").show();
+		function closeAnswerReply(count){
+			$("#closeAnswer"+count).hide();
+			$("#answerReplyForm"+count).hide();
+			$("#openAnswer"+count).show();
 		}
 		
-		function answerReplyUpdate(boa_idx,rep_group,sM_idx,t_nickName,rep_level){
-			let ansReplyContent = $("#ansReplyContent").val();
+		function answerReplyUpdate(boa_idx,rep_group,sM_idx,t_nickName,rep_level,count){
+			let ansReplyContent = $("#ansReplyContent"+count).val();
 			
 			if(ansReplyContent.trim()==""){
 				alert("답글의 내용을 입력해주세요.");
@@ -95,6 +91,33 @@
 				},
 				error:function(){
 					alert("전송오류가 발생하였습니다. 같은 오류가 반복되면 관리자 또는 운영자에게 문의해주세요.");			
+				}
+			})
+		}
+		
+		function newsDelete(){
+			let ans = confirm("정말로 지우시겠습니까?");
+			if(!ans)return false;
+			
+			let delM_idx = ${newsRead_vo.m_idx};
+			
+			$.ajax({
+				type:"post",
+				data:{delM_idx:delM_idx},
+				url:"${ctp}/board/newsDeleteForm/${newsRead_vo.boa_idx}/${category}",
+				success:function(res){
+					if(res=="1"){
+						alert("게시글 삭제에 성공하였습니다.");
+						location.href="${ctp}/board/news/${category}?nowPage=${nowPage}";
+					}
+					else if(res=="2"){
+						alert("게시글 삭제는 본인의 글만 가능합니다.");
+						return false;
+					}
+				
+				},
+				error:function(){
+					alert("전송오류가 발생하였습니다. 같은 오류가 반복되면 관리자 또는 운영자에게 문의해주세요.");
 				}
 			})
 		}
@@ -141,8 +164,22 @@
 					 ${newsRead_vo.content}
 				</div>
 				<div class="col-12 text-center">
-					<button type="button" class="btn border" onclick="recommendCheck('${newsRead_vo.boa_idx}')">추천하기</button>
-					<button type="button" class="btn border">문의하기</button>
+					<c:if test="${sM_idx!=newsRead_vo.m_idx && sM_idx != null}">
+						<button type="button" class="btn border" onclick="recommendCheck('${newsRead_vo.boa_idx}')">
+							<c:if test="${rec_check == null}">
+								추천하기
+							</c:if>
+							<c:if test="${rec_check != null}">
+								추천취소
+							</c:if>
+						</button>
+						<button type="button" class="btn border">문의하기</button>
+					</c:if>
+					<c:if test="${sM_idx==newsRead_vo.m_idx}">
+						<button type="button" class="btn border" onclick="newsUpdateForm.submit()">수정하기</button>
+						<button type="button" class="btn border" onclick="newsDelete()">삭제하기</button>
+						<form name="newsUpdateForm" method="post" action="${ctp}/board/newsUpdateForm/${newsRead_vo.boa_idx}/${category}"></form>
+					</c:if>
 				</div>
 				<div class="col-12"><hr/></div>
 				<div class="col-2">
@@ -212,8 +249,8 @@
 										<span>${reply_vo.content}</span>
 									</div>
 									<div class="col-2 text-right">
-										<button type="button" name="openAnswer" id="openAnswer" onclick="openAnswerReply('${reply_vo.rep_level}')" class="btn border mainfont-b-16">답글</button>
-										<button type="button" name="closeAnswer" id="closeAnswer" onclick="closeAnswerReply('${reply_vo.rep_level}')" class="btn border mainfont-b-16" style="display: none">답글닫기</button>
+										<button type="button" name="openAnswer${st.count}" id="openAnswer${st.count}" onclick="openAnswerReply('${st.count}')" class="btn border mainfont-b-16">답글</button>
+										<button type="button" name="closeAnswer${st.count}" id="closeAnswer${st.count}" onclick="closeAnswerReply('${st.count}')" class="btn border mainfont-b-16" style="display: none">답글닫기</button>
 									</div>
 									<div class="col-12 text-right align-self-end">
 										<c:if test="${reply_vo.m_idx != sM_idx}">
@@ -225,18 +262,25 @@
 												<a>신고</a>
 											</span>
 										</c:if>
+										<c:if test="${reply_vo.m_idx == sM_idx}">
+											<span  class="fontdot-12">
+												<a>수정</a> 
+												| 
+												<a>삭제</a>
+											</span>
+										</c:if>
 									</div>
 								</div>
 							</div>
 						</div>
 						<hr>
-						<div name="answerReplyForm" id="answerReplyForm" style="display: none;">
+						<div name="answerReplyForm${st.count}" id="answerReplyForm${st.count}" style="display: none;">
 							<div class="row" style="">
 								<div class="col-10 mr-0 pr-0">
-									<textarea rows="3" class="form-control" name="ansReplyContent" id="ansReplyContent"></textarea>
+									<textarea rows="3" class="form-control" name="ansReplyContent${st.count}" id="ansReplyContent${st.count}"></textarea>
 								</div>
 								<div class="col-2 ml-0 pl-0">
-									<button type="button" class="btn border form-control" style="height:100%;" onclick="answerReplyUpdate('${newsRead_vo.boa_idx}','${reply_vo.rep_group}','${sM_idx}','${reply_vo.nickName}','${reply_vo.rep_level}')">답글달기</button>				
+									<button type="button" class="btn border form-control" style="height:100%;" onclick="answerReplyUpdate('${newsRead_vo.boa_idx}','${reply_vo.rep_group}','${sM_idx}','${reply_vo.nickName}','${reply_vo.rep_level}','${st.count}')">답글달기</button>				
 								</div>
 							</div>
 						</div>
@@ -253,8 +297,26 @@
 				</div>
 				<div class="col-12">
 					<hr>
-					이전글<a href="#">이전글 링크</a><br>
-					다음글<a href="#">다음글 링크</a>
+				</div>
+				<div class="col-11">
+					<c:if test="${!empty prevNextContentVOS[1].boa_idx}">
+						<div class="align-self-center">
+							<span class="material-symbols-outlined align-self-center">keyboard_arrow_up</span><a href="${ctp}/board/newsRead/${prevNextContentVOS[1].boa_idx}/${category}">${prevNextContentVOS[1].title}</a><br>
+						</div>
+					</c:if>			
+					<c:if test="${newsRead_vo.boa_idx>prevNextContentVOS[0].boa_idx}">
+						<div class="align-self-center">
+							<span class="material-symbols-outlined align-self-center">keyboard_arrow_down</span><a href="${ctp}/board/newsRead/${prevNextContentVOS[0].boa_idx}/${category}">${prevNextContentVOS[0].title}</a><br>
+						</div>
+					</c:if>
+					<c:if test="${newsRead_vo.boa_idx<prevNextContentVOS[0].boa_idx}">
+						<div class="align-self-center">
+							<span class="material-symbols-outlined">keyboard_arrow_up</span><a href="${ctp}/board/newsRead/${prevNextContentVOS[0].boa_idx}/${category}">${prevNextContentVOS[0].title}</a><br>
+						</div>
+					</c:if>
+				</div>
+				<div class="col-1">
+					<button type="button" onclick="location.href='${ctp}/board/news/${category}?nowPage=${nowPage}'" class="btn border form-control p0">목록</button>
 				</div>
 			</div>
 		</div><!-- 본문 리스트 영역 -->
