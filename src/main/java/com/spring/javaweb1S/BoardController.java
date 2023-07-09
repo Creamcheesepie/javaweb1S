@@ -52,7 +52,30 @@ public class BoardController {
 		return "board/newsBoard";
 	}
 	
+	//사용자 전체가 사용 가능한 일반 게시판
+	@RequestMapping(value = "/list/{category}",method=RequestMethod.GET)
+	public String boardListGet(Model model,
+			@PathVariable("category") String strCategory,
+			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
+			@RequestParam(name="pageSize",defaultValue="5",required=false)int pageSize
+			) {
+		//카테고리 처리
+		int category = Integer.parseInt(strCategory);
+		String categoryName = boardService.getCategoryNameByCategory(category);
+		model.addAttribute("category_Name", categoryName);
+		
+		//페이지처리
+		int blockSize = 5;
+		PageVO pageVO = page.pageProcessorWithCategory("board2",nowPage,pageSize,blockSize,category);
+		
+		List<BoardVO> boardList_vos = boardService.getboardList(category,pageVO.getSin(),pageVO.getPageSize());
+		
+		model.addAttribute("boardList_vos", boardList_vos);
+		model.addAttribute("pageVO", pageVO);
+		return "board/boardList";
+	}
 	
+	//뉴스 게시판 작성
 	@RequestMapping(value = "/newsWrite/{category}",method=RequestMethod.GET)
 	public String boardNewsWriteGet(Model model,
 			@PathVariable("category") String strCategory) {
@@ -69,6 +92,26 @@ public class BoardController {
 		model.addAttribute("category_Name", categoryName);
 		return "board/newsBoardWrite";
 	}
+
+	//일반 게시판 작성 >> 인터셉터에 의해 접근권한이 달라 따로 만듬.
+	@RequestMapping(value = "/write/{category}",method=RequestMethod.GET)
+	public String boardwriteGet(Model model,
+			@PathVariable("category") String strCategory) {
+		return "redirect:/unusualapproach";
+	}
+	
+	@RequestMapping(value = "/write/{category}",method=RequestMethod.POST)
+	public String boardwritePost(Model model,
+			@PathVariable("category") String strCategory,HttpSession session) {
+		
+		int category = Integer.parseInt(strCategory);
+		String categoryName = boardService.getCategoryNameByCategory(category);
+		
+		model.addAttribute("category_Name", categoryName);
+		return "board/boardWrite";
+	}
+	
+	
 	
 	//뉴스 게시판 개별글 조회
 	@RequestMapping(value = "/newsRead/{boa_idx}/{category}",method=RequestMethod.GET)
@@ -103,7 +146,7 @@ public class BoardController {
 		int user_m_idx = session.getAttribute("sM_idx")==null?0:(int)session.getAttribute("sM_idx");
 		String RecommendCheck = boardService.getBoardReccomendCheck(boa_idx,user_m_idx); 
 		System.out.println(RecommendCheck);
-		//null값 여부 확인 위해서는 String이 어쩔 수 없이 요구됨...
+		//null값 여부 확인 위해서는 String이 어쩔 수 없이 요구됨...>>다른 방법이 없는지 고민하기
     
 		//댓글 목록 가져오기
 		int blockSize=5;
@@ -127,6 +170,68 @@ public class BoardController {
 		model.addAttribute("replyVOS", replyVOS);
 		model.addAttribute("newsRead_vo", vo);
 		return "board/newsBoardRead";
+	}
+	
+	
+	//일반게시판 게시판 개별글 조회
+	@RequestMapping(value = "/read/{boa_idx}/{category}",method=RequestMethod.GET)
+	public String boardReadGet(Model model,HttpSession session,
+			@PathVariable("boa_idx") int boa_idx,
+			@PathVariable("category") String strCategory,
+			@RequestParam(name="pageSize",defaultValue="5",required=false)int pageSize,
+			@RequestParam(name="repNowPage", defaultValue="1",required=false)int repNowPage,
+			@RequestParam(name="repPageSize",defaultValue="20",required=false)int repPageSize
+			) {
+		JavaProvide provide = new JavaProvide();
+		int category = Integer.parseInt(strCategory);
+		String categoryName = boardService.getCategoryNameByCategory(category);
+		
+		//게시글 정보 가져오기
+		BoardVO vo = boardService.getboardRead(boa_idx);
+		System.out.println(vo);
+		System.out.println("test");
+		vo.setStrLevel(provide.levelToString(vo.getLevel()));
+		
+		//조회수 처리
+		ArrayList<String> contentIdx = (ArrayList<String>)session.getAttribute("sContentIdx");
+		if(contentIdx == null) {
+			contentIdx = new ArrayList<String>();
+		}
+		String tempContentIdx = "board"+boa_idx;
+		if(!contentIdx.contains(tempContentIdx)) {
+			contentIdx.add(tempContentIdx);
+			boardService.setViewCntUp(vo.getBoa_idx());
+		}
+		session.setAttribute("sContentIdx", contentIdx);
+		
+		//추천여부확인
+		int user_m_idx = session.getAttribute("sM_idx")==null?0:(int)session.getAttribute("sM_idx");
+		String RecommendCheck = boardService.getBoardReccomendCheck(boa_idx,user_m_idx); 
+		System.out.println(RecommendCheck);
+		//null값 여부 확인 위해서는 String이 어쩔 수 없이 요구됨...>>다른 방법이 없는지 고민하기
+		
+		//댓글 목록 가져오기
+		int blockSize=5;
+		PageVO repPageVO = page.pageProcessorByBoa_idx("board2_reply", repPageSize, repNowPage, blockSize,boa_idx);
+		List<ReplyVO> replyVOS = boardService.getboardReplyList(boa_idx,repPageVO); 
+		
+		//이전글 다음글 처리
+		List<BoardVO> prevNextContentVOS = boardService.getPrevNextContentbyBoa_idx(vo);
+		
+		//현재 페이지 가져오기
+		int nowPage = page.pageFinderByBoa_idxWithCategory("board2", pageSize, boa_idx, "boa_idx", category);
+		System.out.println(nowPage);
+		
+		System.out.println(prevNextContentVOS);
+		model.addAttribute("nowPage", nowPage);
+		model.addAttribute("rec_check", RecommendCheck);
+		model.addAttribute("prevNextContentVOS", prevNextContentVOS);
+		model.addAttribute("repPageVO", repPageVO);
+		model.addAttribute("categoryName", categoryName);
+		model.addAttribute("category", category);
+		model.addAttribute("replyVOS", replyVOS);
+		model.addAttribute("boardRead_vo", vo);
+		return "board/boardRead";
 	}
 	
 	//글 검색하기
@@ -154,18 +259,6 @@ public class BoardController {
 		return "board/newsBoardSearch";
 	}
 	
-	
-	@RequestMapping(value = "/list/{category}",method=RequestMethod.GET)
-	public String boardListGet(Model model,
-			@PathVariable("category") String strCategory
-			) {
-		int category = Integer.parseInt(strCategory);
-		//게시판 카테고리 처리 어떻게 할건지?
-		String categoryName = boardService.getCategoryNameByCategory(category);
-		model.addAttribute("category_Name", categoryName);
-		return "board/boardList";
-	}
-	
 	//게시글 작성
 	@RequestMapping(value = "/writeInput/{category}",method = RequestMethod.POST)
 	public String boardWriteInputPost(HttpSession session,
@@ -191,7 +284,12 @@ public class BoardController {
 		//내용을 DB에 저장
 		boardService.setBoardWriteInput(vo);
 		
-		return "redirect:/board/news/"+strCategory;
+		if(category>3) {
+			return "redirect:/board/list/"+strCategory;
+		}
+		else {
+			return "redirect:/board/news/"+strCategory;
+		}
 	}
 	
 	//추천하기
@@ -237,7 +335,7 @@ public class BoardController {
 		return 0;
 	};
 	
-	//본문글 수정처리 폼 출력
+	//뉴스글 수정처리 폼 출력
 	@RequestMapping(value = "/newsUpdateForm/{boa_idx}/{category}",method= RequestMethod.POST)
 	public String newsUpdateFormPost(Model model, HttpSession session,
 			@PathVariable("boa_idx") int boa_idx,
@@ -260,6 +358,33 @@ public class BoardController {
 	//주소창을 통한 직접입력 접근 차단 위한 메소드
 	@RequestMapping(value = "/newsUpdateForm/{boa_idx}/{category}",method= RequestMethod.GET)
 	public String newsUpdateFormPost() {
+		return "redirect:/unusualapproach";
+	}
+	
+	
+	//본문글 수정처리 폼 출력
+	@RequestMapping(value = "/updateForm/{boa_idx}/{category}",method= RequestMethod.POST)
+	public String boardUpdateFormPost(Model model, HttpSession session,
+			@PathVariable("boa_idx") int boa_idx,
+			@PathVariable("category") int category
+			) {
+		JavaProvide provide = new JavaProvide();
+		BoardVO updateForm_vo = boardService.getboardUpdateForm(boa_idx);
+		String categoryName = boardService.getCategoryNameByCategory(category);
+		
+		String realPath=session.getServletContext().getRealPath("/resources/data/");
+		provide.contentImageDelete(updateForm_vo.getContent(), realPath,"board/" );
+		updateForm_vo.setContent(updateForm_vo.getContent().replace("/board/","/boardTemp/"));
+		
+		model.addAttribute("categoryName", categoryName);
+		model.addAttribute("category",category);
+		model.addAttribute("updateForm_vo", updateForm_vo);
+		return "board/newsBoardUpdate";
+	}
+	
+	//주소창을 통한 직접입력 접근 차단 위한 메소드
+	@RequestMapping(value = "/updateForm/{boa_idx}/{category}",method= RequestMethod.GET)
+	public String boardUpdateFormPost() {
 		return "redirect:/unusualapproach";
 	}
 	
@@ -293,14 +418,14 @@ public class BoardController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/newsDeleteForm/{boa_idx}/{category}",method = RequestMethod.POST)
+	@RequestMapping(value = "/deleteForm/{boa_idx}/{category}",method = RequestMethod.POST)
 	public String newsDeleteForm(HttpSession session,
 			@PathVariable("boa_idx") int boa_idx,
 			@PathVariable("category") int category,
 			@RequestParam(name="delM_idx",defaultValue="0",required=false)int m_idx
 			) {
 		String res="";
-		int sM_idx = (int)session.getAttribute("sM_idx");
+		int sM_idx = (int)session.getAttribute("sM_idx");//세션에 저장된 정보와 글의 원 작성자가 맞는지 비교
 		
 		if(m_idx!=sM_idx) res="2";
 		else {
@@ -311,7 +436,7 @@ public class BoardController {
 	}
 	
 	//주소창을 통한 직접입력 접근 차단 위한 메소드
-	@RequestMapping(value = "/newsDeleteForm/{boa_idx}/{category}",method= RequestMethod.GET)
+	@RequestMapping(value = "/deleteForm/{boa_idx}/{category}",method= RequestMethod.GET)
 	public String newsDeleteFormGet() {
 		return "redirect:/unusualapproach";
 	}

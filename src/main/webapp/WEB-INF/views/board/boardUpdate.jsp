@@ -13,9 +13,9 @@
 		"use strict";
 		document.title = '${category_Name} 글 쓰기';
 		
-		function newsUpdate(){
-			let title = newsUpateForm.title.value;
-			let content = newsUpateForm.content.value;
+		function boardUpdate(){
+			let title = boardUpateForm.title.value;
+			let content = boardUpateForm.content.value;
 			
 			if(title.trim==""){
 				alert("${category_Name} 제목을 입력해주세요");
@@ -29,7 +29,7 @@
 				return false;
 			}
 			
-			newsUpateForm.submit();
+			upateForm.submit();
 		}
 		
 	</script>
@@ -45,18 +45,10 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-2 text-center"><!-- 사이드바 영역 -->
-			<a href="${ctp}/board/news/2" class="subTitle-dot">
-				<c:if test="${category==2}">새 소식</c:if>
-				<c:if test="${category!=2}"><span class="inactive">새 소식</span></c:if>
-			</a>
-			<hr/>
-			<a href="${ctp}/board/news/1" class="subTitle-dot">
-				<c:if test="${category==1}">공지사항</c:if>
-				<c:if test="${category!=1}"><span class="inactive">공지사항</span></c:if>
-			</a>
+			
 		</div><!-- 사이드바 영역 끝 -->
 		<div class="col-sm-8"><!-- 게시글 작성 영역 -->
-			<form name="newsUpateForm" method="post" action="${ctp}/board/newsUpateSet/${updateForm_vo.boa_idx}/${category}">
+			<form name="boardUpateForm" method="post" action="${ctp}/board/upateSet/${updateForm_vo.boa_idx}/${category}">
 			<div class="row">
 				<div class="col-2 text-center align-self-center">
 				 <span class="mainfont-b-20">글 제목</span>
@@ -76,7 +68,7 @@
 				</div>
 			</div>
 			<div class="col-12 text-center mt-3">
-				<button type="button" onclick="newsUpdate()" class="btn border">수정하기</button>
+				<button type="button" onclick="boardUpdate()" class="btn border">수정하기</button>
 				<button type="button" onclick="location.href='${ctp}/board/read/${updateForm_vo.boa_idx}/${category}'" class="btn border">돌아가기</button>
 			</div>
 			</form>

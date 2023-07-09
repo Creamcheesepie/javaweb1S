@@ -104,7 +104,7 @@
 			$.ajax({
 				type:"post",
 				data:{delM_idx:delM_idx},
-				url:"${ctp}/board/newsDeleteForm/${newsRead_vo.boa_idx}/${category}",
+				url:"${ctp}/board/deleteForm/${newsRead_vo.boa_idx}/${category}",
 				success:function(res){
 					if(res=="1"){
 						alert("게시글 삭제에 성공하였습니다.");
@@ -287,11 +287,14 @@
 						</div>
 					</div>
 					</c:forEach>
+					<c:if test="${empty replyVOS}">
+						현재 작성된 댓글이 없습니다.
+					</c:if>				
 				</div>
 				<div class="col-12">${sNickName}(${sMid})</div>
 				<div class="col-10 mr-0 pr-0">
 					<textarea rows="3" class="form-control" name="replyContent" id="replyContent"></textarea>
-				</div>
+				</div> 	
 				<div class="col-2 ml-0 pl-0">
 					<button type="button" class="btn border form-control" style="height:100%;" onclick="replyUpdate('${newsRead_vo.boa_idx}','${sM_idx}')">댓글달기</button>				
 				</div>

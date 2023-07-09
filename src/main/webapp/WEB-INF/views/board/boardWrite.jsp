@@ -13,9 +13,9 @@
 		"use strict";
 		document.title = '${category_Name} 글 쓰기';
 		
-		function newsUpdate(){
-			let title = newsUpateForm.title.value;
-			let content = newsUpateForm.content.value;
+		function boardWrite(){
+			let title = boardWriteForm.title.value;
+			let content = boardWriteForm.content.value;
 			
 			if(title.trim==""){
 				alert("${category_Name} 제목을 입력해주세요");
@@ -29,7 +29,7 @@
 				return false;
 			}
 			
-			newsUpateForm.submit();
+			boardWriteForm.submit();
 		}
 		
 	</script>
@@ -37,7 +37,7 @@
 <body>
 <jsp:include page="/WEB-INF/views/include/navbar.jsp"/>
 <div class="container">
-	<div class="mainTitle" style="margin-top: 3%">News</div>
+	<div class="mainTitle" style="margin-top: 3%">게시판</div>
 	<div class="row">
 		<div class="col-12">
 			<div class="mainTitle">${category_Name}</div>
@@ -45,27 +45,25 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-2 text-center"><!-- 사이드바 영역 -->
-			<a href="${ctp}/board/news/2" class="subTitle-dot">
-				<c:if test="${category==2}">새 소식</c:if>
-				<c:if test="${category!=2}"><span class="inactive">새 소식</span></c:if>
-			</a>
-			<hr/>
-			<a href="${ctp}/board/news/1" class="subTitle-dot">
-				<c:if test="${category==1}">공지사항</c:if>
-				<c:if test="${category!=1}"><span class="inactive">공지사항</span></c:if>
-			</a>
+			<c:forEach var="category_vo" items="${nav_vos}" varStatus="st">
+				<a href="${ctp}/board/list/${category_vo.category}" class="subTitle-dot">
+					<c:if test="${category==category_vo.category}">${category_vo.name}</c:if>
+					<c:if test="${category!=category_vo.category}"><span class="inactive">${category_vo.name}</span></c:if>
+					<hr/>
+				</a>
+			</c:forEach>	
 		</div><!-- 사이드바 영역 끝 -->
 		<div class="col-sm-8"><!-- 게시글 작성 영역 -->
-			<form name="newsUpateForm" method="post" action="${ctp}/board/newsUpateSet/${updateForm_vo.boa_idx}/${category}">
+			<form name="boardWriteForm" method="post" action="${ctp}/board/writeInput/${category}">
 			<div class="row">
 				<div class="col-2 text-center align-self-center">
 				 <span class="mainfont-b-20">글 제목</span>
 				</div>
 				<div class="col-10">
-					<input type="text" name="title" id="title" placeholder="${category_Name} 제목을 입력해 주세요" value="${updateForm_vo.title}" class="mainfont-m-16 form-control">
+					<input type="text" name="title" id="title" placeholder="${category_Name} 제목을 입력해 주세요" class="mainfont-m-16 form-control">
 				</div>
 				<div class="col-12 mt-3">
-					<textarea rows="6" name="content" id="CKEDITOR" class="form control">"${updateForm_vo.content}"</textarea>
+					<textarea rows="6" name="content" id="CKEDITOR" class="form control"></textarea>
 					<script>
 						CKEDITOR.replace("content",{
 							height:330,
@@ -76,8 +74,8 @@
 				</div>
 			</div>
 			<div class="col-12 text-center mt-3">
-				<button type="button" onclick="newsUpdate()" class="btn border">수정하기</button>
-				<button type="button" onclick="location.href='${ctp}/board/read/${updateForm_vo.boa_idx}/${category}'" class="btn border">돌아가기</button>
+				<button type="button" onclick="boardWrite()" class="btn border">작성하기</button>
+				<button type="button" onclick="" class="btn border">임시저장</button>
 			</div>
 			</form>
 		</div><!-- 게시글 작성 영역 영역 -->
