@@ -35,6 +35,32 @@
 		
 	}
 	
+	function categoryInputCheck(){
+		let ans = confirm("정말로 추가하시겠습니까? 많은 게시판의 난립은 사용자에게 혼란을 줄 수 있으니 신중하게 추가하여 주십시오.");
+		if(!ans)return false;
+		
+		let categoryName = $("#categoryNameInput").val();
+		
+		$.ajax({
+			type:"post",
+			url:"${ctp}/admin/categoryInput",
+			data:{categoryName:categoryName},
+			success:function(res){
+				if(res==1){
+					alert("카테고리 추가에 성공하였습니다.");
+					location.reload
+				}
+				else{
+					alert("오류가 발생하여 카테고리 추가에 실패하였습니다.");
+				}
+			},
+			error:function(){
+				alert("전송오류가 발생하였습니다. 같은 현상이 반복된다면 관리자에게 연락해주십시오.")
+			}
+		})
+		
+	}
+	
 	</script>
 </head>
 <body>
@@ -60,9 +86,32 @@
 		</div>
 	</div>
 	</c:forEach>
-
 </div>
 <hr>
+<div class="subTitle">게시판 카테고리 관리</div>
+<div class="mainfont-b-16">현재 커뮤니티에 존재하는 게시판 카테고리를 관리합니다. 카테고리는 최대 100개까지 추가가 가능합니다. 사용자를 고려해 신중히 게시판 카테고리를 수정/추가해 주십시오.<hr></div>
+<div class="row">
+	<div class="col-12 mainfont-b-16">카테고리 추가</div>
+	<div class="col-4 mb-2">
+		<div class="input-group">
+			<input type="text" name="categoryNameInput" id="categoryNameInput" class="form-control">
+			<div class="input-group-append">
+				<button type="button" class="btn border" onclick="categoryInputCheck()">추가하기</button> 
+			</div>
+		</div>
+	</div>
+	<div class="col-12 p0 m0"></div>
+	<c:forEach var="category_vo" items="${category_vos}" varStatus="st">
+	<div class="col-2">
+		<div class="input-group">
+			<input type="text" name="categoryNameUpdate${st.count}" id="categoryNameUpdate${st.count}" value="${category_vo.name}" class="form-control">
+			<div class="input-group-append">
+				<button type="button" class="btn border">변경하기</button> 
+			</div>
+		</div>
+	</div>
+	</c:forEach>
+</div>
 
 </div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp"/>	

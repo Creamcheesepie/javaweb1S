@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.javaweb1S.service.AdminService;
+import com.spring.javaweb1S.vo.CategoryVO;
 import com.spring.javaweb1S.vo.PointVO;
 
 @Controller
@@ -42,7 +43,11 @@ public class AdminController {
 		if(level<2) {
 			List<PointVO> point_vos= adminService.getPointList();
 			
+			List<CategoryVO> category_vos = adminService.getcategoryList();
+			
+			
 			model.addAttribute("point_vos", point_vos);
+			model.addAttribute("category_vos", category_vos);
 			return "admin/ruleUpdateForm";
 		}
 		else return "redirect:/unusualapproach";
@@ -69,6 +74,20 @@ public class AdminController {
 		 int res = adminService.setPointSetterUpdate(vo);
 		
 		return res	;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/categoryInput", method=RequestMethod.POST)
+	public int adminCategryInput(
+			@RequestParam(name="categoryName",defaultValue="",required=false) String categoryName
+			) {
+		System.out.println(categoryName);
+		int res = 0;
+		if(!categoryName.equals("")) {
+			res = adminService.setCategoryInput(categoryName);
+		}
+		
+		return res;
 	}
 	
 	

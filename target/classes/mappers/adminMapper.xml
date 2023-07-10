@@ -6,9 +6,19 @@
 		select * from pointsetter;
 	</select>
 	
+	<select id="getcategoryList" resultType="com.spring.javaweb1S.vo.CategoryVO">
+		select * from board2_category where <![CDATA[category>2]]> and <![CDATA[category<102]]>;
+	</select>
+	
+	<select id="getMaxcategory" resultType="int">
+		select Max(category) from board2_category where <![CDATA[category>2]]> and <![CDATA[category<102]]>;
+	</select>
 	
 	
 	
+	<insert id="setCategoryInput">
+		insert board2_category values(#{maxCategory},#{categoryName},default,null,default);
+	</insert>
 	
 	
 	<update id="setPointSetterUpdate">
