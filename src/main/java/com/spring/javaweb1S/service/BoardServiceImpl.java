@@ -40,6 +40,8 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void setBoardWriteInput(BoardVO vo) {
+		
+		
 		boardDAO.setBoardWriteInput(vo);
 	}
 
@@ -123,6 +125,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void setBoardDeleteUpdate(int boa_idx) {
 		boardDAO.setBoardDeleteUpdate(boa_idx);
+	}
+
+	@Override
+	public List<BoardVO> getNewBoardList() {
+		return boardDAO.getNewBoardList();
 	}
 
 

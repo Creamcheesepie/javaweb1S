@@ -102,28 +102,14 @@
 		&nbsp;신규 글</h3>
 		<hr/>
 		<div class="row">
-				<div class="col-2">항목</div>
-				<div class="col-10">제목</div>
-				<div class="col-2">항목</div>
-				<div class="col-10">제목</div>
-				<div class="col-2">항목</div>
-				<div class="col-10">제목</div>
-				<div class="col-2">항목</div>
-				<div class="col-10">제목</div>
-				<div class="col-2">항목</div>
-				<div class="col-10">제목</div>
-				<div class="col-2">항목</div>
-				<div class="col-10">제목</div>
-				<div class="col-2">항목</div>
-				<div class="col-10">제목</div>
-				<div class="col-2">항목</div>
-				<div class="col-10">제목</div>
-				<div class="col-2">항목</div>
-				<div class="col-10">제목</div>
-				<div class="col-2">항목</div>
-				<div class="col-10">제목</div>
-				<div class="col-2">항목</div>
-				<div class="col-10">제목</div>
+			<div class="col-12 p0 m0">
+				<div class="row">
+				<c:forEach var="boardNew_vo" items="${boardList_vo}" varStatus="st">
+					<div class="col-2 mainfont-m-16 text-center">${boardNew_vo.categoryName}</div>
+					<div class="col-10 mainfont-m-16">${boardNew_vo.title}</div>
+				</c:forEach>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="col-sm-6">

@@ -44,6 +44,8 @@ public interface BoardService {
 
 	public void setBoardDeleteUpdate(int boa_idx);
 
+	public List<BoardVO> getNewBoardList();
+
 	
 
 

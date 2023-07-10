@@ -175,7 +175,7 @@
 					<c:if test="${sM_idx==boardRead_vo.m_idx}">
 						<button type="button" class="btn border" onclick="boardUpdateForm.submit()">수정하기</button>
 						<button type="button" class="btn border" onclick="boardDelete()">삭제하기</button>
-						<form name="newsUpdateForm" method="post" action="${ctp}/board/updateForm/${boardRead_vo.boa_idx}/${category}"></form>
+						<form name="boardUpdateForm" method="post" action="${ctp}/board/updateForm/${boardRead_vo.boa_idx}/${category}"></form>
 					</c:if>
 				</div>
 				<div class="col-12"><hr/></div>

@@ -103,9 +103,10 @@ public class BoardController {
 	@RequestMapping(value = "/write/{category}",method=RequestMethod.POST)
 	public String boardwritePost(Model model,
 			@PathVariable("category") String strCategory,HttpSession session) {
-		
 		int category = Integer.parseInt(strCategory);
 		String categoryName = boardService.getCategoryNameByCategory(category);
+		
+		
 		
 		model.addAttribute("category_Name", categoryName);
 		return "board/boardWrite";
@@ -234,7 +235,7 @@ public class BoardController {
 		return "board/boardRead";
 	}
 	
-	//글 검색하기
+	//뉴스 검색하기
 	@RequestMapping(value = "/news/{category}/search", method=RequestMethod.GET)
 	public String boardNewsSearchGet(Model model,
 			@PathVariable("category") int category,
@@ -257,6 +258,31 @@ public class BoardController {
 		model.addAttribute("pageVO",pageVO);
 		model.addAttribute("newsList_vos", search_vos);
 		return "board/newsBoardSearch";
+	}
+	
+	//게시판 검색하기
+	@RequestMapping(value = "/list/{category}/search", method=RequestMethod.GET)
+	public String boardSearchGet(Model model,
+			@PathVariable("category") int category,
+			@RequestParam(name="searchStr",defaultValue="",required=false)String searchStr,
+			@RequestParam(name="searchOption",defaultValue="",required=false) String searchOption,
+			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
+			@RequestParam(name="pageSize",defaultValue="20",required=false)int pageSize
+			) {
+		int blockSize = 5; 
+		PageVO pageVO = page.pageProcessorBoardSeach(searchStr,searchOption,nowPage, pageSize, blockSize, category);
+		String categoryName = boardService.getCategoryNameByCategory(category);
+		List<BoardVO> search_vos = boardService.getCategorySearchList(searchStr,searchOption,category,pageVO.getSin(),pageVO.getPageSize());
+		
+		JavaProvide provide  = new JavaProvide();
+		searchOption = provide.searchOptionToKorean(searchOption);
+		
+		model.addAttribute("searchOption",searchOption);
+		model.addAttribute("searchStr", searchStr);
+		model.addAttribute("category_Name", categoryName);
+		model.addAttribute("pageVO",pageVO);
+		model.addAttribute("boardList_vos", search_vos);
+		return "board/boardSearch";
 	}
 	
 	//게시글 작성
@@ -284,7 +310,7 @@ public class BoardController {
 		//내용을 DB에 저장
 		boardService.setBoardWriteInput(vo);
 		
-		if(category>3) {
+		if(category>2) {
 			return "redirect:/board/list/"+strCategory;
 		}
 		else {
@@ -379,7 +405,7 @@ public class BoardController {
 		model.addAttribute("categoryName", categoryName);
 		model.addAttribute("category",category);
 		model.addAttribute("updateForm_vo", updateForm_vo);
-		return "board/newsBoardUpdate";
+		return "board/boardUpdate";
 	}
 	
 	//주소창을 통한 직접입력 접근 차단 위한 메소드
@@ -415,6 +441,35 @@ public class BoardController {
 		boardService.setBoardUpdateInput(vo);
 		
 		return "redirect:/board/newsRead/"+boa_idx+"/"+category+"/";
+	}
+	
+	//수정한 글을 DB에 반영하기
+	@RequestMapping(value = "/upateSet/{boa_idx}/{category}")
+	public String boardUpdateSet(HttpSession session,
+			@PathVariable("boa_idx") int boa_idx,
+			@PathVariable("category") int category,
+			@RequestParam(name="title",defaultValue="",required=false) String title,
+			@RequestParam(name="content",defaultValue="",required=false) String content
+			) {
+		int m_idx = (int)session.getAttribute("sM_idx");
+		
+		JavaProvide provide = new JavaProvide();
+		String realPath=session.getServletContext().getRealPath("/resources/data/");
+		//임시폴더에 저장된 이미지를 본 폴더에 저장
+		provide.imageCheckCopy(content,realPath , "boardTemp/");
+		//content 안의 경로를 본 폴더로 수정
+		content = content.replace("/boardTemp/","/board/");
+		
+		BoardVO vo = new BoardVO();
+		vo.setBoa_idx(boa_idx);
+		vo.setM_idx(m_idx);
+		vo.setTitle(title);
+		vo.setContent(content);
+		vo.setCategory(category);
+		//내용을 DB에 저장
+		boardService.setBoardUpdateInput(vo);
+		
+		return "redirect:/board/read/"+boa_idx+"/"+category+"/";
 	}
 	
 	@ResponseBody

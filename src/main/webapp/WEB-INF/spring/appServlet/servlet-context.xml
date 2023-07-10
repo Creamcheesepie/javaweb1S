@@ -57,6 +57,7 @@
   		<beans:ref bean="navbarSetterInterceptor"/>
   	</interceptor>
   	<interceptor>
+  		<mapping path="/admin/**"/>
   		<mapping path="/board/newsUpdateForm/**"/>
   		<mapping path="/board/newsWrite/**"/>
   		<beans:ref bean="adminInterceptor"/>

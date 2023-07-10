@@ -53,4 +53,6 @@ public interface BoardDAO {
 
 	public void setBoardDeleteUpdate(@Param("boa_idx") int boa_idx);
 
+	public List<BoardVO> getNewBoardList();
+
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.javaweb1S.dao.AdminDAO">
+	<select id="getPointList" resultType="com.spring.javaweb1S.vo.PointVO">
+		select * from pointsetter;
+	</select>
+	
+	
+	
+	
+	
+	
+	<update id="setPointSetterUpdate">
+	 update pointSetter set point = #{vo.point}, cdate = now(), c_reason = #{vo.c_reason} where part = #{vo.part};
+	</update>
+
+</mapper>

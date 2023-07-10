@@ -29,7 +29,7 @@
 				return false;
 			}
 			
-			upateForm.submit();
+			boardUpateForm.submit();
 		}
 		
 	</script>
@@ -45,7 +45,13 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-2 text-center"><!-- 사이드바 영역 -->
-			
+			<c:forEach var="category_vo" items="${nav_vos}" varStatus="st">
+				<a href="${ctp}/board/list/${category_vo.category}" class="subTitle-dot">
+					<c:if test="${category==category_vo.category}">${category_vo.name}</c:if>
+					<c:if test="${category!=category_vo.category}"><span class="inactive">${category_vo.name}</span></c:if>
+					<hr/>
+				</a>
+			</c:forEach>
 		</div><!-- 사이드바 영역 끝 -->
 		<div class="col-sm-8"><!-- 게시글 작성 영역 -->
 			<form name="boardUpateForm" method="post" action="${ctp}/board/upateSet/${updateForm_vo.boa_idx}/${category}">
@@ -57,7 +63,7 @@
 					<input type="text" name="title" id="title" placeholder="${category_Name} 제목을 입력해 주세요" value="${updateForm_vo.title}" class="mainfont-m-16 form-control">
 				</div>
 				<div class="col-12 mt-3">
-					<textarea rows="6" name="content" id="CKEDITOR" class="form control">"${updateForm_vo.content}"</textarea>
+					<textarea rows="6" name="content" id="CKEDITOR" class="form control">${updateForm_vo.content}</textarea>
 					<script>
 						CKEDITOR.replace("content",{
 							height:330,

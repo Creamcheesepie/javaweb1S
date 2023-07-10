@@ -6,4 +6,6 @@ public interface PointDAO {
 
 	public int getPoint(@Param("part") int part);
 
+	
+
 }

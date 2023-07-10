@@ -1,40 +1,60 @@
 package com.spring.javaweb1S;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.javaweb1S.service.BoardService;
+import com.spring.javaweb1S.vo.BoardVO;
+
 @Controller
 public class HomeController {
-	
+	@Autowired
+	BoardService boardService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
+		List<BoardVO> boardList_vos = boardService.getNewBoardList();
 		
+		model.addAttribute("boardList_vo", boardList_vos);
 		return "home";
 	}
 	
 	@RequestMapping(value="/unusualapproach", method = RequestMethod.GET)
 	public String usualApproachGet() {
 		return "unusualApproach";
+	}
+	
+	@RequestMapping(value="/badUser", method = RequestMethod.GET)
+	public String badUserGet(HttpSession session) {
+		session.invalidate();
+		return "badUser";
+	}
+	
+	@RequestMapping(value="/banUser", method = RequestMethod.GET)
+	public String banUserGet(HttpSession session) {
+		session.invalidate();
+		return "banUser";
 	}
 	
 	

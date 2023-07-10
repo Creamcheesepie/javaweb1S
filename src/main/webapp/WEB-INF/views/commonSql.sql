@@ -8,6 +8,12 @@ create table pointSetter(
 
 desc pointSetter
 insert into pointSetter values (1,'loginPoint',10,null,null);
+insert into pointSetter values (3,'게시글작성',10,null,null);
+insert into pointSetter values (2,'attendanceWrite',40,null,null);
+insert into pointSetter values (4,'댓글 작성',5,null,null);
+insert into pointSetter values (2,'attendanceWrite',40,null,null);
+insert into pointSetter values (2,'attendanceWrite',40,null,null);
+insert into pointSetter values (2,'attendanceWrite',40,null,null);
 insert into pointSetter values (2,'attendanceWrite',40,null,null);
 select point from pointSetter where part = 1; 
 

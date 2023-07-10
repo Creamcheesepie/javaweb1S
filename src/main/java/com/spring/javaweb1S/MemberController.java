@@ -52,6 +52,11 @@ public class MemberController {
 			return "member/login";
 		}
 		else { //세션에 로그인 후 필요한 정보를 저장
+			//임시정지 대상과 정지대상 회원은 session에 정보를 저장하지 않고 내보냄.
+			if(vo.getLevel() == 5) return "redirect:/badUser";
+			if(vo.getLevel() == 6) return "redirect:/banUser";
+		
+			
 			LevelToString levelToString = new LevelToString();
 			String strLevel = levelToString.levelToString(vo.getLevel());
 			

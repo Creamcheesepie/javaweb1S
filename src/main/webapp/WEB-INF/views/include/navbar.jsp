@@ -49,7 +49,11 @@
   background-color: #3e8e41;
 }
 </style>
-
+<script>
+	function adminHomePost(){
+		adminHome.submit();
+	}
+</script>
 
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark M-0 P-0">
@@ -78,7 +82,7 @@
 </div>
 <ul class="navbar-nav">
   <li class="nav-item">
-    <a class="nav-link" href="#">galary</a>
+    <a class="nav-link" href="#">gallary</a>
   </li>
   <c:if test="${sLogin =='ok'}">
   <li class="nav-item">
@@ -87,6 +91,12 @@
   <li class="nav-item">
     <a class="nav-link" href="${ctp}/member/logout">로그아웃</a>
   </li>
+  <c:if test="${sLevel<2}">
+	  <li class="nav-item">
+		    <a class="nav-link" href="javascript:adminHomePost()">관리자 페이지</a>
+	  </li>
   </c:if>
-</ul>	
+  </c:if>
+</ul>
 </nav>
+<form name="adminHome" method="post" action="${ctp}/admin/home" style="display:none"></form>
