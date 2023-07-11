@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.javaweb1S.dao.OffenderListDAO">
+	<select id="getOffenderArray" resultType="int">
+		select m_idx from offenderList where cdate between now() and #{cdate};
+	</select>
+	
+	<select id="getOffendInfoByM_idx" resultType="com.spring.javaweb1S.vo.OffendListVO">
+		select O.*,M.nickName,R.ruleName from offenderList O,member2 M, ruleSetter R  where M.m_idx=O.m_idx and R.rule_idx=O.Rule_idx and O.m_idx = #{m_idx} and O.rule_idx = #{rule_idx} and O.cdate between now() and #{cdate};
+	</select>
+	
+	<insert id="setOffenderUser">
+		insert into offenderList values(default, #{m_idx},now(), #{cdate},#{vo.rule_idx});
+	</insert>
+	
+</mapper>

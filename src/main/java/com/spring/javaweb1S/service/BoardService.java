@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.CategoryVO;
+import com.spring.javaweb1S.vo.OffendListVO;
 import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.ReplyVO;
 
@@ -45,6 +46,12 @@ public interface BoardService {
 	public void setBoardDeleteUpdate(int boa_idx);
 
 	public List<BoardVO> getNewBoardList();
+
+	public boolean getboardWriteAbused(int m_idx);
+
+	public OffendListVO getBoardAbuseInfo(int rule_idx, int m_idx);
+
+
 
 	
 

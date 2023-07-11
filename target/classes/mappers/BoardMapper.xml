@@ -62,6 +62,11 @@
 		select B.title,B.boa_idx,C.category,C.name as categoryName from board2 B, board2_category C  where B.category = C.category and <![CDATA[B.category>2]]> and <![CDATA[B.category<100]]> and B.ddate is null order by B.boa_idx desc limit 10;
 	</select>
 	
+	<select id="getBoardCntByIdxWithLimitTime" resultType="int">
+		select count(boa_idx) from board2 where m_idx = #{m_idx} and wdate between #{limitTime} and now();
+	</select>
+	
+	
 	
 	<insert id="setBoardWriteInput">
 		insert into board2 values(default, #{vo.m_idx},#{vo.title},#{vo.content},default,default,default,null,null,#{vo.category});

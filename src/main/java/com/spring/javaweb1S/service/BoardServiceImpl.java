@@ -1,22 +1,36 @@
 package com.spring.javaweb1S.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.codehaus.jackson.io.SerializedString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.javaweb1S.common.JavaProvide;
 import com.spring.javaweb1S.dao.BoardDAO;
+import com.spring.javaweb1S.dao.OffenderListDAO;
+import com.spring.javaweb1S.dao.RuleSetterDAO;
 import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.CategoryVO;
+import com.spring.javaweb1S.vo.OffendListVO;
 import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.ReplyVO;
+import com.spring.javaweb1S.vo.RuleSetterVO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
 	@Autowired
 	BoardDAO boardDAO;
+	
+	@Autowired
+	RuleSetterDAO ruleSetterDAO;
+	
+	@Autowired
+	OffenderListDAO offenderListDAO;
 
 	@Override
 	public int getCategoryByName(String categoryName) {
@@ -131,6 +145,40 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardVO> getNewBoardList() {
 		return boardDAO.getNewBoardList();
 	}
+
+	@Override
+	public boolean getboardWriteAbused(int m_idx) {
+		boolean abuseSw = false;
+		JavaProvide javaProvide = new JavaProvide();
+		RuleSetterVO BoardAbuseRuleVO = ruleSetterDAO.getRuleByRule_idx(2);
+		
+		String cdate = javaProvide.nowTimePlusInputTime(BoardAbuseRuleVO.getPenaltyTime());
+		
+		int[] offenderArray = offenderListDAO.getOffenderArray(cdate);
+		for(int i : offenderArray) {
+			if(i == m_idx) return true;
+		}
+		
+		String limitTime = javaProvide.nowTimeMinusInputTime(BoardAbuseRuleVO.getLimitTime());
+		int boardCnt = boardDAO.getBoardCntByIdxWithLimitTime(m_idx,limitTime);
+		
+		if (boardCnt>BoardAbuseRuleVO.getActionLimit()) {
+			offenderListDAO.setOffenderUser(m_idx,BoardAbuseRuleVO,cdate);
+			abuseSw = true;
+		}
+		System.out.println(boardCnt);
+		return abuseSw;
+	}
+
+	@Override
+	public OffendListVO getBoardAbuseInfo(int rule_idx, int m_idx) {
+		JavaProvide javaProvide = new JavaProvide();
+		RuleSetterVO BoardAbuseRuleVO = ruleSetterDAO.getRuleByRule_idx(rule_idx);
+		String cdate = javaProvide.nowTimePlusInputTime(BoardAbuseRuleVO.getPenaltyTime());
+		return offenderListDAO.getOffendInfoByM_idx(cdate,m_idx,rule_idx);
+	}
+
+	
 
 
 

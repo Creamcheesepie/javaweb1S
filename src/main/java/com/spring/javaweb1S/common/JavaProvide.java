@@ -5,6 +5,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import org.apache.ibatis.transaction.Transaction;
 
 public class JavaProvide {
 	public String splitArrMakeOneString(String originalString, String spliter) {
@@ -108,6 +114,49 @@ public class JavaProvide {
 		else if (searchOption.equals("nickName")) searchOption = "닉네임";
 		else if (searchOption.equals("mid")) searchOption = "아이디";
 		return searchOption;
+	}
+	
+	
+	public String	nowTimeMinusInputTime(String InputTime) {
+		String outputTime = "";
+		try {
+			Date nowTime = new Date();
+			SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date limitTime = timeFormat.parse(InputTime);
+			Calendar calNowTime = Calendar.getInstance();
+			Calendar calLimitTime = Calendar.getInstance();
+			calNowTime.setTime(nowTime);
+			calLimitTime.setTime(limitTime);
+			System.out.println(calNowTime.get(Calendar.HOUR_OF_DAY));
+			calNowTime.add(Calendar.HOUR_OF_DAY, -calLimitTime.get(Calendar.HOUR_OF_DAY));
+			calNowTime.add(Calendar.MINUTE, -calLimitTime.get(Calendar.MINUTE));
+			outputTime = timeFormat.format(calNowTime.getTime());
+			System.out.println(outputTime);
+		} catch (ParseException e) {
+			System.out.println("파싱 예외 : " + e.getMessage());
+		}
+		return outputTime;
+	}
+	
+	
+	public String	nowTimePlusInputTime(String InputTime) {
+		String outputTime = "";
+		try {
+			Date nowTime = new Date();
+			SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date limitTime = timeFormat.parse(InputTime);
+			Calendar calNowTime = Calendar.getInstance();
+			Calendar calLimitTime = Calendar.getInstance();
+			calNowTime.setTime(nowTime);
+			calLimitTime.setTime(limitTime);
+			calNowTime.add(Calendar.HOUR_OF_DAY, calLimitTime.get(Calendar.HOUR_OF_DAY));
+			calNowTime.add(Calendar.MINUTE, calLimitTime.get(Calendar.MINUTE));
+			outputTime = timeFormat.format(calNowTime.getTime());
+			System.out.println(outputTime);
+		} catch (ParseException e) {
+			System.out.println("파싱 예외 : " + e.getMessage());
+		}
+		return outputTime;
 	}
 	
 }

@@ -1,4 +1,4 @@
-show tables
+fshow tables
 
 create table member2(
 	m_idx 			int 					not null primary key auto_increment,

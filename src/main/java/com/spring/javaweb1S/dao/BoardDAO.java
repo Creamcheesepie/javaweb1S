@@ -55,4 +55,8 @@ public interface BoardDAO {
 
 	public List<BoardVO> getNewBoardList();
 
+	public int getBoardCntByIdxWithLimitTime(@Param("m_idx") int m_idx,@Param("limitTime") String limitTime);
+
+	
+
 }

@@ -123,7 +123,15 @@
 			아직 구현되지 않은 기능입니다.
 		</div>
 		<div class="col-sm-4 list">
-			<span class="mainfont-b-20">최근쪽지</span>
+			<div class="row">
+				<div class="col-7">
+					<span class="mainfont-b-20">최근쪽지</span>
+				</div>
+				<div class="col-5 text-right align-self-end">
+					<span class="material-symbols-outlined">mail</span>
+					<a href="${ctp}/message/home">쪽지함</a>
+				</div>
+			</div>
 			<hr/>
 			아직 구현되지 않은 기능입니다.
 		</div>

@@ -17,12 +17,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaweb1S.service.BoardService;
 import com.spring.javaweb1S.vo.BoardVO;
+import com.spring.javaweb1S.vo.OffendListVO;
+import com.spring.javaweb1S.vo.RuleSetterVO;
 
 @Controller
 public class HomeController {
@@ -55,6 +58,18 @@ public class HomeController {
 	public String banUserGet(HttpSession session) {
 		session.invalidate();
 		return "banUser";
+	}
+	
+	@RequestMapping(value="/boardAbuseUser/{rule_idx}", method = RequestMethod.GET)
+	public String boardAbuseUserGet(HttpSession session,Model model,
+			@PathVariable("rule_idx") int rule_idx
+			) {
+		int m_idx = (int)session.getAttribute("sM_idx");
+		OffendListVO offendvo = boardService.getBoardAbuseInfo(rule_idx,m_idx);
+		
+		model.addAttribute("offendvo", offendvo);
+		if(offendvo == null)return "redirect:/";
+		return "boardAbuseUser";
 	}
 	
 	

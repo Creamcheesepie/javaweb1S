@@ -49,6 +49,7 @@ public class MemberController {
 			) {
 		MemberVO vo = memberService.getLogin(mid,pwd);
 		if(vo==null) {
+			model.addAttribute("loginFail", "로그인 실패! 아이디 또는 비밀번호를 확인해 주세요.");
 			return "member/login";
 		}
 		else { //세션에 로그인 후 필요한 정보를 저장

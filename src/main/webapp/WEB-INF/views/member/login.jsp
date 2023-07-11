@@ -58,11 +58,12 @@
 	</script>
 </head>
 	<div class="bigTitle text-center" style="margin-top:11%;"><a href="${ctp}/">메인으로</a></div>
-	<div class="container" style="border-radius:22px; border:1px; border-style:solid; border-color:lightgray; height:310px;margin-top:2%; width:400px;padding:11px;" >
+	<div class="container" style="border-radius:22px; border:1px; border-style:solid; border-color:lightgray;margin-top:2%; width:400px;padding:11px;" >
 		<form name="loginform" method="post">
 		<div class="row">
 			<div class="col-12">
 				<span class="loginTitle">로그인</span>
+				<c:if test="${!empty loginFail}"><br><span class="fontdot-12 red" style="color: red;">${loginFail}</span></c:if>
 				<hr style="margin: 7px 0px 7px 0px"/>
 			</div>
 			<div class="col-7"><span class="loginSubTitle">아이디</span></div><div class="col-5"><span></span></div>

@@ -106,7 +106,10 @@ public class BoardController {
 		int category = Integer.parseInt(strCategory);
 		String categoryName = boardService.getCategoryNameByCategory(category);
 		
+		int m_idx = (int)session.getAttribute("sM_idx");
 		
+		boolean abuseSw = boardService.getboardWriteAbused(m_idx);
+		if(abuseSw)return "redirect:/boardAbuseUser/2";
 		
 		model.addAttribute("category_Name", categoryName);
 		return "board/boardWrite";
