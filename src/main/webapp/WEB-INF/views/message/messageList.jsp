@@ -34,7 +34,7 @@
 <body>
 <jsp:include page="/WEB-INF/views/include/navbar.jsp"/>
 <div class="container myPage-container">
-<div class="mainfont-b-28">쪽지함</div>
+<div class="mainfont-b-28"><span class="material-symbols-outlined">mail</span>쪽지함</div>
 <hr>
 <div class="row">
 	<div class="col-2 text-center">
@@ -52,7 +52,19 @@
 	</div>
 	</div>
 	<div class="col-10">
-		
+		<span class="mainfont-b-18">최근쪽지</span>
+		<hr>
+		<div class="row">
+			<div class="col-1 text-center">분류</div>
+			<div class="col-5">제목</div>
+			<div class="col-2 text-center">수신인</div>
+			<div class="col-2 text-center">송신인</div>
+			<div class="col-2 text-center">시간</div>
+			<div class="col-12"><hr></div>
+			<c:forEach var="" items="" varStatus="st">
+			
+			</c:forEach>
+		</div>
 	</div>
 </div>
 </div>
