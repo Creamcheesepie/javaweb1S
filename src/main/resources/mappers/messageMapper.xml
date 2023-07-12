@@ -58,8 +58,52 @@
 		select msg_category, name as category_name from message2_category;
 	</select>
 	
+	<select id="getMessageSendList" resultType="com.spring.javaweb1S.vo.MessageVO">
+		select 
+			A.msg_idx,
+			A.title,
+			A.sdate,
+			A.readSw,
+			B.nickName,
+			C.name as category_name
+		from
+			message2 A, member2 B, message2_category C
+		where
+			A.receive_m_idx = B.m_idx
+			and
+			A.m_idx = ${m_idx}
+			and
+			A.msg_category = C.msg_category
+		order by msg_idx desc
+		limit ${vo.sin}, ${vo.pageSize};
+	</select>
+	
+	<select id="getMessageReceiveList" resultType="com.spring.javaweb1S.vo.MessageVO">
+		select 
+			A.msg_idx,
+			A.title,
+			A.sdate,
+			A.readSw,
+			B.nickName,
+			C.name as category_name
+		from
+			message2 A, member2 B, message2_category C
+		where
+			A.m_idx = B.m_idx
+			and
+			A.receive_m_idx = ${m_idx}
+			and
+			A.msg_category = C.msg_category
+		order by msg_idx desc
+		limit ${vo.sin}, ${vo.pageSize};
+	</select>
+	
+	
+	
+
 	<insert id="setSendMessage">
 		insert into message2 values(default,#{vo.m_idx},#{vo.receive_m_idx},#{vo.title},#{vo.content},default,null,null,#{vo.msg_category},null); 
 	</insert>
+	
 
 </mapper>

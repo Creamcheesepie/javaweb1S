@@ -18,4 +18,8 @@ public interface PageDAO {
 
 	public int getTRCByAllMessage(@Param("m_idx")int m_idx);
 
+	public int getTRCByM_idx(@Param("tableName") String tableName, @Param("m_idx") int m_idx);
+
+	public int getTRCByReceiveM_idx(@Param("m_idx") int m_idx);
+
 }

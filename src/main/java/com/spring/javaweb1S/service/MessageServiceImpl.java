@@ -44,6 +44,16 @@ public class MessageServiceImpl implements MessageService {
 	public void setSendMessage(MessageVO msg_vo) {
 		messageDAO.setSendMessage(msg_vo);
 	}
+
+	@Override
+	public List<MessageVO> getMessageSendList(int m_idx, PageVO pageVO) {
+		return messageDAO.getMessageSendList(m_idx,pageVO);
+	}
+
+	@Override
+	public List<MessageVO> getMessageReceiveList(int m_idx, PageVO pageVO) {
+		return messageDAO.getMessageReceiveList(m_idx,pageVO);
+	}
 	
 	
 }

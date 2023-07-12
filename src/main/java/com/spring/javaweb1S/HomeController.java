@@ -25,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.spring.javaweb1S.service.BoardService;
 import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.OffendListVO;
-import com.spring.javaweb1S.vo.RuleSetterVO;
 
 @Controller
 public class HomeController {

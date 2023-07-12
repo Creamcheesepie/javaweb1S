@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.spring.javaweb1S.dao.PageDAO">
+
 	<select id="getTRC" resultType="int">
 		select count(*) from ${tableName};
 	</select>
@@ -33,6 +34,14 @@
 	
 	<select id="getTRCByAllMessage" resultType="int">
 		select count(msg_idx) from message2 where m_idx = #{m_idx} or receive_m_idx = #{m_idx};
+	</select>
+	
+	<select id="getTRCByM_idx" resultType="int">
+		select count(*) from ${tableName} where m_idx = #{m_idx};
+	</select>
+	
+	<select id="getTRCByReceiveM_idx" resultType="int">
+		select count(msg_idx) from message2 where receive_m_idx = #{m_idx};
 	</select>
 	
 </mapper>

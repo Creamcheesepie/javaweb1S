@@ -94,4 +94,37 @@ public class MessageController {
 		return "message/messageWriteWindow";
 	}
 	
+	@RequestMapping(value = "/sendList", method=RequestMethod.GET)
+	public String messageSendList(Model model, HttpSession session,
+			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
+			@RequestParam(name="pageSize",defaultValue="15",required=false)int pageSize
+			) {
+		int blockSize=5;
+		int m_idx = (int)session.getAttribute("sM_idx");
+		
+		PageVO pageVO = pageProcess.pageProcesserByM_idx("message2", nowPage, pageSize,blockSize,m_idx);
+		List<MessageVO> message_vos = messageService.getMessageSendList(m_idx, pageVO);
+		
+		model.addAttribute("message_vos", message_vos);
+		model.addAttribute("pageVO", pageVO);
+		return "message/messageSendList";
+	}
+	
+	@RequestMapping(value = "/receiveList", method=RequestMethod.GET)
+	public String messageReceiveList(Model model, HttpSession session,
+			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
+			@RequestParam(name="pageSize",defaultValue="15",required=false)int pageSize
+			) {
+		int blockSize=5;
+		int m_idx = (int)session.getAttribute("sM_idx");
+		
+		PageVO pageVO = pageProcess.pageProcesserByM_idxReceive(nowPage, pageSize,blockSize,m_idx);
+		List<MessageVO> message_vos = messageService.getMessageReceiveList(m_idx, pageVO);
+		
+		model.addAttribute("message_vos", message_vos);
+		model.addAttribute("pageVO", pageVO);
+		return "message/messageReceiveList";
+	}
+	
+	
 }

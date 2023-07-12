@@ -113,6 +113,38 @@ public class PageProcessImpl implements PageProcess {
 		return vo;
 	}
 
+	@Override
+	public PageVO pageProcesserByM_idx(String tableName, int nowPage, int pageSize, int blockSize, int m_idx) {
+		PageVO vo = new PageVO();
+		vo.setNowPage(nowPage);
+		vo.setPageSize(pageSize);
+		vo.setTRC(pageDAO.getTRCByM_idx(tableName,m_idx));
+		int totalPage =(vo.getTRC()%pageSize)==0?(vo.getTRC()/pageSize) : (vo.getTRC()/pageSize)+1;
+		vo.setTotalPage(totalPage);
+		vo.setSin((nowPage-1)*pageSize);
+		vo.setCssn(vo.getTRC()-vo.getSin());
+		vo.setBlockSize(blockSize);
+		vo.setCurBlock((vo.getNowPage()-1)/vo.getBlockSize());
+		vo.setLastBlock((vo.getTRC()-1)/vo.getBlockSize());
+		return vo;
+	}
+
+	@Override
+	public PageVO pageProcesserByM_idxReceive(int nowPage, int pageSize, int blockSize, int m_idx) {
+		PageVO vo = new PageVO();
+		vo.setNowPage(nowPage);
+		vo.setPageSize(pageSize);
+		vo.setTRC(pageDAO.getTRCByReceiveM_idx(m_idx));
+		int totalPage =(vo.getTRC()%pageSize)==0?(vo.getTRC()/pageSize) : (vo.getTRC()/pageSize)+1;
+		vo.setTotalPage(totalPage);
+		vo.setSin((nowPage-1)*pageSize);
+		vo.setCssn(vo.getTRC()-vo.getSin());
+		vo.setBlockSize(blockSize);
+		vo.setCurBlock((vo.getNowPage()-1)/vo.getBlockSize());
+		vo.setLastBlock((vo.getTRC()-1)/vo.getBlockSize());
+		return vo;
+	}
+
 
 	
 	

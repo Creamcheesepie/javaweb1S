@@ -18,6 +18,10 @@ public interface PageProcess {
 
 	public PageVO pageProcesserAllmessage(int nowPage, int pageSize, int blockSize, int m_idx);
 
+	public PageVO pageProcesserByM_idx(String tableName, int nowPage, int pageSize, int blockSize, int m_idx);
+
+	public PageVO pageProcesserByM_idxReceive(int nowPage, int pageSize, int blockSize, int m_idx);
+
 	
 	
 }

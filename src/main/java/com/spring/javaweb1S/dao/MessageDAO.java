@@ -22,4 +22,8 @@ public interface MessageDAO {
 
 	void setSendMessage(@Param("vo") MessageVO msg_vo);
 
+	List<MessageVO> getMessageSendList(@Param("m_idx") int m_idx,@Param("vo") PageVO pageVO);
+
+	List<MessageVO> getMessageReceiveList(@Param("m_idx")int m_idx,@Param("vo") PageVO pageVO);
+
 }

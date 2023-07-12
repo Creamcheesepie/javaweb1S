@@ -19,5 +19,9 @@ public interface MessageService {
 	public List<MessageVO> getMessageCategoryList();
 
 	public void setSendMessage(MessageVO msg_vo);
+
+	public List<MessageVO> getMessageSendList(int m_idx, PageVO pageVO);
+
+	public List<MessageVO> getMessageReceiveList(int m_idx, PageVO pageVO);
 	
 }
