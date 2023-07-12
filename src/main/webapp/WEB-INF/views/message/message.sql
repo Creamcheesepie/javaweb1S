@@ -6,17 +6,17 @@ create table message2_category(
 )
 
 drop table message2_category
-
+insert into message2_category values(1,'대화',default,null)
 
 
 create table message2(
 	msg_idx					int						not null primary key auto_increment,
 	m_idx						int						not null,
-	recieve_m_idx		int						not null,
+	receive_m_idx		int						not null,
 	title						varchar(40)		not null,
 	content					varchar(500)	not null,
 	sdate						datetime			not null default now(),
-	rdate						datetime			not null,
+	rdate						datetime,
 	readSw					tinyint,
 	msg_category		tinyint				not null,
 	ddate						datetime,
@@ -28,6 +28,9 @@ create table message2(
 	on delete restrict
 )
 drop table message2
+
+insert into message2 values(default,1,3,'좋습니다.','앞으로도 활발한 활동 기대하겠습니다.',default,null,null,1,null);
+insert into message2 values(default,3,1,'어우 잘하겠습니다','넵넵',default,null,null,1,null);
 
 create table 
 

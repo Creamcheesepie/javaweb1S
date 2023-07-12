@@ -15,4 +15,9 @@ public interface PageProcess {
 	public int pageFinderByBoa_idx(String tableName, int pageSize, int idx,String idxName);
 	
 	public int pageFinderByBoa_idxWithCategory(String tableName, int pageSize, int idx,String idxName,int category);
+
+	public PageVO pageProcesserAllmessage(int nowPage, int pageSize, int blockSize, int m_idx);
+
+	
+	
 }

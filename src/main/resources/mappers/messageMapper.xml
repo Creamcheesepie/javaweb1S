@@ -3,4 +3,63 @@
 
 <mapper namespace="com.spring.javaweb1S.dao.MessageDAO">
 
+	<select id="getAllMessageList" resultType="com.spring.javaweb1S.vo.MessageVO">
+		select
+			A.msg_idx, 
+			A.title,
+			A.m_idx,
+			A.receive_m_idx,
+			B.nickName,
+			A.sdate	
+		from 
+			message2 A, member2 B 
+		where
+			(A.receive_m_idx=B.m_idx and A.m_idx=#{m_idx})
+			or
+			(A.m_idx=B.m_idx and A.receive_m_idx=#{m_idx})
+		order by A.msg_idx desc limit #{vo.sin} , #{vo.pageSize}; 
+	</select>
+	
+	<select id="getSendMessage" resultType="com.spring.javaweb1S.vo.MessageVO">
+	 select
+	 	A.*,
+	 	B.nickName,
+	 	C.name as category_name
+	 from
+	 	message2 A,member2 B, message2_category C
+	 where
+	 	A.receive_m_idx = B.m_idx
+	 	and
+	 	A.msg_category = c.msg_category
+	 	and
+	 	A.msg_idx=#{msg_idx}
+	</select>
+	
+	<select id="getReceiveMessage" resultType="com.spring.javaweb1S.vo.MessageVO">
+	 select
+	 	A.*,
+	 	B.nickName,
+	 	C.name as category_name
+	 from
+	 	message2 A,member2 B, message2_category C
+	 where
+	 	A.m_idx = B.m_idx
+	 	and
+	 	A.msg_category = c.msg_category
+	 	and
+	 	A.msg_idx=#{msg_idx}
+	</select>
+	
+	<select id="getMessageReceiverSearchList"  resultType="com.spring.javaweb1S.vo.MemberVO">
+		select ${searchOption},m_idx from member2 where ${searchOption} like concat('%',#{searchStr},'%');
+	</select>
+	
+	<select id="getMessageCategoryList" resultType="com.spring.javaweb1S.vo.MessageVO">
+		select msg_category, name as category_name from message2_category;
+	</select>
+	
+	<insert id="setSendMessage">
+		insert into message2 values(default,#{vo.m_idx},#{vo.receive_m_idx},#{vo.title},#{vo.content},default,null,null,#{vo.msg_category},null); 
+	</insert>
+
 </mapper>

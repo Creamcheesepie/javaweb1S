@@ -11,7 +11,14 @@ public class MessageVO {
 	private String content;
 	private int readSw;
 	private int msg_category;
+	private String sdate;
+	private String rdate;
 	private	String ddate;
 	
 	private String category_name;
+	
+	private String nickName;
 }
+
+
+ 

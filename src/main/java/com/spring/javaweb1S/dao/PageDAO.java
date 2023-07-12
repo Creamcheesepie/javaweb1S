@@ -16,4 +16,6 @@ public interface PageDAO {
 
 	public int getCurrentRecordCountWithCategory(@Param("tableName") String tableName,@Param("idx") int idx,@Param("idxName")String idxName,@Param("category") int category);
 
+	public int getTRCByAllMessage(@Param("m_idx")int m_idx);
+
 }
