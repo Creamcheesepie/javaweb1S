@@ -9,12 +9,36 @@
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp"/>
 	<jsp:include page="/WEB-INF/views/include/mainCss.jsp"/>
 </head>
+<script>
+	'use strict';
+	
+	function reportIdxSearch(){
+		let searchStr = $("#searchStr").val();
+		let searchOption = $("#searchOption").val();
+		
+		$.ajax({
+			type:"post",
+			data:{searchStr:searchStr,searchOption:searchOption},
+			url:"${ctp}/message/reportSearch/message",
+			success:function(vos){
+				
+			},
+			error:function(){
+				alert("전송오류가 발생하였습니다. 같은 현상이 반복된다면 관리자 또는 운영자에게 연락해 주세요.");
+			}
+		})
+		
+		
+	}
+	
+	
+</script>
 <body>
 <span class="mainTitle">신고하기</span>
 <div class="row" style="padding: 5px 15px 0px 15px">
 	<div class="col-12">신고할 대상을 검색해 주세요.</div>
 	<div class="col-3">
-	<select class="form-control">
+	<select class="form-control" name="searchOption" id="searchOption">
 		<option value="nickName">닉네임</option>
 		<option value="title">게시글</option>
 		<option value="content">댓글</option>
@@ -24,7 +48,7 @@
 	<input type="text" name="searchStr" id="searchStr" class="form-control">
 	</div>
 	<div class="col-3">
-	<button type="button" class="btn border form-control">검색하기</button>
+	<button type="button" class="btn border form-control" onclick="reportIdxSearch()">검색하기</button>
 	</div>
 	<div class="col-12" name="searchResult" id="searchResult" style="display: none;">
 		<span>신고하실 대상을 선택해 주세요</span><br>

@@ -156,9 +156,10 @@ public class MessageController {
 	@RequestMapping(value = "/openReportWrite", method=RequestMethod.GET)
 	public String messageReportWriteWindowOpenGet() {
 		
-		
 		return "message/reportWriteWindow";
 	}
+	
+	
 	
 	
 }
