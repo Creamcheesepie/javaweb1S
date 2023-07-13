@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>쪽지함</title>
+<title>신고 쪽지함</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp"/>
 	<jsp:include page="/WEB-INF/views/include/mainCss.jsp"/>
 	<style>
@@ -58,11 +58,11 @@
 <body>
 <jsp:include page="/WEB-INF/views/include/navbar.jsp"/>
 <div class="container myPage-container">
-<div class="mainfont-b-28"><span class="material-symbols-outlined">outgoing_mail</span>보낸 쪽지함</div>
+<div class="mainfont-b-28"><span class="material-symbols-outlined">report</span>신고 쪽지함</div>
 <hr>
 <div class="row">
 	<div class="col-2 text-center">
-	<button type="button" class="btn mainfont-b-22" onclick="window.open('${ctp}/message/openWrite', '쪽지쓰기', 'width=515, height=460')">쪽지쓰기</button>
+	<button type="button" class="btn mainfont-b-22" onclick="window.open('${ctp}/message/openReportWrite', '신고하기', 'width=515, height=460')">신고하기</button>
 	<hr>
 	<div class="mainfont-b-16">
 		<a href="${ctp}/message/sendList">보낸 쪽지함</a>
@@ -76,32 +76,28 @@
 	</div>
 	</div>
 	<div class="col-10">
-		<span class="mainfont-b-18">보낸쪽지</span><span class="mainfont-b-16 inactive"></span>
+		<span class="mainfont-b-18">신고항목</span><span class="mainfont-b-16 inactive"></span>
 		<hr>
 		<div class="row">
-				<div class="col-1 text-center">분류</div>
+				<div class="col-2 text-center">분류</div>
 				<div class="col-5">제목</div>
-				<div class="col-4 text-center">수신인</div>
-				<div class="col-2 text-center">전송날짜</div>
+				<div class="col-2">처리여부</div>
+				<div class="col-2 text-center">신고날짜</div>
 				<div class="col-12"><hr></div>
-			<c:forEach var="msg_vo" items="${message_vos}" varStatus="st">
-				<div class="col-1 text-center">${msg_vo.category_name}</div>
-				<div class="col-5">
-					<c:if test="${msg_vo.readSw!='1'}">
-						<span class="material-symbols-outlined">outgoing_mail</span>
-					</c:if>
-					<c:if test="${msg_vo.readSw=='1'}">
-						<span class="material-symbols-outlined">mark_email_read</span>
-					</c:if>
-				<a href="javascript:readSendMessage('${msg_vo.msg_idx}')">${msg_vo.title}</a>
+			<c:forEach var="rep_vo" items="${report_vos}" varStatus="st">
+				<div class="col-1 text-center">${rep_vo.category_name}</div>
+				<div class="col-5"><a href="javascript:readSendMessage('${rep_vo.msg_idx}')">${msg_vo.title}</a></div>
+				<div class="col-2 text-center">
+				<c:if test="${empty rep_vo}">신고됨</c:if>
+				<c:if test="${rep_vo == 1}">처리중</c:if>
+				<c:if test="${rep_vo == 2}">처리완료</c:if>
 				</div>
-				<div class="col-4 text-center">${msg_vo.nickName}</div>
-				<div class="col-2 text-center">${fn:substring(msg_vo.sdate,0,10)}</div>
+				<div class="col-2 text-center">${fn:substring(rep_vo.wdate,0,10)}</div>
 				<div class="col-12"><hr></div>
 			</c:forEach>
 			<c:if test="${empty message_vos}">
 				<div class="col-12">
-					<span class="inactive">보낸 쪽지가 없습니다.</span>
+					<span class="inactive">아직 신고하신 사항이 없습니다.</span>
 				</div>
 			</c:if>
 		</div>
@@ -114,7 +110,7 @@
     <div class="modal-content">
       <!-- Modal Header -->
       <div class="modal-header">
-				<span name="modalTitle" id="modalTitle" class="mainTitle">보낸 쪽지</span>
+				<span name="modalTitle" id="modalTitle" class="mainTitle">내 신고</span>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <!-- Modal body -->

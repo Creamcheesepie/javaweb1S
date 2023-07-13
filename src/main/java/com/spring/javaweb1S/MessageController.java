@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,7 @@ import com.spring.javaweb1S.vo.CategoryVO;
 import com.spring.javaweb1S.vo.MemberVO;
 import com.spring.javaweb1S.vo.MessageVO;
 import com.spring.javaweb1S.vo.PageVO;
+import com.spring.javaweb1S.vo.ReportVO;
 
 @Controller
 @RequestMapping("/message")
@@ -37,9 +39,6 @@ public class MessageController {
 		int m_idx = session.getAttribute("sM_idx")==null?0:(int)session.getAttribute("sM_idx");
 		if(m_idx==0) return "redirect:/";
 		PageVO pageVO = pageProcess.pageProcesserAllmessage(nowPage,pageSize,blockSize,m_idx);
-		//쪽지, 신고, 문의는 전부 테이블과 카테고리를 따로 관리하고 있음, totalrecordCount를 가져오는 방법은 전부 유사함.
-		//고로, 테이블 이름만 갈아쳐서 사용 가능할듯함. 송수신 전부 가져오는건 일반쪽지 뿐이다.
-		//혹시 모르니 테이블 명 기준으로 totalrecordCount를 가져오는 메소드를 만들자.>> 아마 내 게시글 조회에 써먹을 수 있을듯?
 		
 		List<MessageVO> message_vos = messageService.getAllMessageList(pageVO,m_idx);
 		
@@ -86,12 +85,15 @@ public class MessageController {
 	}
 	
 	@RequestMapping(value="/send",method=RequestMethod.POST)
-	public String messageSendGet(MessageVO msg_vo,Model model) {
+	public String messageSendGet(MessageVO msg_vo,Model model,
+			@RequestParam(name="answerCheck",defaultValue="0",required=false) int answerCheck
+			) {
 		messageService.setSendMessage(msg_vo);
 		
 		
 		model.addAttribute("sendedSw", "ok");
-		return "message/messageWriteWindow";
+		if (answerCheck==1) return "message/messageAnswerWindow";
+		else return "message/messageWriteWindow";
 	}
 	
 	@RequestMapping(value = "/sendList", method=RequestMethod.GET)
@@ -111,7 +113,7 @@ public class MessageController {
 	}
 	
 	@RequestMapping(value = "/receiveList", method=RequestMethod.GET)
-	public String messageReceiveList(Model model, HttpSession session,
+	public String messageReceiveListGet(Model model, HttpSession session,
 			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
 			@RequestParam(name="pageSize",defaultValue="15",required=false)int pageSize
 			) {
@@ -124,6 +126,38 @@ public class MessageController {
 		model.addAttribute("message_vos", message_vos);
 		model.addAttribute("pageVO", pageVO);
 		return "message/messageReceiveList";
+	}
+	
+	@RequestMapping(value = "/openAnswer/{msg_idx}",method = RequestMethod.GET)
+	public String messageAnswerOpenGet(Model model,
+			@PathVariable("msg_idx")int msg_idx
+			) {
+		MessageVO messageVO = messageService.getSenderInfo(msg_idx);
+		
+		model.addAttribute("messageVO", messageVO);
+		return "message/messageAnswerWindow";
+	}
+	
+	@RequestMapping(value = "/reportList",method=RequestMethod.GET)
+	public String messageReportListGet(HttpSession session, Model model,
+			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
+			@RequestParam(name="pageSize",defaultValue="15",required=false)int pageSize			
+			) {
+		int blockSize = 5;
+		int m_idx = session.getAttribute("sM_idx")==null?0:(int)session.getAttribute("sM_idx");
+		PageVO pageVO = pageProcess.pageProcesserByM_idx("report2", nowPage, pageSize, blockSize, m_idx);
+		List<ReportVO> report_vos = messageService.getReportList(m_idx, pageVO);
+		
+		model.addAttribute("report_vos", report_vos);
+		model.addAttribute("pageVO", pageVO);
+		return "message/reportList";
+	}
+	
+	@RequestMapping(value = "/openReportWrite", method=RequestMethod.GET)
+	public String messageReportWriteWindowOpenGet() {
+		
+		
+		return "message/reportWriteWindow";
 	}
 	
 	

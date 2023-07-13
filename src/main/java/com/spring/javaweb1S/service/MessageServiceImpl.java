@@ -9,6 +9,7 @@ import com.spring.javaweb1S.dao.MessageDAO;
 import com.spring.javaweb1S.vo.MemberVO;
 import com.spring.javaweb1S.vo.MessageVO;
 import com.spring.javaweb1S.vo.PageVO;
+import com.spring.javaweb1S.vo.ReportVO;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -27,6 +28,7 @@ public class MessageServiceImpl implements MessageService {
 
 	@Override
 	public MessageVO getReceiveMessage(int msg_idx) {
+		messageDAO.setReadSwOn(msg_idx);
 		return messageDAO.getReceiveMessage(msg_idx);
 	}
 
@@ -53,6 +55,16 @@ public class MessageServiceImpl implements MessageService {
 	@Override
 	public List<MessageVO> getMessageReceiveList(int m_idx, PageVO pageVO) {
 		return messageDAO.getMessageReceiveList(m_idx,pageVO);
+	}
+
+	@Override
+	public MessageVO getSenderInfo(int msg_idx) {
+		return messageDAO.getSenderInfo(msg_idx);
+	}
+
+	@Override
+	public List<ReportVO> getReportList(int m_idx, PageVO pageVO) {
+		return messageDAO.getReportList( m_idx, pageVO);
 	}
 	
 	

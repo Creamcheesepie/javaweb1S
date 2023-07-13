@@ -7,6 +7,7 @@ create table message2_category(
 
 drop table message2_category
 insert into message2_category values(1,'대화',default,null)
+insert into message2_category values(100,'답장',default,null)
 
 
 create table message2(

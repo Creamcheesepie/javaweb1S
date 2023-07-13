@@ -44,6 +44,7 @@
 				$("#sendNameOutput").html(vo.nickName);
 				$("#receiveCategoryNameOutput").html(vo.category_name);
 				$("#receiveContentOutput").html(vo.content);
+				$("#answerOpener").attr('onclick',"window.open('${ctp}/message/openAnswer/"+msg_idx+"', '쪽지쓰기', 'width=515, height=460')" );
 				$("#receiveMessageModal").modal();
 			},
 			error:function(){
@@ -84,7 +85,15 @@
 			<div class="col-12"><hr></div>
 			<c:forEach var="msg_vo" items="${message_vos}" varStatus="st">
 				<div class="col-1 text-center">${msg_vo.category_name}</div>	
-				<div class="col-5"><a href="javascript:readReceiveMessage('${msg_vo.msg_idx}')">${msg_vo.title}</a></div>
+				<div class="col-5">
+					<c:if test="${msg_vo.readSw!='1'}">
+						<span class="material-symbols-outlined">mark_email_unread</span>
+					</c:if>
+					<c:if test="${msg_vo.readSw=='1'}">
+						<span class="material-symbols-outlined">mark_email_read</span>
+					</c:if>
+				<a href="javascript:readReceiveMessage('${msg_vo.msg_idx}')">${msg_vo.title}</a>
+				</div>
 				<div class="col-4 text-center">${msg_vo.nickName}</div>
 				<div class="col-2 text-center">${fn:substring(msg_vo.sdate,0,10)}</div>
 				<div class="col-12"><hr></div>	
@@ -131,7 +140,7 @@
       </div>
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="button" class="btn border" data-dismiss="modal">답장하기</button>
+        <button type="button" id="answerOpener" name="answerOpener" class="btn border" >답장하기</button>
         <button type="button" class="btn border" data-dismiss="modal">닫기</button>
       </div>
 

@@ -5,6 +5,7 @@ import java.util.List;
 import com.spring.javaweb1S.vo.MemberVO;
 import com.spring.javaweb1S.vo.MessageVO;
 import com.spring.javaweb1S.vo.PageVO;
+import com.spring.javaweb1S.vo.ReportVO;
 
 public interface MessageService {
 
@@ -23,5 +24,9 @@ public interface MessageService {
 	public List<MessageVO> getMessageSendList(int m_idx, PageVO pageVO);
 
 	public List<MessageVO> getMessageReceiveList(int m_idx, PageVO pageVO);
+
+	public MessageVO getSenderInfo(int msg_idx);
+
+	public List<ReportVO> getReportList(int m_idx, PageVO pageVO);
 	
 }

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+ <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
@@ -78,8 +78,6 @@
 		}
 		
 		messageSendForm.submit();
-		
-		
 	}
 	
 	
@@ -108,6 +106,7 @@
 		<button type="button" class="btn border" onclick="receiverSearch()">검색하기</button>
 	</div>
 	<div class="col-12" name="searchResult" id="searchResult" style="display: none;">
+		<span>쪽지를 보낼 대상을 선택해 주십시오.</span><br/>
 		<span name="searchOutput" id="searchOutput"></span>
 	</div>
 	</div>

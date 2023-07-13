@@ -10,7 +10,8 @@
 			A.m_idx,
 			A.receive_m_idx,
 			B.nickName,
-			A.sdate	
+			A.sdate,
+			A.readSw	
 		from 
 			message2 A, member2 B 
 		where
@@ -97,6 +98,40 @@
 		order by msg_idx desc
 		limit ${vo.sin}, ${vo.pageSize};
 	</select>
+	<select id="getSenderInfo" resultType="com.spring.javaweb1S.vo.MessageVO">
+		select
+			A.msg_idx,
+			A.title,
+			A.content,
+			A.m_idx,
+			B.nickName,
+			C.name as category_name
+		from
+			message2 A, member2 B, message2_category C
+		where
+			A.m_idx = B.m_idx
+			and
+			A.msg_idx=#{msg_idx}
+			and
+			A.msg_category = C.msg_category;
+	</select>
+	
+	<select id="getReportList" resultType="com.spring.javaweb1S.vo.ReportVO">
+		select
+			A.rep_idx,
+			A.title,
+			A.takeSw,
+			A.wdate,
+			B.name as category_name
+		from
+			report2 A, report2_category B
+		where
+			A.rep_category = B.rep_category
+			and
+			A.m_idx = #{m_idx}
+		order by rep_idx desc
+		limit #{vo.sin}, #{vo.pageSize}
+	</select>
 	
 	
 	
@@ -104,6 +139,11 @@
 	<insert id="setSendMessage">
 		insert into message2 values(default,#{vo.m_idx},#{vo.receive_m_idx},#{vo.title},#{vo.content},default,null,null,#{vo.msg_category},null); 
 	</insert>
+	
+	
+	<update id="setReadSwOn">
+		update message2 set readSw = 1 where msg_idx = #{msg_idx};
+	</update>
 	
 
 </mapper>
