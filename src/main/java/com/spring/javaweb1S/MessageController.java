@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -153,12 +154,37 @@ public class MessageController {
 		return "message/reportList";
 	}
 	
-	@RequestMapping(value = "/openReportWrite", method=RequestMethod.GET)
-	public String messageReportWriteWindowOpenGet() {
+	@RequestMapping(value = "/reportWindow/{tableName}/{idx}",method = RequestMethod.GET)
+	public String messageReportWindowOpenGet(Model model,
+			@PathVariable("tableName") String tableName,
+			@PathVariable("idx")int idx,
+			@RequestParam(name="title",defaultValue="",required=false)String title
+			) {
+		List<ReportVO> categoryVOS = messageService.getReportCategoryList(tableName);
+		System.out.println(categoryVOS);
 		
+		model.addAttribute("reported_idx", idx);
+		model.addAttribute("title", title);
+		model.addAttribute("categoryVOS", categoryVOS);
 		return "message/reportWriteWindow";
 	}
 	
+	@RequestMapping(value = "/reportSend",method= RequestMethod.POST)
+	public String messageReportSendPost(ReportVO reportVO, Model model) {
+		messageService.setSendReport(reportVO);
+		model.addAttribute("sendedSw", "ok");
+		return "message/reportWriteWindow";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getMyReport",method = RequestMethod.POST)
+	public ReportVO messgeGetmyReportPost(
+			@RequestParam(name="rep_idx",defaultValue="",required=false)int rep_idx
+			) {
+		ReportVO reportVO = messageService.getMyReport(rep_idx);
+		System.out.println(reportVO);
+		return reportVO;
+	}
 	
 	
 	

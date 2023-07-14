@@ -34,17 +34,23 @@
 	<script>
 	'use strict';
 	
-	function readSendMessage(msg_idx){
+	function readMyReport(rep_idx){
 		$.ajax({
 			type:"post",
-			data:{msg_idx:msg_idx},
-			url:"${ctp}/message/getSendMessage",
+			data:{rep_idx:rep_idx},
+			url:"${ctp}/message/getMyReport",
 			success:function(vo){
-				$("#sdateOutput").html(vo.sdate);
-				$("#sendTitleOutput").html(vo.title);
-				$("#receiveNameOutput").html(vo.nickName);
-				$("#categoryNameOutput").html(vo.category_name);
-				$("#sendContentOutput").html(vo.content);
+				if(vo.reportednickName!=null) $("#reportedOutput").html(vo.reportednickName);
+				if(vo.reportedTitle!=null) $("#reportedOutput").html(vo.reportedTitle);
+				if(vo.reportedContent!=null) $("#reportedOutput").html(vo.reportedContent);
+				$("#reportCategoryOutput").html(vo.category_name);
+				$("#reportTitleOutput").html(vo.title);
+				$("#reportContentOutput").html(vo.content);
+				$("#wdateOutput").html(vo.wdate);
+				if(vo.takeResult!=null) $("#takeResult").html(vo.takeResult);
+				else $("#takeResult").html("아직 처리되지 않았습니다.");
+				if(vo.takeResult!=null) $("#takeResultTime").html(vo.tdate);
+				else $("#takeResultTime").html("빠른시일 내에 처리하겠습니다.");
 				$("#sendMessageModal").modal();
 			},
 			error:function(){
@@ -58,44 +64,37 @@
 <body>
 <jsp:include page="/WEB-INF/views/include/navbar.jsp"/>
 <div class="container myPage-container">
-<div class="mainfont-b-28"><span class="material-symbols-outlined">report</span>신고 쪽지함</div>
+<div class="mainfont-b-28"><span class="material-symbols-outlined">report</span>신고 처리 결과</div>
 <hr>
 <div class="row">
 	<div class="col-2 text-center">
-	<button type="button" class="btn mainfont-b-22" onclick="window.open('${ctp}/message/openReportWrite', '신고하기', 'width=515, height=460')">신고하기</button>
+	<button type="button" class="btn mainfont-b-22" onclick="window.open('${ctp}/message/openWrite', '쪽지쓰기', 'width=515, height=460')">쪽지쓰기</button>	
 	<hr>
 	<div class="mainfont-b-16">
-		<a href="${ctp}/message/sendList">보낸 쪽지함</a>
-		<hr/>
-		<a href="${ctp}/message/receiveList">받은 쪽지함</a>
-		<hr/>
-		<a href="${ctp}/message/reportList">신고 쪽지함</a>
-		<hr/>
-		<a href="${ctp}/message/askList">문의 쪽지함</a>
-		<hr/>
+		<jsp:include page="/WEB-INF/views/include/messageSideBar.jsp"/>
 	</div>
 	</div>
 	<div class="col-10">
-		<span class="mainfont-b-18">신고항목</span><span class="mainfont-b-16 inactive"></span>
+		<span class="mainfont-b-18">신고항목</span><span class="mainfont-b-16 inactive"> 신고는 커뮤니티 내의 개별 신고 항목에서 하실 수 있습니다.</span>
 		<hr>
 		<div class="row">
-				<div class="col-2 text-center">분류</div>
+				<div class="col-3 text-center">신고사유</div>
 				<div class="col-5">제목</div>
-				<div class="col-2">처리여부</div>
+				<div class="col-2 text-center">처리여부</div>
 				<div class="col-2 text-center">신고날짜</div>
 				<div class="col-12"><hr></div>
 			<c:forEach var="rep_vo" items="${report_vos}" varStatus="st">
-				<div class="col-1 text-center">${rep_vo.category_name}</div>
-				<div class="col-5"><a href="javascript:readSendMessage('${rep_vo.msg_idx}')">${msg_vo.title}</a></div>
+				<div class="col-3 text-center">${rep_vo.category_name}</div>
+				<div class="col-5"><a href="javascript:readMyReport('${rep_vo.rep_idx}')">${rep_vo.title}</a></div>
 				<div class="col-2 text-center">
-				<c:if test="${empty rep_vo}">신고됨</c:if>
-				<c:if test="${rep_vo == 1}">처리중</c:if>
-				<c:if test="${rep_vo == 2}">처리완료</c:if>
+				<c:if test="${empty rep_vo.takeSw}">신고됨</c:if>
+				<c:if test="${rep_vo.takeSw == 1}">처리중</c:if>
+				<c:if test="${rep_vo.takeSw == 2}">처리완료</c:if>
 				</div>
 				<div class="col-2 text-center">${fn:substring(rep_vo.wdate,0,10)}</div>
 				<div class="col-12"><hr></div>
 			</c:forEach>
-			<c:if test="${empty message_vos}">
+			<c:if test="${empty report_vos}">
 				<div class="col-12">
 					<span class="inactive">아직 신고하신 사항이 없습니다.</span>
 				</div>
@@ -116,22 +115,31 @@
       <!-- Modal body -->
       <div class="modal-body">
 			<div class="row">
-				<div class="col-12 mb-2">
-					제목 <span name="sendTitleOutput" id="sendTitleOutput" class="mainfont-b-20"></span>
-				</div>
 				<div class="col-8">
-					받은이 : <span name="revceiveNameOutput" id="receiveNameOutput"></span>
+					신고대상 : <span name="reportedOutput" id="reportedOutput"></span>
 				</div>
 				<div class="col-4 mb-2 text-right">
-					분류 : <span name="categoryNameOutput" id="categoryNameOutput"></span>
+					분류 : <span name="reportCategoryOutput" id="reportCategoryOutput"></span>
+				</div>
+				<div class="col-12 mb-2">
+					제목 <span name="reportTitleOutput" id="reportTitleOutput" class="mainfont-b-20"></span>
 				</div>
 				<div class="col-12">
 					<span class="mainfont-b-16">내용</span>
-					<textarea rows="5" readonly class="form-control" name="sendContentOutput" id="sendContentOutput">
+					<textarea rows="5" readonly class="form-control" name="reportContentOutput" id="reportContentOutput">
 					</textarea>
 				</div>
-				<div class="col-12 text-right aling-self-end">
-					<span class="fontdot-12">보낸시간 : </span><span name="sdateOutput" id="sdateOutput" class="fontdot-12"></span>
+				<div class="col-12 text-right align-self-end">
+					<span class="fontdot-12">신고시간 : </span><span name="wdateOutput" id="wdateOutput" class="fontdot-12"></span>
+				</div>
+				<div class="col-12">
+					처리결과<hr>
+				</div>
+				<div class="col-12">
+				<textarea name="takeResult" id="takeResult" rows="4" class="form-control" readonly></textarea>
+				</div>
+				<div class="col-12 text-right align-self-end">
+					<span class="fontdot-12">처리시간 : </span><span name="takeResultTime" id="takeResultTime" class="fontdot-12"></span>
 				</div>
 			</div>      	
       </div>

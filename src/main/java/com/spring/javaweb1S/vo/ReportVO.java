@@ -7,6 +7,7 @@ public class ReportVO {
 	private int rep_idx;
 	private int m_idx;
 	private int rep_category;
+	private int reported_idx;
 	private String title;
 	private String content;
 	private String wdate;
@@ -18,4 +19,9 @@ public class ReportVO {
 	private String category_name;
 	private String tableName;
 	private String idxName;
+	
+	private String reportednickName;
+	private String reportedTitle;
+	private String reportedContent;
+	
 }

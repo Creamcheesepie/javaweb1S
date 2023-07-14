@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -171,6 +172,9 @@
 								추천취소
 							</c:if>
 						</button>
+						<button type="button" class="btn border" onclick="window.open('${ctp}/message/reportWindow/board2/${boardRead_vo.boa_idx}?title=${boardRead_vo.title}', '신고하기', 'width=515, height=460')">
+							신고하기
+						</button>
 					</c:if>
 					<c:if test="${sM_idx==boardRead_vo.m_idx}">
 						<button type="button" class="btn border" onclick="boardUpdateForm.submit()">수정하기</button>
@@ -193,7 +197,7 @@
 					| 
 					<a>차단하기</a> 
 					| 
-					<a>사용자신고</a>
+					<a href="javascript:window.open('${ctp}/message/reportWindow/member2/${boardRead_vo.m_idx}?title=${boardRead_vo.nickName}', '신고하기', 'width=515, height=460')">사용자신고</a>
 				</div>			
 				<div class="col-12"><hr/></div>
 				<div class="col-12 mainfont-b-20 mb-3">댓글</div>
@@ -256,7 +260,7 @@
 												| 
 												<a>차단</a> 
 												| 
-												<a>신고</a>
+												<a href="javascript:window.open('${ctp}/message/reportWindow/board2_reply/${reply_vo.rep_idx}?title=${fn:substring(reply_vo.content,0,20)}', '신고하기', 'width=515, height=460')">신고</a>
 											</span>
 										</c:if>
 										<c:if test="${reply_vo.m_idx == sM_idx}">

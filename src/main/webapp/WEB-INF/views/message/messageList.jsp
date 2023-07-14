@@ -84,13 +84,7 @@
 	<button type="button" class="btn mainfont-b-22" onclick="window.open('${ctp}/message/openWrite', '쪽지쓰기', 'width=515, height=460')">쪽지쓰기</button>
 	<hr>
 	<div class="mainfont-b-16">
-		<a href="${ctp}/message/sendList">보낸 쪽지함</a>
-		<hr/>
-		<a href="${ctp}/message/receiveList">받은 쪽지함</a>
-		<hr/>
-		<a href="${ctp}/message/reportList">신고 쪽지함</a>
-		<hr/>
-		<a href="${ctp}/message/askList">문의 쪽지함</a>
+	<jsp:include page="/WEB-INF/views/include/messageSideBar.jsp"/>
 		<hr/>
 	</div>
 	</div>
@@ -100,7 +94,7 @@
 		<div class="row">
 			<c:forEach var="msg_vo" items="${message_vos}" varStatus="st">
 			<c:if test="${msg_vo.m_idx == sM_idx}">
-				<div class="col-1 text-center">보냄</div>
+				<div class="col-1 text-center mainfont-b-18">보냄</div>
 				<div class="col-5">
 					<c:if test="${msg_vo.readSw!='1'}">
 						<span class="material-symbols-outlined">outgoing_mail</span>
@@ -115,7 +109,7 @@
 				<div class="col-12"><hr></div>	
 			</c:if>
 			<c:if test="${msg_vo.receive_m_idx == sM_idx}">
-				<div class="col-1 text-center">받음</div>	
+				<div class="col-1 text-center mainfont-b-18">받음</div>	
 				<div class="col-5">
 					<c:if test="${msg_vo.readSw!='1'}">
 						<span class="material-symbols-outlined">mark_email_unread</span>

@@ -33,4 +33,19 @@ public interface MessageDAO {
 
 	List<ReportVO> getReportList(@Param("m_idx") int m_idx,@Param("vo") PageVO pageVO);
 
+	List<ReportVO> getReportCategoryList(@Param("tableName")String tableName);
+
+	ReportVO setTableInfo(@Param("tableName") String tableName);
+
+	void setSendReport(@Param("vo") ReportVO reportVO);
+
+	ReportVO getMyReportByRep_idx(@Param("rep_idx") int rep_idx);
+
+	String getBoardTitle(@Param("vo") ReportVO vo);
+
+	String getMemberNickName(@Param("vo") ReportVO vo);
+
+	String getReplyContent(@Param("vo") ReportVO vo);
+	
+
 }

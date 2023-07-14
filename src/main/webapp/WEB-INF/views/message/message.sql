@@ -46,6 +46,18 @@ create table report2_category(
 
 drop table report2_category
 
+insert into report2_category values(1,'상업게시글,광고','board2','boa_idx',default,null)
+insert into report2_category values(2,'지나친 비방, 욕설','board2','boa_idx',default,null)
+insert into report2_category values(3,'음란물, 선정성, 잔인함','board2','boa_idx',default,null)
+insert into report2_category values(4,'도배글','board2','boa_idx',default,null)
+insert into report2_category values(5,'분쟁유도','member2','m_idx',default,null);
+insert into report2_category values(6,'광고글 다수 게시','member2','m_idx',default,null);
+insert into report2_category values(7,'불법광고 게시','member2','m_idx',default,null);
+insert into report2_category values(8,'댓글 도배','board2_reply','rep_idx',default,null);
+insert into report2_category values(9,'분쟁유도','board2_reply','rep_idx',default,null);
+insert into report2_category values(10,'불법광고 게시','board2_reply','rep_idx',default,null);
+insert into report2_category values(11,'성희롱','board2_reply','rep_idx',default,null);
+
 create table report2(
 	rep_idx						int					not null primary key auto_increment,
 	m_idx							int					not null,

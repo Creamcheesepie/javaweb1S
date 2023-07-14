@@ -133,11 +133,43 @@
 		limit #{vo.sin}, #{vo.pageSize}
 	</select>
 	
+	<select id="getReportCategoryList" resultType="com.spring.javaweb1S.vo.ReportVO">
+		select rep_category,name as category_name,idxName from report2_category where tableName=#{tableName} order by rep_category desc;	
+	</select>
 	
+	<select id="getMyReportByRep_idx" resultType="com.spring.javaweb1S.vo.ReportVO">
+		select
+		 	A.*,
+		 	B.tableName,
+		 	B.idxName,
+		 	B.name as category_name
+		 from 
+		 	report2 A ,report2_category B 
+		 where
+		 	A.rep_category = B.rep_category
+		 	and 
+		 	A.rep_idx = #{rep_idx};
+	</select>
+	
+	<select id="getBoardTitle" resultType="String">
+		select title from board2 where boa_idx = #{vo.reported_idx};
+	</select>
+	
+	<select id="getMemberNickName" resultType="String">
+		select nickName from member2 where m_idx = #{vo.reported_idx};
+	</select>
+	
+	<select id="getReplyContent" resultType="String">
+		select content from board2_reply where rep_idx = #{vo.reported_idx};
+	</select>
 	
 
 	<insert id="setSendMessage">
 		insert into message2 values(default,#{vo.m_idx},#{vo.receive_m_idx},#{vo.title},#{vo.content},default,null,null,#{vo.msg_category},null); 
+	</insert>
+	
+	<insert id="setSendReport">
+		insert into report2 values(default,#{vo.m_idx},#{vo.rep_category},#{vo.reported_idx},#{vo.title},#{vo.content},default,null,null,null,null);
 	</insert>
 	
 	

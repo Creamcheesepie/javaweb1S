@@ -28,5 +28,12 @@ public interface MessageService {
 	public MessageVO getSenderInfo(int msg_idx);
 
 	public List<ReportVO> getReportList(int m_idx, PageVO pageVO);
+
+	public List<ReportVO> getReportCategoryList(String tableName);
+
+	public void setSendReport(ReportVO reportVO);
+
+	public ReportVO getMyReport(int rep_idx);
+
 	
 }

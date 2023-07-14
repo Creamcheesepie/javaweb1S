@@ -64,14 +64,7 @@
 	<button type="button" class="btn mainfont-b-22" onclick="window.open('${ctp}/message/openWrite', '쪽지쓰기', 'width=515, height=460')">쪽지쓰기</button>
 	<hr>
 	<div class="mainfont-b-16">
-		<a href="${ctp}/message/sendList">보낸 쪽지함</a>
-		<hr/>
-		<a href="${ctp}/message/receiveList">받은 쪽지함</a>
-		<hr/>
-		<a href="${ctp}/message/reportList">신고 쪽지함</a>
-		<hr/>
-		<a href="${ctp}/message/askList">문의 쪽지함</a>
-		<hr/>
+		<jsp:include page="/WEB-INF/views/include/messageSideBar.jsp"/>
 	</div>
 	</div>
 	<div class="col-10">

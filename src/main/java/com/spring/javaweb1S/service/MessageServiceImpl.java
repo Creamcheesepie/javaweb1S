@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.javaweb1S.dao.MessageDAO;
+import com.spring.javaweb1S.vo.CategoryVO;
 import com.spring.javaweb1S.vo.MemberVO;
 import com.spring.javaweb1S.vo.MessageVO;
 import com.spring.javaweb1S.vo.PageVO;
@@ -66,6 +67,35 @@ public class MessageServiceImpl implements MessageService {
 	public List<ReportVO> getReportList(int m_idx, PageVO pageVO) {
 		return messageDAO.getReportList( m_idx, pageVO);
 	}
+
+	@Override
+	public List<ReportVO> getReportCategoryList(String tableName) {
+		return messageDAO.getReportCategoryList(tableName);
+	}
+
+	@Override
+	public void setSendReport(ReportVO reportVO) {
+		messageDAO.setSendReport(reportVO);
+	}
+
+	@Override
+	public ReportVO getMyReport(int rep_idx) {
+		ReportVO vo = messageDAO.getMyReportByRep_idx(rep_idx);
+		if(vo.getTableName().equals("board2")) {
+			vo.setReportedTitle(messageDAO.getBoardTitle(vo));
+		}
+		else if(vo.getTableName().equals("member2")) {
+			vo.setReportednickName(messageDAO.getMemberNickName(vo));
+		}
+		else if(vo.getTableName().equals("board2_reply")) {
+			vo.setReportedContent(messageDAO.getReplyContent(vo));
+		}
+		
+		return vo;
+	}
+
+
+	
 	
 	
 }
