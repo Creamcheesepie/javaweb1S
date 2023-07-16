@@ -15,6 +15,10 @@
 			ruleUpdateForm.submit();
 		};
 		
+		function adminReportFormPost(){
+			adminReportForm.submit();
+		};
+		
 	</script>
 </head>
 <body>
@@ -25,8 +29,13 @@
 			<span class="mainfont-b-22">관리자 페이지</span>
 		</div>
 		<div class="col-12 text-center mainfont-b-18">
-			<a href="javascript:ruleUpdateFormPost()">사이트관리</a> | <a>신고관리</a> | <a>문의관리</a> | <a>제재유저관리</a> | <a>게시글관리</a>
+			<a href="javascript:ruleUpdateFormPost()">사이트관리</a> | 
+			<a href="javascript:adminReportFormPost()">신고관리</a> | 
+			<a>문의관리</a> | 
+			<a>제재유저관리</a> | 
+			<a>게시글관리</a>
 			<form name="ruleUpdateForm" method="post" action="${ctp}/admin/ruleUpdateForm" style="display:none"></form>
+			<form name="adminReportForm" method="post" action="${ctp}/admin/adminReportForm" style="display:none"></form>
 		</div>
 		<div class="row">
 			<div class="col-6">

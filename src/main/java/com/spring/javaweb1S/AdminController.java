@@ -90,5 +90,14 @@ public class AdminController {
 		return res;
 	}
 	
+	@RequestMapping(value = "/adminReportForm", method=RequestMethod.POST)
+	public String adminReportFormPost(Model model,
+			@RequestParam(name="tableName",defaultValue="",required=false)String tableName
+			) {
+		
+		
+		
+		return "admin/reportList";
+	}
 	
 }

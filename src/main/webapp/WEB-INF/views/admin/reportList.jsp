@@ -5,13 +5,20 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>신고 관리</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp"/>
 	<jsp:include page="/WEB-INF/views/include/mainCss.jsp"/>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/include/navbar.jsp"/>
+<div class="row">
+	<div class="col-12">
+		<div class="mainTitle">신고 관리</div>
+	</div>
+	
+</div>
 
 
-
+<jsp:include page="/WEB-INF/views/include/footer.jsp"/>	
 </body>
 </html>
