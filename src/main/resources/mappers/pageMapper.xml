@@ -44,4 +44,19 @@
 		select count(msg_idx) from message2 where receive_m_idx = #{m_idx};
 	</select>
 	
+	<select id="getTRCforReportAdmin" resultType="int">
+		select count(rep_idx) from report2	
+		<choose>
+			<when test='rep_category.equals("0") and afterDate.equals("") and beforeDate.equals("")'>
+			;
+			</when>
+			<when test="rep_category.equals('0')">
+				where wdate between #{afterDate} and #{beforeDate} 
+			</when>
+			<otherwise>
+				where rep_category = #{rep_category} and wdate between #{afterDate} and #{beforeDate}
+			</otherwise>
+		</choose>
+	</select>
+	
 </mapper>

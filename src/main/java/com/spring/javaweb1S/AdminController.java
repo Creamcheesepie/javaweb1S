@@ -12,15 +12,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.javaweb1S.pagination.PageProcess;
 import com.spring.javaweb1S.service.AdminService;
 import com.spring.javaweb1S.vo.CategoryVO;
+import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.PointVO;
+import com.spring.javaweb1S.vo.ReportCategoryVO;
+import com.spring.javaweb1S.vo.ReportVO;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 	@Autowired
 	AdminService adminService;
+	
+	@Autowired
+	PageProcess pageProcess;
 	
 	
 	@RequestMapping(value = "/home",method = RequestMethod.POST)
@@ -92,12 +99,31 @@ public class AdminController {
 	
 	@RequestMapping(value = "/adminReportForm", method=RequestMethod.POST)
 	public String adminReportFormPost(Model model,
-			@RequestParam(name="tableName",defaultValue="",required=false)String tableName
+			@RequestParam(name="afterDate",defaultValue="",required=false)String afterDate,
+			@RequestParam(name="beforeDate",defaultValue="",required=false)String beforeDate,
+			@RequestParam(name="rep_category",defaultValue="0",required=false)int rep_category,
+			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
+			@RequestParam(name="pageSize",defaultValue="20",required=false)int pageSize
 			) {
-		
-		
+		int blockSize = 5;
+		List<ReportCategoryVO> repcVOS = adminService.getReportCategoryList();
+		model.addAttribute("repcVOS", repcVOS);
+
+		PageVO pageVO = pageProcess.pageProcessorForAdminReport(rep_category,afterDate,beforeDate, pageSize, nowPage, blockSize);
+		List<ReportVO> reportVOS = adminService.getReportList(afterDate,beforeDate,rep_category,pageVO); 
+		model.addAttribute("repVOS", reportVOS);
 		
 		return "admin/reportList";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getReportDetail",method = RequestMethod.POST)
+	public ReportVO adminGetReportDetailPost(
+			@RequestParam(name="rep_idx",defaultValue="0",required=false) int rep_idx
+			) {
+		ReportVO vo = adminService.getReportDetail(rep_idx);
+		System.out.println(vo);
+		return vo;
 	}
 	
 }

@@ -22,6 +22,9 @@ public interface PageProcess {
 
 	public PageVO pageProcesserByM_idxReceive(int nowPage, int pageSize, int blockSize, int m_idx);
 
+	public PageVO pageProcessorForAdminReport(int rep_category, String afterDate, String beforeDate, int pageSize,
+			int nowPage, int blockSize);
+
 	
 	
 }

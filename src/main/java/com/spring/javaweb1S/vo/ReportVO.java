@@ -19,6 +19,7 @@ public class ReportVO {
 	private String category_name;
 	private String tableName;
 	private String idxName;
+	private String nickName;
 	
 	private String reportednickName;
 	private String reportedTitle;

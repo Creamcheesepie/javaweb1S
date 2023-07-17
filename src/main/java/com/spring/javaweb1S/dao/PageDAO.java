@@ -22,4 +22,6 @@ public interface PageDAO {
 
 	public int getTRCByReceiveM_idx(@Param("m_idx") int m_idx);
 
+	public int getTRCforReportAdmin(@Param("rep_category") int rep_category,@Param("afterDate") String afterDate,@Param("beforeDate") String beforeDate);
+
 }

@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.spring.javaweb1S.dao.AdminDAO;
 import com.spring.javaweb1S.vo.CategoryVO;
+import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.PointVO;
+import com.spring.javaweb1S.vo.ReportCategoryVO;
+import com.spring.javaweb1S.vo.ReportVO;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -36,5 +39,29 @@ public class AdminServiceImpl implements AdminService {
 		
 		return adminDAO.setCategoryInput(categoryName,maxCategory);
 	}
-	
+
+	@Override
+	public List<ReportCategoryVO> getReportCategoryList() {
+		return adminDAO.getReportCategoryList();
+	}
+
+	@Override
+	public List<ReportVO> getReportList(String afterDate, String beforeDate, int rep_category, PageVO pageVO) {
+		
+		return adminDAO.getReportList(afterDate,beforeDate,rep_category,pageVO);
+	}
+
+	@Override
+	public ReportVO getReportDetail(int rep_idx) {
+		ReportVO vo = new ReportVO();
+		vo = adminDAO.getReportByRep_idx(rep_idx);
+		ReportCategoryVO rcVO = adminDAO.getReportCategoryByCategory(vo.getRep_category());
+		ReportVO tempVO = adminDAO.getExtraInformation(rcVO,vo);
+		vo.setReportedContent(tempVO.getReportedContent());
+		vo.setReportednickName(tempVO.getReportednickName());
+		vo.setReportedTitle(tempVO.getReportedTitle());
+		
+		return vo;
+	}
+
 }
