@@ -31,6 +31,9 @@
 		select point from member2 where m_idx = #{m_idx};
 	</select>
 
+	<select id="getNickNameBym_idx" resultType="String">
+		select nickName from member2 where m_idx = #{m_idx};
+	</select>
 
 
 

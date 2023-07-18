@@ -186,6 +186,37 @@ public class MessageController {
 		return reportVO;
 	}
 	
+	@RequestMapping(value = "/friendInvite/{m_idx}",method = RequestMethod.GET)
+	public String messageFriendInviteFormGet(Model model,
+			@PathVariable("m_idx")int m_idx,
+			@RequestParam(name="title",defaultValue="",required=false)String title
+			) {
+		model.addAttribute("t_idx",m_idx);
+		model.addAttribute("title", title);
+		return "message/friendInvite";
+	}
+	
+	//친구초대 보내기:  1. 친구 리스트에 있는 사람인지 여부 확인 이미 친구인 경우? 2. 친구 리스트에 등재 3.친구 신청 쪽지 보내기
+	@ResponseBody
+	@RequestMapping(value="/friendInviteSend", method = RequestMethod.POST)
+	public int messageFriendInviteSendPost(Model model,HttpSession session,
+			@RequestParam(name="content", defaultValue="",required=false)String content,
+			@RequestParam(name="t_idx", defaultValue="", required=false)int t_idx
+			) {
+		int res= 0;
+		int m_idx = (int)session.getAttribute("sM_idx");
+		boolean friendChecker = messageService.getFriendCheck(m_idx,t_idx);
+		
+		if(friendChecker){
+			res=1;
+		}
+		else {
+			messageService.setFriendInvitation(m_idx,t_idx,content);
+			messageService.setFrienInviteMessageSend(m_idx,t_idx,content);
+		}
+
+		return res;
+	}
 	
 	
 }

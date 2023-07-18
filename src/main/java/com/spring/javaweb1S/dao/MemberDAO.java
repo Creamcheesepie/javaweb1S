@@ -53,6 +53,8 @@ public interface MemberDAO {
 
 	public int getPointByM_idx(@Param("m_idx") int m_idx);
 
+	public String getNickNameBym_idx(@Param("m_idx") int m_idx);
+
 	
 
 	

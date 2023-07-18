@@ -178,6 +178,24 @@ public class BoardServiceImpl implements BoardService {
 		return offenderListDAO.getOffendInfoByM_idx(cdate,m_idx,rule_idx);
 	}
 
+	@Override
+	public boolean getReplyBanInfo(int m_idx) {
+		boolean res = false;
+		int banCount= boardDAO.getBanCount(m_idx,"1_replyBan");
+		if(banCount>0)res = true;
+		return res;
+	}
+
+	@Override
+	public boolean getBoardBanInfo(int m_idx) {
+		boolean res = false;
+		int banCount= boardDAO.getBanCount(m_idx,"2_boardBan");
+		if(banCount>0)res = true;
+		return res;
+	}
+
+	
+
 	
 
 

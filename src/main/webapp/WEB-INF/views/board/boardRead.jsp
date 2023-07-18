@@ -49,9 +49,14 @@
 			type:"post",
 			data:{boa_idx:boa_idx,m_idx:m_idx,content:replyContent},
 			url:"${ctp}/board/replyInput",
-			success:function(){
-				alert("댓글이 등록되었습니다");
-				location.reload();
+			success:function(res){
+				if(res=="99"){
+					alert("잘못된 활동으로 인해 회원님의 댓글 이용이 임시 정지되었습니다. 자세한 사항은 관리자 또는 운영자에게 문읭해 주세요.")
+				}
+				else{
+					alert("댓글이 등록되었습니다");
+					location.reload();
+				}
 			},
 			error:function(){
 				alert("전송오류가 발생하였습니다. 같은 오류가 반복되면 관리자 또는 운영자에게 문의해주세요.");
@@ -86,9 +91,14 @@
 			type:"post",
 			data:{content:ansReplyContent,boa_idx:boa_idx,rep_group:rep_group,m_idx:sM_idx,t_nickName:t_nickName,rep_level:rep_level},
 			url:"${ctp}/board/answerReply",
-			success:function(){
-				alert("답글이 등록되었습니다.");
-				location.reload();
+			success:function(res){
+				if(res=="99"){
+					alert("잘못된 활동으로 인해 회원님의 댓글 이용이 임시 정지되었습니다. 자세한 사항은 관리자 또는 운영자에게 문읭해 주세요.")
+				}
+				else{
+					alert("답글이 등록되었습니다.");
+					location.reload();
+				}
 			},
 			error:function(){
 				alert("전송오류가 발생하였습니다. 같은 오류가 반복되면 관리자 또는 운영자에게 문의해주세요.");			
@@ -187,17 +197,19 @@
 				<img alt="" src="${ctp}/resources/data/memberprofile/${boardRead_vo.photo}" class="profile_img"> 
 				</div>
 				<div class="col-6">
-				<span class="mainfont-b-18">${boardRead_vo.nickName}(${boardRead_vo.mid})</span><span class="fontdot-12">${boardRead_vo.strLevel}</span><br>
-				<span class="minafont-m-16">${boardRead_vo.inst}</span>
+					<span class="mainfont-b-18">${boardRead_vo.nickName}(${boardRead_vo.mid})</span><span class="fontdot-12">${boardRead_vo.strLevel}</span><br>
+					<span class="minafont-m-16">${boardRead_vo.inst}</span>
 				</div>
 				<div class="col-4 text-right align-self-end fontdot-12">
-					<a>친구신청</a> 
-					| 
-					<a>쪽지</a> 
-					| 
-					<a>차단하기</a> 
-					| 
-					<a href="javascript:window.open('${ctp}/message/reportWindow/member2/${boardRead_vo.m_idx}?title=${boardRead_vo.nickName}', '신고하기', 'width=515, height=460')">사용자신고</a>
+					<c:if test="${sM_idx != null}">
+						<a href="javascript:window.open('${ctp}/message/friendInvite/${boardRead_vo.m_idx}?title=${boardRead_vo.nickName}', '친구신청', 'width=515, height=460')">친구신청</a> 
+						| 
+						<a>쪽지</a> 
+						| 
+						<a>차단하기</a> 
+						| 
+						<a href="javascript:window.open('${ctp}/message/reportWindow/member2/${boardRead_vo.m_idx}?title=${boardRead_vo.nickName}', '신고하기', 'width=515, height=460')">사용자신고</a>
+					</c:if>
 				</div>			
 				<div class="col-12"><hr/></div>
 				<div class="col-12 mainfont-b-20 mb-3">댓글</div>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.javaweb1S.dao.MemberDAO;
 import com.spring.javaweb1S.dao.MessageDAO;
 import com.spring.javaweb1S.vo.CategoryVO;
 import com.spring.javaweb1S.vo.MemberVO;
@@ -16,6 +17,9 @@ import com.spring.javaweb1S.vo.ReportVO;
 public class MessageServiceImpl implements MessageService {
 	@Autowired
 	MessageDAO messageDAO;
+	
+	@Autowired
+	MemberDAO memberDAO;
 
 	@Override
 	public List<MessageVO> getAllMessageList(PageVO pageVO, int m_idx) {
@@ -92,6 +96,32 @@ public class MessageServiceImpl implements MessageService {
 		}
 		
 		return vo;
+	}
+
+	@Override
+	public boolean getFriendCheck(int m_idx, int t_idx) {
+		boolean res = false;
+		String extra = messageDAO.getFriendExtraByIdxs(m_idx,t_idx);
+		if(extra!=null) res=true;
+		
+		return res;
+	}
+
+	@Override
+	public void setFriendInvitation(int m_idx, int t_idx,String content) {
+		messageDAO.setFreindInvitation(m_idx,t_idx,content);
+	}
+
+	@Override
+	public void setFrienInviteMessageSend(int m_idx, int t_idx, String content) {
+		String nickName = memberDAO.getNickNameBym_idx(m_idx);
+		MessageVO msg_vo = new MessageVO();
+		msg_vo.setM_idx(m_idx);
+		msg_vo.setReceive_m_idx(t_idx);
+		msg_vo.setTitle(nickName+"님의 친구신청입니다.");
+		msg_vo.setContent(content);
+		msg_vo.setMsg_category(120);
+		messageDAO.setSendMessage(msg_vo);
 	}
 
 

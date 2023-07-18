@@ -24,5 +24,15 @@ public interface AdminService {
 
 	public ReportVO getReportDetail(int rep_idx);
 
+	public void setDelete(String tableName, String idxName, int reported_idx);
+
+	public void setBanList(int reported_m_idx, String banType, String penaltyTime, String takeContent);
+
+	public void setReported_m_idx_Level(int reported_m_idx, String banType);
+
+	public void setReportResultUpdate(int rep_idx, int takeSw, String takeContent);
+
+
+
 
 }

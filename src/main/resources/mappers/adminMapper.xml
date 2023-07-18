@@ -70,7 +70,8 @@
 			select 
 				A.title as reportedTitle, 
 				A.content as reportedContent,
-				B.nickName as reportednickName
+				B.nickName as reportednickName,
+				B.m_idx as reported_m_idx
 			from 
 				board2 A,
 				Member2 B  
@@ -82,7 +83,8 @@
 		<if test="rcVO.tableName.equals('board2_reply')">
 			select 
 				A.content as reportedContent,
-				B.nickName as reportednickName 
+				B.nickName as reportednickName,
+				B.m_idx as reported_m_idx
 			from 
 				board2_reply A,
 				member2 B
@@ -92,7 +94,7 @@
 					A.m_idx = B.m_idx
 		</if>
 		<if test="rcVO.tableNAme.equals('member2')">
-			select nickName as reportednickName from member2 where m_idx = #{vo.reported_idx}
+			select nickName as reportednickName,m_idx as reported_m_idx from member2 where m_idx = #{vo.reported_idx}
 		</if>
 		
 	</select>
@@ -102,9 +104,26 @@
 		insert board2_category values(#{maxCategory},#{categoryName},default,null,default);
 	</insert>
 	
+	<insert id="setBanList">
+		insert banList values(default, #{m_idx},#{banType},#{cdate},default,#{reason});
+	</insert>
+	
 	
 	<update id="setPointSetterUpdate">
 	 update pointSetter set point = #{vo.point}, cdate = now(), c_reason = #{vo.c_reason} where part = #{vo.part};
 	</update>
+	
+	<update id="setDelete">
+		update ${tableName} set ddate=now() where ${idxName}=#{idx};
+	</update>
+	
+	<update id="setMemberLevel">
+		update member2 set level = #{level} where m_idx = #{m_idx};
+	</update>
+	
+	<update id="setReportResultUpdate">
+		update report2 set takeSw = #{takeSw}, takeContent = #{takeContent},tdate=now() where rep_idx=#{rep_idx}; 
+	</update>
+	
 
 </mapper>

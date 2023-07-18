@@ -21,6 +21,7 @@ public class ReportVO {
 	private String idxName;
 	private String nickName;
 	
+	private int reported_m_idx;
 	private String reportednickName;
 	private String reportedTitle;
 	private String reportedContent;

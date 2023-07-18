@@ -52,3 +52,17 @@ create table offenderList(
 drop table offenderList
 
 
+create table banList(
+	ban_idx					int 				not null primary key auto_increment,
+	m_idx						int					not null,
+	banType					varchar(15) not null,
+	cdate						datetime,
+	wdate						datetime		default now(),
+	reason					text				not	null,
+	foreign key(m_idx) references member2(m_idx)
+	on update cascade
+	on delete restrict
+)
+
+
+

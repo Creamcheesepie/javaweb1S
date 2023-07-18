@@ -122,8 +122,30 @@ public class AdminController {
 			@RequestParam(name="rep_idx",defaultValue="0",required=false) int rep_idx
 			) {
 		ReportVO vo = adminService.getReportDetail(rep_idx);
-		System.out.println(vo);
 		return vo;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/reportTakeInput",method = RequestMethod.POST)
+	public void adminReportTakeInputPost(
+			@RequestParam(name="rep_idx",defaultValue="0",required=false)int rep_idx,
+			@RequestParam(name="reported_idx",defaultValue="0",required=false)int reported_idx,
+			@RequestParam(name="reported_m_idx",defaultValue="0",required=false)int reported_m_idx, 
+			@RequestParam(name="banType",defaultValue="",required=false)String banType,
+			@RequestParam(name="takeSw",defaultValue="0",required=false)int takeSw,
+			@RequestParam(name="deleteValue",defaultValue="0",required=false)int deleteValue,
+			@RequestParam(name="penaltyTime",defaultValue="",required=false)String penaltyTime,
+			@RequestParam(name="takeContent",defaultValue="",required=false)String takeContent,
+			@RequestParam(name="tableName",defaultValue="",required=false)String tableName,
+			@RequestParam(name="idxName",defaultValue="",required=false)String idxName
+			) {
+		if(deleteValue==1) {
+			adminService.setDelete(tableName,idxName,reported_idx);
+		}
+		adminService.setBanList(reported_m_idx,banType,penaltyTime,takeContent);
+		adminService.setReported_m_idx_Level(reported_m_idx,banType);
+		adminService.setReportResultUpdate(rep_idx,takeSw,takeContent);
+		
 	}
 	
 }

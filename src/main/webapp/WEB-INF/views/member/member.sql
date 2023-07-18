@@ -71,3 +71,14 @@ update member2 set point=point+1*10 where m_idx=1;
 		
 
 insert into email values ((select m_idx from member2 where mid='admin'),'gnldbs1004','1',null);
+
+create table friendBanList(
+	m_idx 			int							not null,
+	t_idx				int							not null,
+	status			tinyint					not null,
+	extra				varchar(300) 		not null,
+	setDate			datetime				not null default now(),
+	foreign key(m_idx) references member2(m_idx)
+	on update cascade
+	on delete restrict
+)

@@ -11,7 +11,8 @@
 			A.receive_m_idx,
 			B.nickName,
 			A.sdate,
-			A.readSw	
+			A.readSw,
+			A.msg_category
 		from 
 			message2 A, member2 B 
 		where
@@ -163,6 +164,12 @@
 		select content from board2_reply where rep_idx = #{vo.reported_idx};
 	</select>
 	
+	<select id="getFriendCheck" resultType="String">
+		select extra from friendbanList where m_idx = #{m_idx} and t_idx = #{t_idx};
+	</select>
+	
+	
+	
 
 	<insert id="setSendMessage">
 		insert into message2 values(default,#{vo.m_idx},#{vo.receive_m_idx},#{vo.title},#{vo.content},default,null,null,#{vo.msg_category},null); 
@@ -171,6 +178,12 @@
 	<insert id="setSendReport">
 		insert into report2 values(default,#{vo.m_idx},#{vo.rep_category},#{vo.reported_idx},#{vo.title},#{vo.content},default,null,null,null,null);
 	</insert>
+	
+	<insert id="setFreindInvitation">
+		insert into friendbanList values(#{m_idx},#{t_idx},'1',#{content},default);
+	</insert>
+	
+	
 	
 	
 	<update id="setReadSwOn">

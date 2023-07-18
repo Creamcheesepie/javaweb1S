@@ -51,6 +51,11 @@ public interface BoardService {
 
 	public OffendListVO getBoardAbuseInfo(int rule_idx, int m_idx);
 
+	public boolean getReplyBanInfo(int m_idx);
+
+	public boolean getBoardBanInfo(int m_idx);
+
+	
 
 
 	

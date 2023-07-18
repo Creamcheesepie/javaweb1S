@@ -57,11 +57,42 @@ public class AdminServiceImpl implements AdminService {
 		vo = adminDAO.getReportByRep_idx(rep_idx);
 		ReportCategoryVO rcVO = adminDAO.getReportCategoryByCategory(vo.getRep_category());
 		ReportVO tempVO = adminDAO.getExtraInformation(rcVO,vo);
+		vo.setTableName(rcVO.getTableName());
+		vo.setIdxName(rcVO.getIdxName());
+		vo.setReported_m_idx(tempVO.getReported_m_idx());
 		vo.setReportedContent(tempVO.getReportedContent());
 		vo.setReportednickName(tempVO.getReportednickName());
 		vo.setReportedTitle(tempVO.getReportedTitle());
 		
 		return vo;
+	}
+
+	@Override
+	public void setDelete(String tableName, String idxName, int reported_idx) {
+		adminDAO.setDelete( tableName, idxName, reported_idx);
+	}
+
+	@Override
+	public void setBanList(int reported_m_idx, String banType, String penaltyTime, String takeContent) {
+		takeContent = "신고사항 처리로 인한 제제입니다.<hr>" + takeContent;
+		adminDAO.setBanList(reported_m_idx,banType,penaltyTime,takeContent);
+	}
+
+	@Override
+	public void setReported_m_idx_Level(int reported_m_idx, String banType) {
+		String[] arrBanType = banType.split("_");
+		
+		if(arrBanType[0].equals("3")) {
+			adminDAO.setMemberLevel(reported_m_idx,5);
+		}
+		else if(arrBanType[0].equals("4")) {
+			adminDAO.setMemberLevel(reported_m_idx,6);
+		}
+	}
+
+	@Override
+	public void setReportResultUpdate(int rep_idx, int takeSw, String takeContent) {
+		adminDAO.setReportResultUpdate( rep_idx, takeSw, takeContent);
 	}
 
 }

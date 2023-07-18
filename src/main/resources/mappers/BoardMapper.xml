@@ -66,6 +66,10 @@
 		select count(boa_idx) from board2 where m_idx = #{m_idx} and wdate between #{limitTime} and now();
 	</select>
 	
+	<select id="getBanCount" resultType="int">
+		select count(m_idx) from banList where banType=#{banType} and m_idx=#{m_idx} and cdate <![CDATA[>]]>  date_sub(now(),interval 1 year);
+	</select>
+	
 	
 	
 	<insert id="setBoardWriteInput">

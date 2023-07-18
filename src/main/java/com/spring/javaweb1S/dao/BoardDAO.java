@@ -57,6 +57,10 @@ public interface BoardDAO {
 
 	public int getBoardCntByIdxWithLimitTime(@Param("m_idx") int m_idx,@Param("limitTime") String limitTime);
 
+	public int getBanCount(@Param("m_idx") int m_idx,@Param("banType") String banType);
+
+
+
 	
 
 }

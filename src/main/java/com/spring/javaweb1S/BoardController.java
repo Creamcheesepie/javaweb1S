@@ -108,8 +108,10 @@ public class BoardController {
 		
 		int m_idx = (int)session.getAttribute("sM_idx");
 		
-		boolean abuseSw = boardService.getboardWriteAbused(m_idx);
-		if(abuseSw)return "redirect:/boardAbuseUser/2";
+		boolean abuseSw = boardService.getBoardBanInfo(m_idx);
+		if(abuseSw) return "redirect:/boardAbuseUser/2"; 
+		abuseSw = boardService.getboardWriteAbused(m_idx);
+		if(abuseSw) return "redirect:/boardAbuseUser/2";
 		
 		model.addAttribute("category_Name", categoryName);
 		return "board/boardWrite";
@@ -338,7 +340,9 @@ public class BoardController {
 	@RequestMapping(value = "/replyInput", method = RequestMethod.POST)
 	public int boardReplyInputPost(ReplyVO vo) {
 		int res=0;
-		res = boardService.setReplyInput(vo);
+		boolean banSw =boardService.getReplyBanInfo(vo.getM_idx());
+		if(!banSw) res = boardService.setReplyInput(vo);
+		else res = 99;
 		return res;
 	}
 	
@@ -359,9 +363,12 @@ public class BoardController {
 		vo.setM_idx(m_idx);
 		vo.setRep_level(rep_level+1);
 		vo.setContent("<p>@"+t_nickName+"</p>"+content);
+		int res = 0;
 		
-		boardService.setAnswerReplyInput(vo);
-		return 0;
+		boolean banSw =boardService.getReplyBanInfo(vo.getM_idx());
+		if(!banSw) boardService.setAnswerReplyInput(vo);
+		else res = 99;
+		return res;
 	};
 	
 	//뉴스글 수정처리 폼 출력

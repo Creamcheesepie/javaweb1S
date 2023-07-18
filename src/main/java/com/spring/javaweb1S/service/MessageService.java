@@ -35,5 +35,11 @@ public interface MessageService {
 
 	public ReportVO getMyReport(int rep_idx);
 
+	public boolean getFriendCheck(int m_idx, int t_idx);
+
+	public void setFriendInvitation(int m_idx, int t_idx,String content);
+
+	public void setFrienInviteMessageSend(int m_idx, int t_idx, String content);
+
 	
 }

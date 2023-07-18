@@ -43,13 +43,15 @@
 				if(vo.reportednickName!=null) $("#reportedOutput").html(vo.reportednickName);
 				if(vo.reportedTitle!=null) $("#reportedOutput").html(vo.reportedTitle);
 				if(vo.reportedContent!=null) $("#reportedOutput").html(vo.reportedContent);
+				
 				$("#reportCategoryOutput").html(vo.category_name);
 				$("#reportTitleOutput").html(vo.title);
 				$("#reportContentOutput").html(vo.content);
 				$("#wdateOutput").html(vo.wdate);
-				if(vo.takeResult!=null) $("#takeResult").html(vo.takeResult);
+				
+				if(vo.takeContent!=null) $("#takeResult").html(vo.takeContent);
 				else $("#takeResult").html("아직 처리되지 않았습니다.");
-				if(vo.takeResult!=null) $("#takeResultTime").html(vo.tdate);
+				if(vo.takeContent!=null) $("#takeResultTime").html(vo.tdate);
 				else $("#takeResultTime").html("빠른시일 내에 처리하겠습니다.");
 				$("#sendMessageModal").modal();
 			},
@@ -132,6 +134,8 @@
 				<div class="col-12 text-right align-self-end">
 					<span class="fontdot-12">신고시간 : </span><span name="wdateOutput" id="wdateOutput" class="fontdot-12"></span>
 				</div>
+			</div>
+			<div class="row">
 				<div class="col-12">
 					처리결과<hr>
 				</div>
@@ -141,7 +145,7 @@
 				<div class="col-12 text-right align-self-end">
 					<span class="fontdot-12">처리시간 : </span><span name="takeResultTime" id="takeResultTime" class="fontdot-12"></span>
 				</div>
-			</div>      	
+			</div>	
       </div>
       <!-- Modal footer -->
       <div class="modal-footer">

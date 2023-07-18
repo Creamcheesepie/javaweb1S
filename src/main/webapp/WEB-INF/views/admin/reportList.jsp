@@ -19,6 +19,7 @@
 				data:{rep_idx:rep_idx},
 				url:"${ctp}/admin/getReportDetail",
 				success:function(vo){
+					$("#deleteOutput").show();
 					$("#detailNickName").html(vo.nickName);
 					$("#detailTitle").html(vo.title);
 					$("#detailContent").html(vo.content);
@@ -30,6 +31,7 @@
 					}
 					else{
 						$("#reportedTitleOutput").hide();
+						$("#deleteOutput").hide();
 						$("#detailPart").html("회원 신고")
 					}
 					if(vo.reportedContent !=null) {
@@ -43,12 +45,50 @@
 					$("#reportedNickName").html(vo.reportednickName);
 					$("#reportedTitle").html(vo.reportedTitle);
 					$("#reportedContent").html(vo.reportedContent);
+					
+					$("#tableNameInput").val(vo.tableName);
+					$("#idxNameInput").val(vo.idxName);
+					$("#reported_m_idxInput").val(vo.reported_m_idx);
+					$("#reported_idxInput").val(vo.reported_idx);
+					$("#rep_idxInput").val(vo.rep_idx);
 					$("#reportDetailModal").modal();
 				},
 				error:function(){
 					alert("전송오류가 발생하였습니다. 같은 현상이 반복되면 관리자에게 문의하여 주십시오.");
 				}
 			})
+		}
+		
+		function reportTakeSave(){
+			let reported_idx = $("#reported_idxInput").val();
+			let rep_idx = $("#rep_idxInput").val();
+			let reported_m_idx = $("#reported_m_idxInput").val();
+			let tableName = $("#tableNameInput").val();
+			let idxName = $("#idxNameInput").val();
+			let banType = $("#banType").val();
+			let penaltyTime = $("#penaltyTime").val();
+			let takeSw = $("#takeSwValue").val();
+			let takeContent = $("#takeContentInput").val();
+			let deleteValue = $("#deleteValue").val();
+			
+			if(takeContent.trim()==""){
+				alert("신고 처리 내용을 입력해 주세요.");
+				return false;
+			}
+			
+			$.ajax({
+				type:"post",
+				data:{reported_idx:reported_idx,reported_m_idx:reported_m_idx,banType:banType,takeSw:takeSw,takeContent:takeContent,tableName:tableName,idxName:idxName,deleteValue:deleteValue,penaltyTime:penaltyTime,rep_idx:rep_idx},
+				url:"${ctp}/admin/reportTakeInput",
+				success:function(){
+					alert("성공적으로 처리하였습니다.");
+					location.reload();
+				},
+				error:function(){
+					alert("전송오류가 발생하였습니다.같은 현상이 반복되면 관리자에게 문의하여 주십시오.");
+				}
+			})
+			
 			
 		}
 	</script>
@@ -194,38 +234,43 @@
         <div><hr></div>
         <div>
        		신고 처리
+       		<input type="hidden" name="rep_idxInput" id="rep_idxInput">
+       		<input type="hidden" name="reported_m_idxInput" id="reported_m_idxInput">
+       		<input type="hidden" name="reported_idxInput" id="reported_idxInput">
+       		<input type="hidden" name="tableNameInput" id="tableNameInput">
+       		<input type="hidden" name="idxNameInput" id="idxNameInput">
        	</div>
-       	<div class="deleteOutput">
+       	<div id="deleteOutput" name="deleteOutput">
        		신고 대상 처리
-       		<select>
-       			<option>선택</option>
-       			<option>삭제</option>
+       		<select id="deleteValue" name="deleteValue">
+       			<option value='0'>선택</option>
+       			<option value='1'>삭제</option>
        		</select>
        	</div>
        	<div>
        		제재 종류
-       		<select>
-       			<option value="">댓글 금지</option>
-       			<option value="">글 작성 금지</option>
-       			<option value="">임시 정지</option>
-       			<option value="">영구 정지</option>
+       		<select name="banType" id="banType">
+       			<option value="1_replyBan">댓글 금지</option>
+       			<option value="2_boardBan">글 작성 금지</option>
+       			<option value="3_tempBan">임시 정지</option>
+       			<option value="4_Ban">영구 정지</option>
        		</select>
        		해제일 <input type="date" name="penaltyTime" id="penaltyTime">
        	</div>
        	<div>
        		처리경과
-	       	<select>
-	       		<option value="">처리전</option>
-	       		<option value="">처리중</option>
-	       		<option value="">처리완료</option>
+	       	<select name="takeSwValue" id="takeSwValue">
+	       		<option value="0">처리전</option>
+	       		<option value="1">처리중</option>
+	       		<option value="2">처리완료</option>
 	       	</select>
        	</div>
        	<div>
        		처리 내용
-       		<textarea rows="3" class="form-control"></textarea>
+       		<textarea rows="3" class="form-control" name="takeConetntInput" id="takeContentInput"></textarea>
        	</div>
         <div class="text-center mt-3">
-        	<button type="button" class="btn border">저장</button>
+        	<button type="button" class="btn border" onclick="reportTakeSave()">저장</button>
         </div>
       </div>
       

@@ -11,41 +11,45 @@ import com.spring.javaweb1S.vo.ReportVO;
 
 public interface MessageDAO {
 
-	List<MessageVO> getAllMessageList(@Param("vo") PageVO pageVO,@Param("m_idx") int m_idx);
+	public List<MessageVO> getAllMessageList(@Param("vo") PageVO pageVO,@Param("m_idx") int m_idx);
 
-	MessageVO getSendMessage(@Param("msg_idx") int msg_idx);
+	public MessageVO getSendMessage(@Param("msg_idx") int msg_idx);
 
-	MessageVO getReceiveMessage(@Param("msg_idx") int msg_idx);
+	public MessageVO getReceiveMessage(@Param("msg_idx") int msg_idx);
 
-	List<MemberVO> getMessageReceiverSearchList(@Param("searchOption") String searchOption,@Param("searchStr") String searchStr);
+	public List<MemberVO> getMessageReceiverSearchList(@Param("searchOption") String searchOption,@Param("searchStr") String searchStr);
 
-	List<MessageVO> getMessageCategoryList();
+	public List<MessageVO> getMessageCategoryList();
 
-	void setSendMessage(@Param("vo") MessageVO msg_vo);
+	public void setSendMessage(@Param("vo") MessageVO msg_vo);
 
-	List<MessageVO> getMessageSendList(@Param("m_idx") int m_idx,@Param("vo") PageVO pageVO);
+	public List<MessageVO> getMessageSendList(@Param("m_idx") int m_idx,@Param("vo") PageVO pageVO);
 
-	List<MessageVO> getMessageReceiveList(@Param("m_idx")int m_idx,@Param("vo") PageVO pageVO);
+	public List<MessageVO> getMessageReceiveList(@Param("m_idx")int m_idx,@Param("vo") PageVO pageVO);
 
-	MessageVO getSenderInfo(@Param("msg_idx") int msg_idx);
+	public MessageVO getSenderInfo(@Param("msg_idx") int msg_idx);
 
-	void setReadSwOn(@Param("msg_idx") int msg_idx);
+	public void setReadSwOn(@Param("msg_idx") int msg_idx);
 
-	List<ReportVO> getReportList(@Param("m_idx") int m_idx,@Param("vo") PageVO pageVO);
+	public List<ReportVO> getReportList(@Param("m_idx") int m_idx,@Param("vo") PageVO pageVO);
 
-	List<ReportVO> getReportCategoryList(@Param("tableName")String tableName);
+	public List<ReportVO> getReportCategoryList(@Param("tableName")String tableName);
 
-	ReportVO setTableInfo(@Param("tableName") String tableName);
+	public ReportVO setTableInfo(@Param("tableName") String tableName);
 
-	void setSendReport(@Param("vo") ReportVO reportVO);
+	public void setSendReport(@Param("vo") ReportVO reportVO);
 
-	ReportVO getMyReportByRep_idx(@Param("rep_idx") int rep_idx);
+	public ReportVO getMyReportByRep_idx(@Param("rep_idx") int rep_idx);
 
-	String getBoardTitle(@Param("vo") ReportVO vo);
+	public String getBoardTitle(@Param("vo") ReportVO vo);
 
-	String getMemberNickName(@Param("vo") ReportVO vo);
+	public String getMemberNickName(@Param("vo") ReportVO vo);
 
-	String getReplyContent(@Param("vo") ReportVO vo);
+	public String getReplyContent(@Param("vo") ReportVO vo);
+
+	public String getFriendExtraByIdxs(@Param("m_idx") int m_idx,@Param("t_idx") int t_idx);
+
+	public void setFreindInvitation(@Param("m_idx") int m_idx,@Param("t_idx") int t_idx,@Param("content") String content);
 	
 
 }
