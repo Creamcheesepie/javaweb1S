@@ -164,7 +164,7 @@
 		select content from board2_reply where rep_idx = #{vo.reported_idx};
 	</select>
 	
-	<select id="getFriendCheck" resultType="String">
+	<select id="getFriendExtraByIdxs" resultType="String">
 		select extra from friendbanList where m_idx = #{m_idx} and t_idx = #{t_idx};
 	</select>
 	

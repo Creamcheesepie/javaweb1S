@@ -26,7 +26,8 @@
 			url:"${ctp}/message/friendInviteSend",
 			success:function(res){
 				if(res=="1"){
-					alert="이미 친구신청을 하였거나 친구가 된 회원입니다."
+					alert("이미 친구신청을 하였거나 친구가 된 회원입니다.")
+					return false;
 				}
 				alert("정상적으로 친구신청이 되었습니다.");
 				location.reload();

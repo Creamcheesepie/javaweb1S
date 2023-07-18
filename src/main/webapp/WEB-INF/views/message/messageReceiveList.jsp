@@ -39,11 +39,15 @@
 			data:{msg_idx:msg_idx},
 			url:"${ctp}/message/getReceiveMessage",
 			success:function(vo){
+				$("#sendButton").show();
+				$("#friendOk").hide();
 				$("#rsdateOutput").html(vo.sdate);
 				$("#receiveTitleOutput").html(vo.title);
 				$("#sendNameOutput").html(vo.nickName);
 				$("#receiveCategoryNameOutput").html(vo.category_name);
 				$("#receiveContentOutput").html(vo.content);
+				if(vo.msg_category=='120') $("#friendOk").show();
+				if(vo.msg_category=='120') $("#sendButton").hide();
 				$("#answerOpener").attr('onclick',"window.open('${ctp}/message/openAnswer/"+msg_idx+"', '쪽지쓰기', 'width=515, height=460')" );
 				$("#receiveMessageModal").modal();
 			},
@@ -52,6 +56,26 @@
 			}
 		})
 	}
+	function FriendInviteAnswer(ans){
+		$.ajax({
+			type:"post",
+			data:{ans:ans},
+			url:"${ctp}/message/friendInviteAnswer",
+			success:function(res){
+				if(res=="1"){
+					alert("친구 신청을 승낙하였습니다.");
+					return false;
+				}
+				else if(res=='2'){
+					alert("친구 신청을 거절하였습니다.");
+				}
+			},
+			error:function(){
+				alert("전송 오류가 발생하였습니다. 같은 현상이 반복되면 관리자 또는 운영자에게 연락해 주십시오.");
+			}
+		})
+	}
+	
 	</script>
 </head>
 <body>
@@ -126,6 +150,10 @@
 					<textarea rows="5" readonly class="form-control" name="receiveContentOutput" id="receiveContentOutput">
 					</textarea>
 				</div>
+				<div name="friendOk" id="friendOk" class="text-center" style="display: none;">
+					<button type="button" class="btn border" onclick="FriendInviteAnswer('1')">수락</button>
+					<button type="button" class="btn border" onclick="FriendInviteAnswer('0')">거절</button>
+				</div>
 				<div class="col-12 text-right aling-self-end">
 					<span class="fontdot-12">보낸시간 : </span><span name="rsdateOutput" id="rsdateOutput" class="fontdot-12"></span>
 				</div>
@@ -133,7 +161,9 @@
       </div>
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="button" id="answerOpener" name="answerOpener" class="btn border" >답장하기</button>
+        <span name="sendButton" id="sendButton">
+        	<button type="button" id="answerOpener" name="answerOpener" class="btn border" >답장하기</button>
+        </span>
         <button type="button" class="btn border" data-dismiss="modal">닫기</button>
       </div>
 
