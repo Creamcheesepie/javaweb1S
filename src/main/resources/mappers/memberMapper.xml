@@ -34,7 +34,29 @@
 	<select id="getNickNameBym_idx" resultType="String">
 		select nickName from member2 where m_idx = #{m_idx};
 	</select>
-
+	
+	<select id="getMyPageBoardList" resultType="com.spring.javaweb1S.vo.BoardVO">
+		select boa_idx,title,category from board2 where m_idx=#{m_idx} order by boa_idx desc limit 5;
+	</select>
+	
+	<select id="getMyPageReplyList" resultType="com.spring.javaweb1S.vo.ReplyVO">
+		select 
+			A.rep_idx,
+			A.content,
+			A.boa_idx,
+			B.category
+		from
+			board2_reply A,
+			board2 B
+		where
+				A.boa_idx = B.boa_idx
+			and
+				A.m_idx = #{m_idx}
+			and
+				A.rep_level = 0
+		order by A.rep_idx desc
+		limit 5;
+	</select>
 
 
 	<insert id="setMemberSignIn">

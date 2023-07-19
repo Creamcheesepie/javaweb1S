@@ -14,8 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaweb1S.dao.MemberDAO;
 import com.spring.javaweb1S.dao.PointDAO;
+import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.DomainVO;
 import com.spring.javaweb1S.vo.MemberVO;
+import com.spring.javaweb1S.vo.ReplyVO;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -197,6 +199,16 @@ public class MemberServiceImpl implements MemberService {
 	public void setMemberPwdUpdate(MemberVO vo) {
 		vo.setPwd(passwordEncoder.encode(vo.getPwd()));
 		memberDAO.setMemberPwdUpdate(vo);
+	}
+
+	@Override
+	public List<BoardVO> getMyPageBoardList(int m_idx) {
+		return memberDAO.getMyPageBoardList(m_idx);
+	}
+
+	@Override
+	public List<ReplyVO> getMyPageReplyList(int m_idx) {
+		return memberDAO.getMyPageReplyList(m_idx);
 	}
 
 

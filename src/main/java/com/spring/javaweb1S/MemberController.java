@@ -22,8 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.spring.javaweb1S.common.JavaProvide;
 import com.spring.javaweb1S.common.LevelToString;
 import com.spring.javaweb1S.service.MemberService;
+import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.DomainVO;
 import com.spring.javaweb1S.vo.MemberVO;
+import com.spring.javaweb1S.vo.ReplyVO;
 
 @Controller
 @RequestMapping("/member")
@@ -208,7 +210,11 @@ public class MemberController {
 		int m_idx = (int) session.getAttribute("sM_idx");
 		MemberVO mvo = memberService.getM_idxInfo(m_idx);
 		String domain = memberService.getDomainDom_idx(mvo.getDom_idx());
+		List<BoardVO> boardVOS = memberService.getMyPageBoardList(m_idx);
+		List<ReplyVO> replyVOS = memberService.getMyPageReplyList(m_idx);
 		
+		model.addAttribute("replyVOS", replyVOS);
+		model.addAttribute("boardVOS", boardVOS);
 		model.addAttribute("domain", domain);
 		model.addAttribute("mvo", mvo);
 		return "member/mypage";

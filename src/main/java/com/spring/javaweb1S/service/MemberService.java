@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.DomainVO;
 import com.spring.javaweb1S.vo.MemberVO;
+import com.spring.javaweb1S.vo.ReplyVO;
 
 public interface MemberService {
 
@@ -52,6 +54,10 @@ public interface MemberService {
 	public MemberVO getEmailNameByM_idx(int m_idx);
 
 	public void setMemberPwdUpdate(MemberVO vo);
+
+	public List<BoardVO> getMyPageBoardList(int m_idx);
+
+	public List<ReplyVO> getMyPageReplyList(int m_idx);
 
 	
 	

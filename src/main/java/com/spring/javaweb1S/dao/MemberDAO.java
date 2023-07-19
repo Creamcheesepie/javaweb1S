@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.DomainVO;
 import com.spring.javaweb1S.vo.MemberVO;
+import com.spring.javaweb1S.vo.ReplyVO;
 
 public interface MemberDAO {
 
@@ -54,6 +56,10 @@ public interface MemberDAO {
 	public int getPointByM_idx(@Param("m_idx") int m_idx);
 
 	public String getNickNameBym_idx(@Param("m_idx") int m_idx);
+
+	public List<BoardVO> getMyPageBoardList(@Param("m_idx") int m_idx);
+
+	public List<ReplyVO> getMyPageReplyList(@Param("m_idx") int m_idx);
 
 	
 

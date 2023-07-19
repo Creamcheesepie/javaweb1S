@@ -113,16 +113,28 @@
 		</div>
 		<div class="col-sm-12"><hr/></div>
 		<div class="col-sm-6 list">
-			<span class="mainfont-b-20">내 작성글</span>
+			<span class="mainfont-b-20">최근 내 작성글</span>
 			<hr/>
-			아직 구현되지 않은 기능입니다.
+			<div class="row">
+				<c:forEach var="boardVO" items="${boardVOS}">
+					<div class="col-12 mb-1">
+						<a href="${ctp}/board/">${boardVO.title}</a>
+					</div>
+				</c:forEach>
+			</div>
 		</div>
 		<div class="col-sm-6 list">
-			<span class="mainfont-b-20">내 댓글</span>
+			<span class="mainfont-b-20">최근 내 댓글</span>
 			<hr/>
-			아직 구현되지 않은 기능입니다.
+			<div class="row">
+				<c:forEach var="replyVO" items="${replyVOS}">
+				<div class="col-12 mb-1">
+				${replyVO.content}
+				</div>
+				</c:forEach>
+			</div>
 		</div>
-		<div class="col-sm-4 list">
+		<div class="col-sm-4 list mt-2">
 			<div class="row">
 				<div class="col-7">
 					<span class="mainfont-b-20">최근쪽지</span>
@@ -135,12 +147,12 @@
 			<hr/>
 			아직 구현되지 않은 기능입니다.
 		</div>
-		<div class="col-sm-4 list">
+		<div class="col-sm-4 list mt-2">
 			<span class="mainfont-b-20">친구목록</span>
 			<hr/>
 			아직 구현되지 않은 기능입니다.
 		</div>
-		<div class="col-sm-4 list">
+		<div class="col-sm-4 list mt-2">
 			<span class="mainfont-b-20">차단목록</span>
 			<hr/>
 			아직 구현되지 않은 기능입니다.
