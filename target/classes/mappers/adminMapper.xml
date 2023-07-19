@@ -36,13 +36,13 @@
 			and
 				A.rep_category = B.rep_category
 			<if test="rep_category>0 and afterDate.equals('') and beforeDate.equals('')">
-			and	A.rep_category = #{rep_cateogry}
+			and	A.rep_category = #{rep_category}
 			</if>
 			<if test="!afterDate.equals('') and !beforeDate.equals('')">
-			and	wdate between #{afterDate} and #{beforeDate} 
+			and	A.wdate between #{afterDate} and #{beforeDate}
 			</if>
 			<if test="rep_category>0 and !afterDate.equals('') and !beforeDate.equals('')">
-			and	A.rep_category = #{rep_cateogry} wdate between #{afterDate} and #{beforeDate}
+			and	A.rep_category = #{rep_category} and A.wdate between #{afterDate} and #{beforeDate}
 			</if>
 		order by rep_idx desc
 		limit #{pageVO.sin},#{pageVO.pageSize}
@@ -96,8 +96,59 @@
 		<if test="rcVO.tableNAme.equals('member2')">
 			select nickName as reportednickName,m_idx as reported_m_idx from member2 where m_idx = #{vo.reported_idx}
 		</if>
-		
 	</select>
+	
+	<select id="getAskCategoryList" resultType="com.spring.javaweb1S.vo.AskVO">
+		select ask_category, name as category_name from ask2_category;
+	</select>
+	
+	<select id="getAskList" resultType="com.spring.javaweb1S.vo.AskVO">
+		select
+			A.ask_idx,
+			A.title,
+			B.name as category_name,
+			A.wdate,
+			A.takeSw,
+			C.nickName
+		from
+			Ask2 A,
+			Ask2_category B,
+			member2 C
+		where
+				A.m_idx=C.m_idx
+			and
+				A.ask_category = B.ask_category
+			<if test="ask_category>0 and afterDate.equals('') and beforeDate.equals('')">
+			and	A.ask_category = #{ask_category}
+			</if>
+			<if test="!afterDate.equals('') and !beforeDate.equals('')">
+			and	A.wdate between #{afterDate} and #{beforeDate}
+			</if>
+			<if test="ask_category>0 and !afterDate.equals('') and !beforeDate.equals('')">
+			and	A.ask_category = #{ask_category} and A.wdate between #{afterDate} and #{beforeDate}
+			</if>
+		order by ask_idx desc
+		limit #{pageVO.sin},#{pageVO.pageSize}
+	</select>
+	
+	<select id="getAskDetail" resultType="com.spring.javaweb1S.vo.AskVO">
+		select
+			A.*,
+			B.name as category_name,
+			C.nickName
+		from
+			ask2 A,
+			ask2_category B,
+			member2 C
+		where
+				A.ask_idx = #{ask_idx}
+			and
+				A.m_idx = C.m_idx
+			and
+				A.ask_category = B.ask_category
+	</select>
+	
+	
 	
 	
 	<insert id="setCategoryInput">
@@ -123,6 +174,10 @@
 	
 	<update id="setReportResultUpdate">
 		update report2 set takeSw = #{takeSw}, takeContent = #{takeContent},tdate=now() where rep_idx=#{rep_idx}; 
+	</update>
+	
+	<update id="setAskTake">
+		update ask2 set takeContent = #{takeContent}, takeSw='2', tdate=now() where ask_idx = #{ask_idx};
 	</update>
 	
 

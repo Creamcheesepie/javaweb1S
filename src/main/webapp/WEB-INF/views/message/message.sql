@@ -10,6 +10,7 @@ insert into message2_category values(1,'대화',default,null)
 insert into message2_category values(2,'질문',default,null)
 insert into message2_category values(100,'답장',default,null)
 insert into message2_category values(120,'친구신청',default,null)
+insert into message2_category values(121,'신청답변',default,null)
 
 create table message2(
 	msg_idx					int						not null primary key auto_increment,
@@ -86,8 +87,13 @@ create table ask2_category(
 	ask_category			tinyint			not	null primary key,
 	name							varchar(100)not	null,
 	wdate							datetime		not	null default now(),
-	cdate							datetime		not null
+	cdate							datetime
 )
+
+insert into ask2_category values(1,'사이트 운영 규정',default,null);
+insert into ask2_category values(2,'이용 제재 규칙',default,null);
+insert into ask2_category values(3,'승급 조건',default,null);
+insert into ask2_category values(99,'기타',default,null);
 
 
 create table ask2(

@@ -24,4 +24,6 @@ public interface PageDAO {
 
 	public int getTRCforReportAdmin(@Param("rep_category") int rep_category,@Param("afterDate") String afterDate,@Param("beforeDate") String beforeDate);
 
+	public int getTRCforAskAdmin(@Param("ask_category") int ask_category,@Param("afterDate") String afterDate,@Param("beforeDate") String beforeDate);
+
 }

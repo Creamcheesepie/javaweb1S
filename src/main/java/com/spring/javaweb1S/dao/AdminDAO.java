@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.javaweb1S.vo.AskVO;
 import com.spring.javaweb1S.vo.CategoryVO;
 import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.PointVO;
@@ -39,5 +40,13 @@ public interface AdminDAO {
 	public void setMemberLevel(@Param("m_idx") int reported_m_idx,@Param("level") int i);
 
 	public void setReportResultUpdate(@Param("rep_idx") int rep_idx,@Param("takeSw") int takeSw,@Param("takeContent") String takeContent);
+
+	public List<AskVO> getAskCategoryList();
+
+	public List<AskVO> getAskList(@Param("afterDate") String afterDate,@Param("beforeDate") String beforeDate,@Param("ask_category") int ask_category,@Param("pageVO") PageVO pageVO);
+
+	public AskVO getAskDetail(@Param("ask_idx")int ask_idx);
+
+	public void setAskTake(@Param("ask_idx") int ask_idx,@Param("takeContent") String takeContent);
 	
 }

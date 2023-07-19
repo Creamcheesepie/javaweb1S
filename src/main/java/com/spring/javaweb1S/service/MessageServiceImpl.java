@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.javaweb1S.dao.MemberDAO;
 import com.spring.javaweb1S.dao.MessageDAO;
+import com.spring.javaweb1S.vo.AskVO;
 import com.spring.javaweb1S.vo.CategoryVO;
 import com.spring.javaweb1S.vo.MemberVO;
 import com.spring.javaweb1S.vo.MessageVO;
@@ -122,6 +123,55 @@ public class MessageServiceImpl implements MessageService {
 		msg_vo.setContent(content);
 		msg_vo.setMsg_category(120);
 		messageDAO.setSendMessage(msg_vo);
+	}
+
+	@Override
+	public int setFriendInviteAnswer(int ans,int msg_idx, int t_idx,int m_idx,String nickName) {
+		int res = 0;
+		MessageVO msgVO = new MessageVO();
+		msgVO.setM_idx(m_idx);
+		msgVO.setReceive_m_idx(t_idx);
+		msgVO.setMsg_category(121);
+		
+		if(ans==1) {
+			msgVO.setTitle(nickName+"님이 회원님의 친구 요청을 수락하였습니다.");
+			msgVO.setContent("앞으로 좋은 활동 기대하겠습니다.");
+			messageDAO.setRepliedMessageRdateUpdate(msg_idx);
+			messageDAO.setSendMessage(msgVO);
+			messageDAO.setFriendInviteAgree(t_idx,m_idx,"친구요청 승낙");
+			messageDAO.setFriendInviteUpdate(t_idx,m_idx,2);
+			res = 1 ;
+		}
+		else if(ans ==2) {
+			msgVO.setTitle(nickName+"님이 회원님의 친구 요청을 거절하였습니다.");
+			msgVO.setContent("다음 번엔 좋은 기회가 있기를 바라겠습니다.");
+			messageDAO.setRepliedMessageRdateUpdate(msg_idx);
+			messageDAO.setSendMessage(msgVO);
+			messageDAO.setFriendInviteDisagree(t_idx,m_idx,"친구요청 거절");
+			res = 2;
+		}
+		return res;
+	}
+
+	@Override
+	public List<AskVO> getMyAskList(int m_idx, PageVO pageVO) {
+		return messageDAO.getMyAskList(m_idx,pageVO);
+	}
+
+	@Override
+	public List<AskVO> getAskCategoryList() {
+		return messageDAO.getAskCategoryList();
+	}
+
+	@Override
+	public void setSendAsk(AskVO askVO) {
+		messageDAO.setSendAsk(askVO);
+		
+	}
+
+	@Override
+	public AskVO getMyAsk(int ask_idx) {
+		return messageDAO.getMyAsk(ask_idx);
 	}
 
 

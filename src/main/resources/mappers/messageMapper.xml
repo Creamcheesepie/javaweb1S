@@ -168,6 +168,47 @@
 		select extra from friendbanList where m_idx = #{m_idx} and t_idx = #{t_idx};
 	</select>
 	
+	<select id="getMyAskList" resultType="com.spring.javaweb1S.vo.AskVO">
+		select
+			A.ask_idx,
+			A.title,
+			A.takeSw,
+			A.wdate,
+			B.name as category_name
+		from
+			ask2 A,
+			ask2_category B
+		where
+				A.m_idx = #{m_idx}
+			and
+				A.ask_category = B.ask_category
+		order by ask_idx desc 
+		limit #{vo.sin},#{vo.pageSize}
+	</select>
+	
+	<select id="getAskCategoryList" resultType="com.spring.javaweb1S.vo.AskVO">
+		select ask_category, name as category_name from ask2_category;
+	</select>
+	
+	<select id="getMyAsk" resultType="com.spring.javaweb1S.vo.AskVO">
+		select
+			A.title,
+			A.ask_category,
+			A.content,
+			A.wdate,
+			A.tdate,
+			A.takeSw,
+			A.takeContent,
+			B.name as category_name
+		from
+			ask2 A,
+			ask2_category B	
+		where
+				A.ask_idx = #{ask_idx}
+			and
+				A.ask_category = B.ask_category
+	</select>
+	
 	
 	
 
@@ -183,11 +224,31 @@
 		insert into friendbanList values(#{m_idx},#{t_idx},'1',#{content},default);
 	</insert>
 	
+	<insert id="setFriendInviteAgree">
+		insert into friendbanList values(#{m_idx},#{t_idx},'2',#{extra},default);
+	</insert>
+	
+	<insert id="setSendAsk">
+		insert into ask2 values(default,#{vo.m_idx},#{vo.ask_category},#{vo.title},#{vo.content},default,null,null,null,null);
+	</insert>
+	
 	
 	
 	
 	<update id="setReadSwOn">
 		update message2 set readSw = 1 where msg_idx = #{msg_idx};
+	</update>
+	
+	<update id="setFriendInviteUpdate">
+		update friendbanList set status = #{i} where m_idx = #{m_idx} and t_idx = #{t_idx};		
+	</update>
+	
+	<update id="setFriendInviteDisagree">
+		update friendbanList set status = '3', extra = #{extra} where m_idx = #{t_idx} and t_idx = #{t_idx};
+	</update>
+	
+	<update id="setRepliedMessageRdateUpdate">
+		update message2 set rdate = now() where msg_idx = #{msg_idx};
 	</update>
 	
 

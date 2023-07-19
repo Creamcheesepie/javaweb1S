@@ -12,6 +12,7 @@
 	<script>
 		'use strict';
 		
+		
 		function openTakeModal(rep_idx){
 			
 			$.ajax({
@@ -96,6 +97,7 @@
 <body>
 <jsp:include page="/WEB-INF/views/include/navbar.jsp"/>
 <div class="container">
+	<form action="${ctp}/admin/adminReportForm" method="post">
 	<div class="row">
 		<div class="col-12">
 			<div class="mainTitle">신고 관리</div>
@@ -118,16 +120,19 @@
 			신고사유
 		</div>
 		<div class="col-3 align-self-center">
-			<select>
-				<option value="all">전체조회</option>
+			<select  name="rep_category" id="rep_category">
+				<option value="">전체조회</option>
 				<c:forEach var="repcVO" items="${repcVOS}" varStatus="st">
 					<option value="${repcVO.rep_category}">${repcVO.name}(${repcVO.tableName})</option>
 				</c:forEach>
 			</select>
 		</div>
 		<div class="col-1  align-self-center">
-			<button type="button" class="btn border">조회</button>
+			<button type="submit" class="btn border">조회</button>
 		</div>
+	</div>
+	</form>
+	<div class="row">
 		<div class="col-12 text-center">
 			<hr>	
 		</div>

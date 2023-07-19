@@ -25,6 +25,9 @@ public interface PageProcess {
 	public PageVO pageProcessorForAdminReport(int rep_category, String afterDate, String beforeDate, int pageSize,
 			int nowPage, int blockSize);
 
+	public PageVO pageProcessorForAdminAsk(int ask_category, String afterDate, String beforeDate, int pageSize,
+			int nowPage, int blockSize);
+
 	
 	
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.javaweb1S.dao.AdminDAO;
+import com.spring.javaweb1S.vo.AskVO;
 import com.spring.javaweb1S.vo.CategoryVO;
 import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.PointVO;
@@ -93,6 +94,26 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public void setReportResultUpdate(int rep_idx, int takeSw, String takeContent) {
 		adminDAO.setReportResultUpdate( rep_idx, takeSw, takeContent);
+	}
+
+	@Override
+	public List<AskVO> getAskCategoryList() {
+		return adminDAO.getAskCategoryList();
+	}
+
+	@Override
+	public List<AskVO> getAskList(String afterDate, String beforeDate, int ask_category, PageVO pageVO) {
+		return adminDAO.getAskList(afterDate,beforeDate,ask_category,pageVO);
+	}
+
+	@Override
+	public AskVO getAskDetail(int ask_idx) {
+		return adminDAO.getAskDetail(ask_idx);
+	}
+
+	@Override
+	public void setAskTake(int ask_idx, String takeContent) {
+		adminDAO.setAskTake(ask_idx,takeContent);
 	}
 
 }

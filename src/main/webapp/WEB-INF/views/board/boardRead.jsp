@@ -204,7 +204,7 @@
 					<c:if test="${sM_idx != null}">
 						<a href="javascript:window.open('${ctp}/message/friendInvite/${boardRead_vo.m_idx}?title=${boardRead_vo.nickName}', '친구신청', 'width=515, height=460')">친구신청</a> 
 						| 
-						<a>쪽지</a> 
+						<a href="javascript:window.open('${ctp}/message/openWriteInComunity?receive_m_idx=${boardRead_vo.m_idx}&nickName=${boardRead_vo.nickName}', '쪽지쓰기', 'width=515, height=460')">쪽지</a> 
 						| 
 						<a>차단하기</a> 
 						| 
@@ -268,7 +268,7 @@
 									<div class="col-12 text-right align-self-end">
 										<c:if test="${reply_vo.m_idx != sM_idx}">
 											<span  class="fontdot-12">
-												<a>쪽지</a> 
+												<a href="javascript:window.open('${ctp}/message/openWriteInComunity?receive_m_idx=${reply_vo.m_idx}&nickName=${reply_vo.nickName}', '쪽지쓰기', 'width=515, height=460')">쪽지</a> 
 												| 
 												<a>차단</a> 
 												| 

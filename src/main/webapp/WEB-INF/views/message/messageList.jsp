@@ -64,6 +64,8 @@
 				$("#sendNameOutput").html(vo.nickName);
 				$("#receiveCategoryNameOutput").html(vo.category_name);
 				$("#receiveContentOutput").html(vo.content);
+				if(vo.msg_category=='120') $("#friendOk").show();
+				if(vo.msg_category=='120') $("#sendButton").hide();
 				$("#answerOpener").attr('onclick',"window.open('${ctp}/message/openAnswer/"+msg_idx+"', '쪽지쓰기', 'width=515, height=460')" );
 				$("#receiveMessageModal").modal();
 			},
@@ -198,6 +200,12 @@
 					<textarea rows="5" readonly class="form-control" name="receiveContentOutput" id="receiveContentOutput">
 					</textarea>
 				</div>
+				<div class="col-12 text-center" name="friendOk" id="friendOk" style="display: none;">
+					<button type="button" class="btn border" onclick="FriendInviteAnswer('1')">수락</button>
+					<button type="button" class="btn border" onclick="FriendInviteAnswer('0')">거절</button>
+					<input type="hidden" name="t_idx" id="t_idx">
+					<input type="hidden" name="msg_idx" id="msg_idx">
+				</div>
 				<div class="col-12 text-right aling-self-end">
 					<span class="fontdot-12">보낸시간 : </span><span name="rsdateOutput" id="rsdateOutput" class="fontdot-12"></span>
 				</div>
@@ -205,7 +213,9 @@
       </div>
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button name="answerOpener" id="answerOpener" type="button" class="btn border" onclick="">답장하기</button>
+        <span name="sendButton" id="sendButton">
+        	<button type="button" id="answerOpener" name="answerOpener" class="btn border" >답장하기</button>
+        </span>
         <button type="button" class="btn border" data-dismiss="modal">닫기</button>
       </div>
 

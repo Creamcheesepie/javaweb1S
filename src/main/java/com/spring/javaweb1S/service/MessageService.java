@@ -2,6 +2,7 @@ package com.spring.javaweb1S.service;
 
 import java.util.List;
 
+import com.spring.javaweb1S.vo.AskVO;
 import com.spring.javaweb1S.vo.MemberVO;
 import com.spring.javaweb1S.vo.MessageVO;
 import com.spring.javaweb1S.vo.PageVO;
@@ -40,6 +41,16 @@ public interface MessageService {
 	public void setFriendInvitation(int m_idx, int t_idx,String content);
 
 	public void setFrienInviteMessageSend(int m_idx, int t_idx, String content);
+
+	public int setFriendInviteAnswer(int ans,int msg_idx, int t_idx,int m_idx,String nickName);
+
+	public List<AskVO> getMyAskList(int m_idx, PageVO pageVO);
+
+	public List<AskVO> getAskCategoryList();
+
+	public void setSendAsk(AskVO askVO);
+
+	public AskVO getMyAsk(int ask_idx);
 
 	
 }

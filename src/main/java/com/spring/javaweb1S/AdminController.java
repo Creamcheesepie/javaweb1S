@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.javaweb1S.pagination.PageProcess;
 import com.spring.javaweb1S.service.AdminService;
+import com.spring.javaweb1S.vo.AskVO;
 import com.spring.javaweb1S.vo.CategoryVO;
 import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.PointVO;
@@ -145,7 +146,49 @@ public class AdminController {
 		adminService.setBanList(reported_m_idx,banType,penaltyTime,takeContent);
 		adminService.setReported_m_idx_Level(reported_m_idx,banType);
 		adminService.setReportResultUpdate(rep_idx,takeSw,takeContent);
-		
 	}
+	
+	@RequestMapping(value = "/adminAskForm", method = RequestMethod.POST)
+	public String adminAskFormPost(Model model,
+			@RequestParam(name="afterDate",defaultValue="",required=false)String afterDate,
+			@RequestParam(name="beforeDate",defaultValue="",required=false)String beforeDate,
+			@RequestParam(name="ask_category",defaultValue="0",required=false)int ask_category,
+			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
+			@RequestParam(name="pageSize",defaultValue="20",required=false)int pageSize
+			) {
+		int blockSize = 5;
+		List<AskVO> askcVOS = adminService.getAskCategoryList();
+		model.addAttribute("askcVOS", askcVOS);
+		
+		PageVO pageVO = pageProcess.pageProcessorForAdminAsk(ask_category, afterDate, beforeDate, pageSize, nowPage,blockSize);
+		List<AskVO> askVOS = adminService.getAskList(afterDate,beforeDate,ask_category,pageVO);
+		model.addAttribute("askVOS", askVOS);
+		
+		return "admin/askList";
+	}
+	
+	@RequestMapping(value = "/adminAskForm", method = RequestMethod.GET)
+	public String adminAskFormGet() {
+		return "redirect:/unusualapproach";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getAskDetail",method = RequestMethod.POST)
+	public AskVO adminAskDetailPost(
+			@RequestParam(name="ask_idx",defaultValue="0",required=false)int ask_idx
+			) {
+		AskVO vo = adminService.getAskDetail(ask_idx);
+		return vo;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/askTakeSet", method = RequestMethod.POST)
+	public void adminAskTakeSetPost(
+			@RequestParam(name="ask_idx",defaultValue="0",required=false)int ask_idx,
+			@RequestParam(name="takeContent",defaultValue="",required=false)String takeContent
+			) {
+		adminService.setAskTake(ask_idx,takeContent);
+	}
+	
 	
 }

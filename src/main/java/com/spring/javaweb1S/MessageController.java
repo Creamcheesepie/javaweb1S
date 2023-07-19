@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.javaweb1S.pagination.PageProcess;
 import com.spring.javaweb1S.service.MessageService;
+import com.spring.javaweb1S.vo.AskVO;
 import com.spring.javaweb1S.vo.CategoryVO;
 import com.spring.javaweb1S.vo.MemberVO;
 import com.spring.javaweb1S.vo.MessageVO;
@@ -72,6 +73,19 @@ public class MessageController {
 		
 		model.addAttribute("msg_categoryVOS", msg_categoryVOS);
 		return "message/messageWriteWindow";
+	}
+	
+	@RequestMapping(value = "/openWriteInComunity",method = RequestMethod.GET)
+	public String messageWriteWindowInComunityOpenGet(Model model,
+			@RequestParam(name="receive_m_idx",defaultValue="",required=false)int receive_m_idx,
+			@RequestParam(name="nickName",defaultValue="",required=false) String nickName
+			){
+		List<MessageVO> msg_categoryVOS = messageService.getMessageCategoryList();
+		
+		model.addAttribute("receive_m_idx", receive_m_idx);
+		model.addAttribute("nickName", nickName);
+		model.addAttribute("msg_categoryVOS", msg_categoryVOS);
+		return "message/messageWriteWindowInComunity";
 	}
 	
 	@ResponseBody
@@ -218,5 +232,58 @@ public class MessageController {
 		return res;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/friendInviteAnswer", method = RequestMethod.POST)
+	public int messageFriendInviteAnswerPost(HttpSession session,
+			@RequestParam(name="t_idx",defaultValue="0",required=false) int t_idx,
+			@RequestParam(name="msg_idx",defaultValue="0",required=false) int msg_idx,
+			@RequestParam(name="ans",defaultValue="0",required=false) int ans
+			) {
+		int res=0;
+		int m_idx = (int)session.getAttribute("sM_idx");
+		String nickName = (String)session.getAttribute("sNickName");
+		res = messageService.setFriendInviteAnswer(ans,msg_idx,t_idx,m_idx,nickName);
+		
+		return res;
+	}
 	
+	@RequestMapping(value = "/askList", method=RequestMethod.GET)
+	public String messageGetAskListGet(HttpSession session, Model model,
+			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
+			@RequestParam(name="pageSize",defaultValue="15",required=false)int pageSize
+			) {
+		int blockSize = 5;
+		int m_idx = (int)session.getAttribute("sM_idx");
+		PageVO pageVO = pageProcess.pageProcesserByM_idx("ask2", nowPage, pageSize,blockSize , m_idx);
+		
+		List<AskVO> ask_vos = messageService.getMyAskList(m_idx,pageVO);
+		System.out.println(ask_vos);
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("ask_vos", ask_vos);
+		return "message/askList";
+	}
+	
+	@RequestMapping(value = "/openAskForm",method=RequestMethod.GET)
+	public String messageGetAskWindowOpenGet(Model model) {
+		List<AskVO> ask_categoryVOS = messageService.getAskCategoryList();
+		model.addAttribute("ask_categoryVOS", ask_categoryVOS);
+		return "message/askWriteWindow";
+	}
+	
+	@RequestMapping(value = "/askSend",method = RequestMethod.POST)
+	public String messageAskSendPost(AskVO askVO,Model model) {
+		messageService.setSendAsk(askVO);
+		model.addAttribute("sendedSw", "ok");
+		return "message/askWriteWindow";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getMyAsk", method=RequestMethod.POST)
+	public AskVO messageGetMyAskPost(
+			@RequestParam(name="ask_idx",defaultValue="0",required=false)int ask_idx
+			) {
+		AskVO askVO = messageService.getMyAsk(ask_idx); 
+		return askVO;
+	}
+
 }

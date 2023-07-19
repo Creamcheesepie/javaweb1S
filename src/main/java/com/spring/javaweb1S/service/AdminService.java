@@ -2,6 +2,7 @@ package com.spring.javaweb1S.service;
 
 import java.util.List;
 
+import com.spring.javaweb1S.vo.AskVO;
 import com.spring.javaweb1S.vo.CategoryVO;
 import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.PointVO;
@@ -31,6 +32,14 @@ public interface AdminService {
 	public void setReported_m_idx_Level(int reported_m_idx, String banType);
 
 	public void setReportResultUpdate(int rep_idx, int takeSw, String takeContent);
+
+	public List<AskVO> getAskCategoryList();
+
+	public List<AskVO> getAskList(String afterDate, String beforeDate, int ask_category, PageVO pageVO);
+
+	public AskVO getAskDetail(int ask_idx);
+
+	public void setAskTake(int ask_idx, String takeContent);
 
 
 

@@ -46,8 +46,10 @@
 				$("#sendNameOutput").html(vo.nickName);
 				$("#receiveCategoryNameOutput").html(vo.category_name);
 				$("#receiveContentOutput").html(vo.content);
-				if(vo.msg_category=='120') $("#friendOk").show();
-				if(vo.msg_category=='120') $("#sendButton").hide();
+				$("#t_idx").val(vo.m_idx);
+				$("#msg_idx").val(vo.msg_idx);
+				if(vo.msg_category=='120' && vo.rdate == null) $("#friendOk").show();
+				if(vo.msg_category=='120' || vo.rdate != null) $("#sendButton").hide();
 				$("#answerOpener").attr('onclick',"window.open('${ctp}/message/openAnswer/"+msg_idx+"', '쪽지쓰기', 'width=515, height=460')" );
 				$("#receiveMessageModal").modal();
 			},
@@ -57,9 +59,12 @@
 		})
 	}
 	function FriendInviteAnswer(ans){
+		let t_idx = $("#t_idx").val();
+		let msg_idx = $("#msg_idx").val();
+		
 		$.ajax({
 			type:"post",
-			data:{ans:ans},
+			data:{ans:ans,t_idx:t_idx,msg_idx:msg_idx},
 			url:"${ctp}/message/friendInviteAnswer",
 			success:function(res){
 				if(res=="1"){
@@ -150,9 +155,11 @@
 					<textarea rows="5" readonly class="form-control" name="receiveContentOutput" id="receiveContentOutput">
 					</textarea>
 				</div>
-				<div name="friendOk" id="friendOk" class="text-center" style="display: none;">
+				<div class="col-12 text-center" name="friendOk" id="friendOk" style="display: none;">
 					<button type="button" class="btn border" onclick="FriendInviteAnswer('1')">수락</button>
 					<button type="button" class="btn border" onclick="FriendInviteAnswer('0')">거절</button>
+					<input type="hidden" name="t_idx" id="t_idx">
+					<input type="hidden" name="msg_idx" id="msg_idx">
 				</div>
 				<div class="col-12 text-right aling-self-end">
 					<span class="fontdot-12">보낸시간 : </span><span name="rsdateOutput" id="rsdateOutput" class="fontdot-12"></span>
