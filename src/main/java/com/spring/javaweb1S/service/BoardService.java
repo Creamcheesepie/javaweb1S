@@ -59,6 +59,8 @@ public interface BoardService {
 
 	public List<BoardVO> getboardList(int category, int sin, int pageSize, String ban_idx);
 
+	public List<ReplyVO> getboardReplyList(int boa_idx, PageVO repPageVO, String ban_idx);
+
 	
 
 

@@ -63,6 +63,8 @@ public interface BoardDAO {
 
 	public List<BoardVO> getboardListWithBan_idx(@Param("category") int category,@Param("sin") int sin,@Param("pageSize") int pageSize,@Param("ban_idx") String ban_idx);
 
+	public List<ReplyVO> getboardReplyListWithBan_idx(@Param("boa_idx")int boa_idx,@Param("vo") PageVO repPageVO,@Param("ban_idx") String ban_idx);
+
 
 
 	

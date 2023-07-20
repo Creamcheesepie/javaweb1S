@@ -208,6 +208,11 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.getboardListWithBan_idx(category,sin,pageSize, ban_idx);
 	}
 
+	@Override
+	public List<ReplyVO> getboardReplyList(int boa_idx, PageVO repPageVO, String ban_idx) {
+		return boardDAO.getboardReplyListWithBan_idx(boa_idx,repPageVO,ban_idx);
+	}
+
 	
 
 	

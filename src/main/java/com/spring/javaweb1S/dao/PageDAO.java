@@ -32,4 +32,6 @@ public interface PageDAO {
 
 	public int getTRCwithCategoryWithBan_idx(@Param("tableName") String tableName,@Param("category") int category,@Param("ban_idx") String ban_idx);
 
+	public int getTRCbyBoa_idxWithBan_idx(@Param("tableName") String tableName,@Param("boa_idx") int boa_idx,@Param("ban_idx") String ban_idx);
+
 }

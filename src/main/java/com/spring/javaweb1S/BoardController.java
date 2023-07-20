@@ -76,6 +76,7 @@ public class BoardController {
 			model.addAttribute("boardList_vos", boardList_vos);
 		}
 		else {
+			//차단된 사람들의 m_idx를 가공 후 저장
 			String ban_idx = boardService.getbanListByM_idx(m_idx);
 			//페이지처리
 			PageVO pageVO = page.pageProcessorWithCategory("board2",nowPage,pageSize,blockSize,category,ban_idx);
@@ -170,8 +171,19 @@ public class BoardController {
     
 		//댓글 목록 가져오기
 		int blockSize=5;
-		PageVO repPageVO = page.pageProcessorByBoa_idx("board2_reply", repPageSize, repNowPage, blockSize,boa_idx);
-		List<ReplyVO> replyVOS = boardService.getboardReplyList(boa_idx,repPageVO); 
+		if(user_m_idx==0) {
+			PageVO repPageVO = page.pageProcessorByBoa_idx("board2_reply", repPageSize, repNowPage, blockSize,boa_idx);
+			List<ReplyVO> replyVOS = boardService.getboardReplyList(boa_idx,repPageVO); 
+			model.addAttribute("repPageVO", repPageVO);
+			model.addAttribute("replyVOS", replyVOS);
+		}
+		else {
+			String ban_idx = boardService.getbanListByM_idx(user_m_idx);
+			PageVO repPageVO = page.pageProcessorByBoa_idx("board2_reply", repPageSize, repNowPage, blockSize,boa_idx,ban_idx);
+			List<ReplyVO> replyVOS = boardService.getboardReplyList(boa_idx,repPageVO,ban_idx); 
+			model.addAttribute("repPageVO", repPageVO);
+			model.addAttribute("replyVOS", replyVOS);
+		}
 		
 		//이전글 다음글 처리
 		List<BoardVO> prevNextContentVOS = boardService.getPrevNextContentbyBoa_idx(vo);
@@ -184,10 +196,8 @@ public class BoardController {
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("rec_check", RecommendCheck);
 		model.addAttribute("prevNextContentVOS", prevNextContentVOS);
-		model.addAttribute("repPageVO", repPageVO);
 		model.addAttribute("categoryName", categoryName);
 		model.addAttribute("category", category);
-		model.addAttribute("replyVOS", replyVOS);
 		model.addAttribute("newsRead_vo", vo);
 		return "board/newsBoardRead";
 	}
