@@ -247,6 +247,38 @@ public class MessageController {
 		return res;
 	}
 	
+	@RequestMapping(value = "/setBanUser/{m_idx}",method = RequestMethod.GET)
+	public String messagebanInviteFormGet(Model model,
+			@PathVariable("m_idx")int m_idx,
+			@RequestParam(name="title",defaultValue="",required=false)String title
+			) {
+		model.addAttribute("t_idx",m_idx);
+		model.addAttribute("title", title);
+		return "message/setBanUser";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/setBanUserSend", method = RequestMethod.POST)
+	public int messagesetBanUserSendPost(Model model,HttpSession session,
+			@RequestParam(name="content", defaultValue="",required=false)String content,
+			@RequestParam(name="t_idx", defaultValue="", required=false)int t_idx
+			) {
+		int res= 0;
+		int m_idx = (int)session.getAttribute("sM_idx");
+		boolean banChecker = messageService.getBanCheck(m_idx,t_idx);
+		
+		if(banChecker){
+			res=1;
+			return res;
+		}
+		else {
+			messageService.setBanUser(m_idx,t_idx,content);
+		}
+		
+		model.addAttribute("sendedSw", "ok");
+		return res;
+	}
+	
 	@RequestMapping(value = "/askList", method=RequestMethod.GET)
 	public String messageGetAskListGet(HttpSession session, Model model,
 			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,

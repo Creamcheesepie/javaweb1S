@@ -174,6 +174,20 @@ public class MessageServiceImpl implements MessageService {
 		return messageDAO.getMyAsk(ask_idx);
 	}
 
+	@Override
+	public boolean getBanCheck(int m_idx, int t_idx) {
+		boolean res = false;
+		String extra = messageDAO.getBanExtraByIdxs(m_idx,t_idx);
+		if(extra!=null) res=true;
+		
+		return res;
+	}
+
+	@Override
+	public void setBanUser(int m_idx, int t_idx, String content) {
+		messageDAO.setBanUser(m_idx, t_idx, content);
+	}
+
 
 	
 	

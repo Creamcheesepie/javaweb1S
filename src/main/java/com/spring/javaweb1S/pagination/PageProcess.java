@@ -28,6 +28,13 @@ public interface PageProcess {
 	public PageVO pageProcessorForAdminAsk(int ask_category, String afterDate, String beforeDate, int pageSize,
 			int nowPage, int blockSize);
 
+	public PageVO pageProcessorFriendList(int m_idx, int nowPage, int pageSize, int blockSize);
+
+	public PageVO pageProcessorBanList(int m_idx, int nowPage, int pageSize, int blockSize);
+
+	public PageVO pageProcessorWithCategory(String string, int nowPage, int pageSize, int blockSize, int category,
+			String ban_idx);
+
 	
 	
 }

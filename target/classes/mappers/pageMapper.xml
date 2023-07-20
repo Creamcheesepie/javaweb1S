@@ -11,6 +11,10 @@
 		select count(*) from ${tableName} where category = #{category};
 	</select>
 	
+	<select id="getTRCwithCategoryWithBan_idx" resultType="int">
+		select count(*) from ${tableName} where category = #{category} and not m_idx in ${ban_idx};
+	</select>
+	
 	<select id="getTRCbyBoa_idx" resultType="int">
 		select count(*) from ${tableName} where boa_idx = #{boa_idx};
 	</select>
@@ -72,6 +76,14 @@
 				where ask_category = #{ask_category} and wdate between #{afterDate} and #{beforeDate}
 			</otherwise>
 		</choose>
+	</select>
+	
+	<select id="getTRCInFriendList" resultType="int">
+		select count(m_idx) from friendBanList where m_idx = #{m_idx} and <![CDATA[status<3]]>;
+	</select>
+	
+	<select id="getTRCInBanList" resultType="int">
+		select count(m_idx) from friendBanList where m_idx = #{m_idx} and <![CDATA[status>2]]>;
 	</select>
 	
 </mapper>

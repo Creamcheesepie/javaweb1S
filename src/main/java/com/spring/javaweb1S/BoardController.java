@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.spring.javaweb1S.common.JavaProvide;
 import com.spring.javaweb1S.pagination.PageProcess;
 import com.spring.javaweb1S.service.BoardService;
+import com.spring.javaweb1S.service.MemberService;
 import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.ReplyVO;
@@ -54,24 +55,37 @@ public class BoardController {
 	
 	//사용자 전체가 사용 가능한 일반 게시판
 	@RequestMapping(value = "/list/{category}",method=RequestMethod.GET)
-	public String boardListGet(Model model,
+	public String boardListGet(Model model,HttpSession session,
 			@PathVariable("category") String strCategory,
 			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
 			@RequestParam(name="pageSize",defaultValue="5",required=false)int pageSize
 			) {
+		int m_idx = session.getAttribute("sM_idx")==null?0:(int)session.getAttribute("sM_idx");
 		//카테고리 처리
 		int category = Integer.parseInt(strCategory);
 		String categoryName = boardService.getCategoryNameByCategory(category);
 		model.addAttribute("category_Name", categoryName);
 		
-		//페이지처리
 		int blockSize = 5;
-		PageVO pageVO = page.pageProcessorWithCategory("board2",nowPage,pageSize,blockSize,category);
+		if(m_idx==0) {
+			//페이지처리
+			PageVO pageVO = page.pageProcessorWithCategory("board2",nowPage,pageSize,blockSize,category);
+			model.addAttribute("pageVO", pageVO);
+			//리스트 가져오기
+			List<BoardVO> boardList_vos = boardService.getboardList(category,pageVO.getSin(),pageVO.getPageSize());
+			model.addAttribute("boardList_vos", boardList_vos);
+		}
+		else {
+			String ban_idx = boardService.getbanListByM_idx(m_idx);
+			//페이지처리
+			PageVO pageVO = page.pageProcessorWithCategory("board2",nowPage,pageSize,blockSize,category,ban_idx);
+			model.addAttribute("pageVO", pageVO);
+			//리스트 가져오기
+			List<BoardVO> boardList_vos = boardService.getboardList(category,pageVO.getSin(),pageVO.getPageSize(),ban_idx);
+			System.out.println(ban_idx);
+			model.addAttribute("boardList_vos", boardList_vos);
+		}
 		
-		List<BoardVO> boardList_vos = boardService.getboardList(category,pageVO.getSin(),pageVO.getPageSize());
-		
-		model.addAttribute("boardList_vos", boardList_vos);
-		model.addAttribute("pageVO", pageVO);
 		return "board/boardList";
 	}
 	

@@ -34,4 +34,7 @@ public class MemberVO {
 	private int dom_idx;
 	private String domain;
 	
+	private int status;
+	private String setDate;
+	private String extra;
 }

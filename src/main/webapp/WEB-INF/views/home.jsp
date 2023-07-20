@@ -6,10 +6,21 @@
 	<title>project(가제)</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp"/>
 	<jsp:include page="/WEB-INF/views/include/mainCss.jsp"/>
+	<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.3.0/kakao.min.js"></script>
 	<script>
 	if(${logoutFlag} == 'ok'){
 		alert("로그아웃되었습니다.");
 	}
+	
+	Kakao.init('d50d68f65732dab8ab61379182e4fe11');
+	
+	function simpleLoginKakao(){
+		Kakao.Auth.authorize({
+			  redirectUri: '${ctp}/',
+			  scope: 'account_email,'
+			});
+	}
+	
 	</script>
 </head>
 <body>
@@ -65,7 +76,7 @@
 			</div>
 			<div class="col-5 p-1 text-center">
 				
-				<input type="button" value="간편로그인" onclick="simpleloginCheck()" class="btn form-control button-font border mb-1" style="height: 43px">
+				<input type="button" value="간편로그인" onclick="simpleLoginKakao()" class="btn form-control button-font border mb-1" style="height: 43px">
 				<input type="button" value="회원가입" onclick="location.href='${ctp}/member/signIn'" class="btn form-control button-font border mt-1" style="height: 43px">
 				
 			</div>

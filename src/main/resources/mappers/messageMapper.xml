@@ -209,6 +209,10 @@
 				A.ask_category = B.ask_category
 	</select>
 	
+	<select id="getBanExtraByIdxs" resultType="String">
+		select extra from friendBanList where m_idx= #{m_idx} and t_idx =#{t_idx};
+	</select>
+	
 	
 	
 
@@ -232,6 +236,9 @@
 		insert into ask2 values(default,#{vo.m_idx},#{vo.ask_category},#{vo.title},#{vo.content},default,null,null,null,null);
 	</insert>
 	
+	<insert id="setBanUser">
+		insert into friendbanList values(#{m_idx},#{t_idx},'3',#{extra},default);
+	</insert>
 	
 	
 	

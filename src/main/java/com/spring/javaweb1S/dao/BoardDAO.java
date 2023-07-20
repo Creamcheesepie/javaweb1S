@@ -59,6 +59,10 @@ public interface BoardDAO {
 
 	public int getBanCount(@Param("m_idx") int m_idx,@Param("banType") String banType);
 
+	public List<BoardVO> getBanListByM_idx(@Param("m_idx") int m_idx);
+
+	public List<BoardVO> getboardListWithBan_idx(@Param("category") int category,@Param("sin") int sin,@Param("pageSize") int pageSize,@Param("ban_idx") String ban_idx);
+
 
 
 	

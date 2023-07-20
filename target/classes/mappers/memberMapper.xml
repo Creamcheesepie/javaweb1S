@@ -57,6 +57,77 @@
 		order by A.rep_idx desc
 		limit 5;
 	</select>
+	
+	<select id="getFriendList" resultType="com.spring.javaweb1S.vo.MemberVO">
+		select
+			A.t_idx as m_idx,
+			B.nickName,
+			B.name,
+			B.age,
+			B.gender,
+			B.level,
+			B.speed,
+			B.duration,
+			B.getheight,
+			B.birthday
+		from
+			friendbanList A,
+			member2 B
+		where
+				A.m_idx = #{m_idx}
+			and
+				A.t_idx = B.m_idx
+			and
+				<![CDATA[A.status<3]]>
+		order by A.setDate desc
+		limit #{vo.sin},#{vo.pageSize}
+	</select>
+	
+	<select id="getMemberSearchForFriendAdd" resultType="com.spring.javaweb1S.vo.MemberVO">
+		select 
+			A.m_idx,
+			A.nickName,
+			A.name,
+			A.mid,
+			A.duration,
+			A.speed,
+			A.getheight,
+			A.level,
+			B.status 
+		from 
+			member2 as A 
+			left join friendBanList as B
+			on A.m_idx = B.t_idx
+		where 
+			not	
+				A.m_idx 
+			in 
+				(#{m_idx})
+			and
+				A.${searchOption} 
+			like 
+				concat('%',#{searchStr},'%');
+	</select>
+	
+		<select id="getBanList" resultType="com.spring.javaweb1S.vo.MemberVO">
+		select
+			A.t_idx as m_idx,
+			B.nickName,
+			B.mid,
+			A.extra,
+			A.setDate
+		from
+			friendbanList A,
+			member2 B
+		where
+				A.m_idx = #{m_idx}
+			and
+				A.t_idx = B.m_idx
+			and
+				<![CDATA[A.status>2]]>
+		order by A.setDate desc
+		limit #{vo.sin}, #{vo.pageSize}
+	</select>
 
 
 	<insert id="setMemberSignIn">

@@ -1,12 +1,7 @@
 package com.spring.javaweb1S.service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.codehaus.jackson.io.SerializedString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -192,6 +187,25 @@ public class BoardServiceImpl implements BoardService {
 		int banCount= boardDAO.getBanCount(m_idx,"2_boardBan");
 		if(banCount>0)res = true;
 		return res;
+	}
+
+	@Override
+	public String getbanListByM_idx(int m_idx) {
+		String temp  = "(";
+		List<BoardVO> banVOS = boardDAO.getBanListByM_idx(m_idx);
+		for(BoardVO tempVO : banVOS) {
+			temp+= "\'"+tempVO.getM_idx()+"\',";
+		}
+		
+		if(temp.lastIndexOf(",")>0) temp = temp.substring(0,temp.length()-1);
+		else temp+="\'\'";
+		temp+=")";
+		return temp;
+	}
+
+	@Override
+	public List<BoardVO> getboardList(int category, int sin, int pageSize, String ban_idx) {
+		return boardDAO.getboardListWithBan_idx(category,sin,pageSize, ban_idx);
 	}
 
 	

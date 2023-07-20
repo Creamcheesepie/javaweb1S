@@ -68,5 +68,9 @@ public interface MessageDAO {
 
 	public AskVO getMyAsk(@Param("ask_idx") int ask_idx);
 
+	public String getBanExtraByIdxs(@Param("m_idx") int m_idx,@Param("t_idx") int t_idx);
+
+	public void setBanUser(@Param("m_idx") int m_idx,@Param("t_idx") int t_idx,@Param("extra") String extra);
+
 
 }

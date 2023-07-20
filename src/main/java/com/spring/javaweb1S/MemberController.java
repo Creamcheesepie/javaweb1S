@@ -21,10 +21,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaweb1S.common.JavaProvide;
 import com.spring.javaweb1S.common.LevelToString;
+import com.spring.javaweb1S.pagination.PageProcess;
 import com.spring.javaweb1S.service.MemberService;
 import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.DomainVO;
 import com.spring.javaweb1S.vo.MemberVO;
+import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.ReplyVO;
 
 @Controller
@@ -35,6 +37,9 @@ public class MemberController {
 	
 	@Autowired
 	JavaMailSender mailSender;
+	
+	@Autowired
+	PageProcess pageProcess;
 	
 	//로그인 창 불러오기
 	@RequestMapping(value = "/login" ,method = RequestMethod.GET)
@@ -458,6 +463,72 @@ public class MemberController {
 		session.invalidate();
 		
 		return "1";
+	}
+	
+	@RequestMapping(value = "/friendList", method=RequestMethod.GET)
+	public String memberFriendListGet(HttpSession session,Model model,
+			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
+			@RequestParam(name="pageSize",defaultValue="5",required=false)int pageSize
+			) {
+		int m_idx = session.getAttribute("sM_idx")==null? 0 :(int)session.getAttribute("sM_idx");
+		if(m_idx == 0) return "redirect:/unusualapproach";
+		int blockSize = 5;
+		PageVO pageVO = pageProcess.pageProcessorFriendList(m_idx,nowPage,pageSize,blockSize);
+		List<MemberVO> friendVOS = memberService.getFriendList(m_idx,pageVO);
+		
+		model.addAttribute("friendVOS", friendVOS);
+		model.addAttribute("pageVO", pageVO);
+		return "member/friendList";
+	}
+	
+	@RequestMapping(value = "/friendAdd", method=RequestMethod.GET)
+	public String memberFriendAddGet() {
+		
+		return "member/friendAdd";
+	}
+	
+	@RequestMapping(value = "/friendAdd", method=RequestMethod.POST)
+	public String memberFriendAddPost(Model model,HttpSession session,
+			@RequestParam(name="searchOption",defaultValue="",required=false)String searchOption,
+			@RequestParam(name="searchStr",defaultValue="",required=false)String searchStr
+		) {
+		int m_idx = session.getAttribute("sM_idx")==null? 0 :(int)session.getAttribute("sM_idx");
+		List<MemberVO> searchResultVOS = memberService.getMemberSearchForFriendAdd(searchOption,searchStr,m_idx);	
+		
+		model.addAttribute("searchResultVOS", searchResultVOS);
+		return "member/friendAdd";
+	}
+	
+	@RequestMapping(value = "/banList", method=RequestMethod.GET)
+	public String memberBanListGet(Model model,HttpSession session,
+			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
+			@RequestParam(name="pageSize",defaultValue="5",required=false)int pageSize
+			) {
+		int m_idx = session.getAttribute("sM_idx")==null?0:(int)session.getAttribute("sM_idx");
+		if(m_idx == 0) return "redirect:/unusualapproach";
+		int blockSize = 5;
+		PageVO pageVO = pageProcess.pageProcessorBanList(m_idx, nowPage, pageSize, blockSize);
+		
+		List<MemberVO> banListVOS = memberService.getBanList(m_idx,pageVO);
+		model.addAttribute("banListVOS",banListVOS);
+		return "member/banList";
+	}
+	
+	@RequestMapping(value = "/banAdd", method=RequestMethod.GET)
+	public String memberBanAddGet() {
+		return "member/banAdd";
+	}
+	
+	@RequestMapping(value = "/banAdd", method=RequestMethod.POST)
+	public String memberbanAddPost(Model model,HttpSession session,
+			@RequestParam(name="searchOption",defaultValue="",required=false)String searchOption,
+			@RequestParam(name="searchStr",defaultValue="",required=false)String searchStr
+		) {
+		int m_idx = session.getAttribute("sM_idx")==null? 0 :(int)session.getAttribute("sM_idx");
+		List<MemberVO> searchResultVOS = memberService.getMemberSearchForFriendAdd(searchOption,searchStr,m_idx);	
+		
+		model.addAttribute("searchResultVOS", searchResultVOS);
+		return "member/banAdd";
 	}
 	
 	

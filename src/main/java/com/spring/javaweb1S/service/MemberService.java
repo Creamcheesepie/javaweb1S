@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.DomainVO;
 import com.spring.javaweb1S.vo.MemberVO;
+import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.ReplyVO;
 
 public interface MemberService {
@@ -58,6 +59,12 @@ public interface MemberService {
 	public List<BoardVO> getMyPageBoardList(int m_idx);
 
 	public List<ReplyVO> getMyPageReplyList(int m_idx);
+
+	public List<MemberVO> getFriendList(int m_idx, PageVO pageVO);
+
+	public List<MemberVO> getMemberSearchForFriendAdd(String searchOption, String searchStr,int m_idx);
+
+	public List<MemberVO> getBanList(int m_idx, PageVO pageVO);
 
 	
 	

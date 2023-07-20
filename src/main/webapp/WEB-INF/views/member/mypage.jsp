@@ -118,7 +118,7 @@
 			<div class="row">
 				<c:forEach var="boardVO" items="${boardVOS}">
 					<div class="col-12 mb-1">
-						<a href="${ctp}/board/">${boardVO.title}</a>
+						<a href="${ctp}/board/read/${boardVO.boa_idx}/${boardVO.category}">${boardVO.title}</a>
 					</div>
 				</c:forEach>
 			</div>
@@ -148,12 +148,12 @@
 			아직 구현되지 않은 기능입니다.
 		</div>
 		<div class="col-sm-4 list mt-2">
-			<span class="mainfont-b-20">친구목록</span>
+			<span class="mainfont-b-20"><a href="${ctp}/member/friendList">친구목록</a></span>
 			<hr/>
 			아직 구현되지 않은 기능입니다.
 		</div>
 		<div class="col-sm-4 list mt-2">
-			<span class="mainfont-b-20">차단목록</span>
+			<span class="mainfont-b-20"><a href="${ctp}/member/banList">차단목록</a></span>
 			<hr/>
 			아직 구현되지 않은 기능입니다.
 		</div>

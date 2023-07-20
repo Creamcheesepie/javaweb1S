@@ -52,5 +52,9 @@ public interface MessageService {
 
 	public AskVO getMyAsk(int ask_idx);
 
+	public boolean getBanCheck(int m_idx, int t_idx);
+
+	public void setBanUser(int m_idx, int t_idx, String content);
+
 	
 }

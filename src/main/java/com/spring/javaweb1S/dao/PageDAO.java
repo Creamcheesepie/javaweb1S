@@ -26,4 +26,10 @@ public interface PageDAO {
 
 	public int getTRCforAskAdmin(@Param("ask_category") int ask_category,@Param("afterDate") String afterDate,@Param("beforeDate") String beforeDate);
 
+	public int getTRCInFriendList(@Param("m_idx") int m_idx);
+
+	public int getTRCInBanList(@Param("m_idx") int m_idx);
+
+	public int getTRCwithCategoryWithBan_idx(@Param("tableName") String tableName,@Param("category") int category,@Param("ban_idx") String ban_idx);
+
 }

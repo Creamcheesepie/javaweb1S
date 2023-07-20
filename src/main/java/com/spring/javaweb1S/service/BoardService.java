@@ -55,6 +55,10 @@ public interface BoardService {
 
 	public boolean getBoardBanInfo(int m_idx);
 
+	public String getbanListByM_idx(int m_idx);
+
+	public List<BoardVO> getboardList(int category, int sin, int pageSize, String ban_idx);
+
 	
 
 

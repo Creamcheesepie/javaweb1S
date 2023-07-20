@@ -16,7 +16,61 @@
 	</select>
 	
 	<select id="getboardList" resultType="com.spring.javaweb1S.vo.BoardVO">
-		select B.boa_idx,B.m_idx,M.nickName,M.name,M.mid,B.title,B.viewCnt,B.recommendCnt,B.wdate,B.ddate,B.category,C.name as categoryName from board2 B, member2 M, board2_category C where M.m_idx=B.m_idx and B.category = C.category and B.category = #{category} order by B.boa_idx desc limit #{sin}, #{pageSize};
+		select 
+			B.boa_idx,
+			B.m_idx,
+			M.nickName,
+			M.name,
+			M.mid,
+			B.title,
+			B.viewCnt,
+			B.recommendCnt,
+			B.wdate,
+			B.ddate,
+			B.category,
+			C.name as categoryName 
+		from 
+			board2 B, member2 M, board2_category C
+		where 
+				M.m_idx=B.m_idx 
+			and
+				B.category = C.category 
+			and 
+				B.category = #{category} 
+		order by B.boa_idx desc 
+		limit #{sin}, #{pageSize};
+	</select>
+	
+	<select id="getboardListWithBan_idx" resultType="com.spring.javaweb1S.vo.BoardVO">
+		select 
+			B.boa_idx,
+			B.m_idx,
+			M.nickName,
+			M.name,
+			M.mid,
+			B.title,
+			B.viewCnt,
+			B.recommendCnt,
+			B.wdate,
+			B.ddate,
+			B.category,
+			C.name as categoryName 
+		from 
+			board2 B, member2 M, board2_category C
+		where 
+				M.m_idx=B.m_idx 
+			and
+				B.category = C.category 
+			and 
+				B.category = #{category}
+			
+			and not
+				B.m_idx
+					in
+					${ban_idx} 
+			
+		order by B.boa_idx desc 
+		limit #{sin}, #{pageSize};
 	</select>
 	
 	<select id="getboardRead" resultType="com.spring.javaweb1S.vo.BoardVO">
@@ -68,6 +122,10 @@
 	
 	<select id="getBanCount" resultType="int">
 		select count(m_idx) from banList where banType=#{banType} and m_idx=#{m_idx} and cdate <![CDATA[>]]>  date_sub(now(),interval 1 year);
+	</select>
+	
+	<select id="getBanListByM_idx" resultType="com.spring.javaweb1S.vo.BoardVO">
+		select t_idx as m_idx from friendbanList where m_idx = #{m_idx} and status = '3';
 	</select>
 	
 	
