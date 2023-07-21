@@ -213,6 +213,11 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.getboardReplyListWithBan_idx(boa_idx,repPageVO,ban_idx);
 	}
 
+	@Override
+	public List<BoardVO> getPrevNextContentbyBoa_idx(BoardVO vo, String ban_idx) {
+		return boardDAO.getPrevNextContentbyBoa_idxWithBan_idx(vo,ban_idx);
+	}
+
 	
 
 	

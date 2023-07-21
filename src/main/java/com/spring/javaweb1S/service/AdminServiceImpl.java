@@ -12,6 +12,7 @@ import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.PointVO;
 import com.spring.javaweb1S.vo.ReportCategoryVO;
 import com.spring.javaweb1S.vo.ReportVO;
+import com.spring.javaweb1S.vo.RuleSetterVO;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -114,6 +115,29 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public void setAskTake(int ask_idx, String takeContent) {
 		adminDAO.setAskTake(ask_idx,takeContent);
+	}
+
+	@Override
+	public int[] getBoardRuleInfo(int rule_idx) {
+		int[] res = new int[5];	
+		RuleSetterVO tempVO = adminDAO.getRuleInfo(rule_idx);
+		System.out.println(tempVO);
+		res[0] = Integer.parseInt(tempVO.getLimitTime().substring(0,2));
+		res[1] = Integer.parseInt(tempVO.getLimitTime().substring(3,tempVO.getLimitTime().length()));
+		res[2] = Integer.parseInt(tempVO.getPenaltyTime().substring(0,2));
+		res[3] = Integer.parseInt(tempVO.getPenaltyTime().substring(3,tempVO.getPenaltyTime().length()));
+		res[4] = tempVO.getActionLimit();
+		return res;
+	}
+
+	@Override
+	public void setUpdateRuleSetterLimitOption(int rule_idx, String strLimitTime, int actionLimit) {
+		adminDAO.setUpdateRuleSetterLimitOption(rule_idx,strLimitTime,actionLimit);
+	}
+
+	@Override
+	public void setUpdateRuleSetterPenaltyOption(int rule_idx, String strPenaltyTime) {
+		adminDAO.setUpdateRuleSetterPenaltyOption(rule_idx,strPenaltyTime);
 	}
 
 }

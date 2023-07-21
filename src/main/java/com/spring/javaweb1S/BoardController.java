@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.spring.javaweb1S.common.JavaProvide;
 import com.spring.javaweb1S.pagination.PageProcess;
 import com.spring.javaweb1S.service.BoardService;
-import com.spring.javaweb1S.service.MemberService;
 import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.ReplyVO;
@@ -240,26 +239,34 @@ public class BoardController {
 		System.out.println(RecommendCheck);
 		//null값 여부 확인 위해서는 String이 어쩔 수 없이 요구됨...>>다른 방법이 없는지 고민하기
 		
-		//댓글 목록 가져오기
+		//댓글 목록 가져오기, 이전글 다음글 처리
+		String ban_idx = boardService.getbanListByM_idx(user_m_idx);
 		int blockSize=5;
-		PageVO repPageVO = page.pageProcessorByBoa_idx("board2_reply", repPageSize, repNowPage, blockSize,boa_idx);
-		List<ReplyVO> replyVOS = boardService.getboardReplyList(boa_idx,repPageVO); 
-		
-		//이전글 다음글 처리
-		List<BoardVO> prevNextContentVOS = boardService.getPrevNextContentbyBoa_idx(vo);
+		if(user_m_idx==0) {
+			PageVO repPageVO = page.pageProcessorByBoa_idx("board2_reply", repPageSize, repNowPage, blockSize,boa_idx);
+			List<ReplyVO> replyVOS = boardService.getboardReplyList(boa_idx,repPageVO); 
+			List<BoardVO> prevNextContentVOS = boardService.getPrevNextContentbyBoa_idx(vo);
+			model.addAttribute("repPageVO", repPageVO);
+			model.addAttribute("replyVOS", replyVOS);
+			model.addAttribute("prevNextContentVOS", prevNextContentVOS);
+		}
+		else {
+			PageVO repPageVO = page.pageProcessorByBoa_idx("board2_reply", repPageSize, repNowPage, blockSize,boa_idx,ban_idx);
+			List<ReplyVO> replyVOS = boardService.getboardReplyList(boa_idx,repPageVO,ban_idx); 
+			List<BoardVO> prevNextContentVOS = boardService.getPrevNextContentbyBoa_idx(vo,ban_idx);
+			model.addAttribute("repPageVO", repPageVO);
+			model.addAttribute("replyVOS", replyVOS);
+			model.addAttribute("prevNextContentVOS", prevNextContentVOS);
+		}
 		
 		//현재 페이지 가져오기
 		int nowPage = page.pageFinderByBoa_idxWithCategory("board2", pageSize, boa_idx, "boa_idx", category);
 		System.out.println(nowPage);
 		
-		System.out.println(prevNextContentVOS);
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("rec_check", RecommendCheck);
-		model.addAttribute("prevNextContentVOS", prevNextContentVOS);
-		model.addAttribute("repPageVO", repPageVO);
 		model.addAttribute("categoryName", categoryName);
 		model.addAttribute("category", category);
-		model.addAttribute("replyVOS", replyVOS);
 		model.addAttribute("boardRead_vo", vo);
 		return "board/boardRead";
 	}

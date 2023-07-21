@@ -68,6 +68,10 @@ public interface MemberDAO {
 
 	public List<MemberVO> getBanList(@Param("m_idx") int m_idx,@Param("vo") PageVO pageVO);
 
+	public int getFrienStatus(@Param("m_idx") int m_idx,@Param("t_idx") int t_idx);
+
+	public void setFriendBanDelete(@Param("m_idx") int m_idx,@Param("t_idx") int t_idx);
+
 	
 
 	

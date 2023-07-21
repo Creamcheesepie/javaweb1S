@@ -99,13 +99,19 @@
 	</select>
 	
 	<select id="getboardReplyListWithBan_idx" resultType="com.spring.javaweb1S.vo.ReplyVO">
-		select R.*,M.nickName,M.mid,M.photo from board2_reply R , member2 M where M.m_idx=R.m_idx and boa_idx = #{boa_idx} and not	B.m_idx in ${ban_idx}   order by rep_group, rep_idx asc limit #{vo.sin},#{vo.pageSize};
+		select R.*,M.nickName,M.mid,M.photo from board2_reply R , member2 M where M.m_idx=R.m_idx and boa_idx = #{boa_idx} and not	R.m_idx in ${ban_idx}   order by rep_group, rep_idx asc limit #{vo.sin},#{vo.pageSize};
 	</select>
 	
 	<select id="getPrevNextContentbyBoa_idx" resultType="com.spring.javaweb1S.vo.BoardVO">
 		select boa_idx,title from board2 where boa_idx in(
 							(select boa_idx from board2 where <![CDATA[boa_idx>#{vo.boa_idx}]]> and category=#{vo.category} and ddate is null limit 1),
 							(select boa_idx from board2 where <![CDATA[boa_idx<#{vo.boa_idx}]]> and category=#{vo.category} and ddate is null order by boa_idx desc limit 1));
+	</select>
+	
+	<select id="getPrevNextContentbyBoa_idxWithBan_idx" resultType="com.spring.javaweb1S.vo.BoardVO">
+		select boa_idx,title from board2 where boa_idx in(
+							(select boa_idx from board2 where <![CDATA[boa_idx>#{vo.boa_idx}]]> and category=#{vo.category} and ddate is null and not m_idx in ${ban_idx} limit 1),
+							(select boa_idx from board2 where <![CDATA[boa_idx<#{vo.boa_idx}]]> and category=#{vo.category} and ddate is null and not m_idx in ${ban_idx} order by boa_idx desc limit 1));
 	</select>
 	
 	<select id="getBoardReccomendCheck" resultType="String">

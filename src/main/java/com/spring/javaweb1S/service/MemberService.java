@@ -66,6 +66,10 @@ public interface MemberService {
 
 	public List<MemberVO> getBanList(int m_idx, PageVO pageVO);
 
+	public void setFriendDelete(int m_idx, int t_idx);
+
+	public void setBanDelete(int m_idx, int t_idx);
+
 	
 	
 

@@ -41,6 +41,12 @@ public interface AdminService {
 
 	public void setAskTake(int ask_idx, String takeContent);
 
+	public int[] getBoardRuleInfo(int rule_idx);
+
+	public void setUpdateRuleSetterLimitOption(int rule_idx, String strLimitTime, int actionLimit);
+
+	public void setUpdateRuleSetterPenaltyOption(int rule_idx, String strPenaltyTime);
+
 
 
 

@@ -84,6 +84,9 @@
   <li class="nav-item">
     <a class="nav-link" href="#">gallary</a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="${ctp}/gether/home">gether</a>
+  </li>
   <c:if test="${sLogin =='ok'}">
   <li class="nav-item">
     <a class="nav-link" href="${ctp}/member/myPage">마이페이지</a>

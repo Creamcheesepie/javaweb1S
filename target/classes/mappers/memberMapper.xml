@@ -128,6 +128,10 @@
 		order by A.setDate desc
 		limit #{vo.sin}, #{vo.pageSize}
 	</select>
+	
+	<select id="getFrienStatus" resultType="int">
+		select status from friendbanList where m_idx = #{m_idx} and t_idx = #{t_idx};
+	</select>
 
 
 	<insert id="setMemberSignIn">
@@ -195,5 +199,8 @@
 	</update>
 	
 	
+	<delete id="setFriendBanDelete">
+		delete from friendbanList where m_idx = #{m_idx}  and t_idx = #{t_idx};
+	</delete>
 
 </mapper>

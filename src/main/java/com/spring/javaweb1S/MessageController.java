@@ -103,8 +103,9 @@ public class MessageController {
 	public String messageSendGet(MessageVO msg_vo,Model model,
 			@RequestParam(name="answerCheck",defaultValue="0",required=false) int answerCheck
 			) {
-		messageService.setSendMessage(msg_vo);
 		
+		boolean banCheck = messageService.getBanCheck(msg_vo.getReceive_m_idx(),msg_vo.getM_idx());
+		if(!banCheck) messageService.setSendMessage(msg_vo);
 		
 		model.addAttribute("sendedSw", "ok");
 		if (answerCheck==1) return "message/messageAnswerWindow";

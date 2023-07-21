@@ -33,6 +33,29 @@
 	</style>
 	<script>
 	'use strict';
+	
+	function banCancle(t_idx){
+		let m_idx = ${sM_idx};
+		
+		let ans = confirm("차단을 해제하시겠습니까?");
+		if(!ans)return false;
+		else{
+			$.ajax({
+				type:"post",
+				data:{m_idx:m_idx,t_idx:t_idx},
+				url:"${ctp}/member/banDelete",
+				success:function(){
+					alert("차단을 해제하였습니다.");
+					location.reload();
+				},
+				error:function(){
+					alert("전송오류가 발생하였습니다. 같은 오류가 반복되면 관리자 또는 운영자에게 연락해 주십시오.");
+				}
+				
+			})
+		}
+		
+	}
 	</script>
 </head>
 <body>
@@ -64,7 +87,7 @@
 			<div class="col-2 align-self-center">${ban_vo.mid}</div>
 			<div class="col-4 align-self-center">${ban_vo.extra}</div>
 			<div class="col-2 align-self-center">${fn:substring(ban_vo.setDate,0,10)}</div>
-			<div class="col-2 ml-0 pl-0 align-self-center"><button type="button" class="btn border">해제</button></div>
+			<div class="col-2 ml-0 pl-0 align-self-center"><button type="button" class="btn border" onclick="banCancle('${ban_vo.m_idx}')">해제</button></div>
 			<div class="col-12"><hr></div>	
 			</c:forEach>
 			<c:if test="${empty banListVOS}">

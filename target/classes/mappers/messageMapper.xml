@@ -165,7 +165,7 @@
 	</select>
 	
 	<select id="getFriendExtraByIdxs" resultType="String">
-		select extra from friendbanList where m_idx = #{m_idx} and t_idx = #{t_idx};
+		select extra from friendbanList where m_idx = #{m_idx} and t_idx = #{t_idx} and<![CDATA[status<3]]> ;
 	</select>
 	
 	<select id="getMyAskList" resultType="com.spring.javaweb1S.vo.AskVO">
@@ -210,7 +210,7 @@
 	</select>
 	
 	<select id="getBanExtraByIdxs" resultType="String">
-		select extra from friendBanList where m_idx= #{m_idx} and t_idx =#{t_idx};
+		select extra from friendBanList where m_idx= #{m_idx} and t_idx =#{t_idx} and status = '3';
 	</select>
 	
 	

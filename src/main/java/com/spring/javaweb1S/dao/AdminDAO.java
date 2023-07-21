@@ -10,6 +10,7 @@ import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.PointVO;
 import com.spring.javaweb1S.vo.ReportCategoryVO;
 import com.spring.javaweb1S.vo.ReportVO;
+import com.spring.javaweb1S.vo.RuleSetterVO;
 
 public interface AdminDAO {
 
@@ -48,5 +49,11 @@ public interface AdminDAO {
 	public AskVO getAskDetail(@Param("ask_idx")int ask_idx);
 
 	public void setAskTake(@Param("ask_idx") int ask_idx,@Param("takeContent") String takeContent);
+
+	public RuleSetterVO getRuleInfo(@Param("rule_idx")int rule_idx);
+
+	public void setUpdateRuleSetterLimitOption(@Param("rule_idx") int rule_idx,@Param("strLimitTime") String strLimitTime,@Param("actionLimit") int actionLimit);
+
+	public void setUpdateRuleSetterPenaltyOption(@Param("rule_idx") int rule_idx,@Param("strPenaltyTime") String strLimitTime);
 	
 }

@@ -206,7 +206,7 @@
 						| 
 						<a href="javascript:window.open('${ctp}/message/openWriteInComunity?receive_m_idx=${boardRead_vo.m_idx}&nickName=${boardRead_vo.nickName}', '쪽지쓰기', 'width=515, height=460')">쪽지</a> 
 						| 
-						<a>차단하기</a> 
+						<a href="javascript:window.open('${ctp}/message/setBanUser/${boardRead_vo.m_idx}?title=${boardRead_vo.nickName}', '차단하기', 'width=515, height=460')">차단하기</a> 
 						| 
 						<a href="javascript:window.open('${ctp}/message/reportWindow/member2/${boardRead_vo.m_idx}?title=${boardRead_vo.nickName}', '신고하기', 'width=515, height=460')">사용자신고</a>
 					</c:if>
@@ -270,7 +270,7 @@
 											<span  class="fontdot-12">
 												<a href="javascript:window.open('${ctp}/message/openWriteInComunity?receive_m_idx=${reply_vo.m_idx}&nickName=${reply_vo.nickName}', '쪽지쓰기', 'width=515, height=460')">쪽지</a> 
 												| 
-												<a>차단</a> 
+												<a href="javascript:window.open('${ctp}/message/setBanUser/${reply_vo.m_idx}?title=${reply_vo.nickName}', '차단하기', 'width=515, height=460')">차단</a> 
 												| 
 												<a href="javascript:window.open('${ctp}/message/reportWindow/board2_reply/${reply_vo.rep_idx}?title=${fn:substring(reply_vo.content,0,20)}', '신고하기', 'width=515, height=460')">신고</a>
 											</span>

@@ -61,6 +61,8 @@ public interface BoardService {
 
 	public List<ReplyVO> getboardReplyList(int boa_idx, PageVO repPageVO, String ban_idx);
 
+	public List<BoardVO> getPrevNextContentbyBoa_idx(BoardVO vo, String ban_idx);
+
 	
 
 

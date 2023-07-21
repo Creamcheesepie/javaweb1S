@@ -34,46 +34,31 @@
 	<script>
 	'use strict';
 	
-	function readSendMessage(msg_idx){
-		$.ajax({
-			type:"post",
-			data:{msg_idx:msg_idx},
-			url:"${ctp}/message/getSendMessage",
-			success:function(vo){
-				$("#sdateOutput").html(vo.sdate);
-				$("#sendTitleOutput").html(vo.title);
-				$("#receiveNameOutput").html(vo.nickName);
-				$("#categoryNameOutput").html(vo.category_name);
-				$("#sendContentOutput").html(vo.content);
-				$("#sendMessageModal").modal();
-			},
-			error:function(){
-				alert("전송오류가 발생하였습니다. 같은 오류가 반복된다면 관리자 또는 운영자에게 문의해주세요.")
+	function friendCancle(t_idx){
+		let m_idx = ${sM_idx};
+		
+		let ans = confirm("정말로 삭제하시겠습니까?");
+		if(!ans) return false;
+		else {
+			let ans = confirm("삭제하시면 복구하실 수 없습니다!\n 추후 다시 친구 신청을 통해 상대방이 승낙해야합니다.\n 정말로 삭제하시겠습니까?");
+			if(!ans) return false;
+			else{
+				$.ajax({
+					type:"post",
+					data:{m_idx:m_idx,t_idx:t_idx},
+					url:"${ctp}/member/friendDelete",
+					success:function(){
+						alert("친구 삭제에 성공하였습니다.");
+						location.reload();
+					},
+					error:function(){
+						alert("전송오류가 발생하였습니다. 같은 오류가 반복되면 관리자 또는 운영자에게 연락해주세요.");
+					}
+				})
 			}
-		})
+		}
 	}
 	
-	function readReceiveMessage(msg_idx){
-		$.ajax({
-			type:"post",
-			data:{msg_idx:msg_idx},
-			url:"${ctp}/message/getReceiveMessage",
-			success:function(vo){
-				$("#rsdateOutput").html(vo.sdate);
-				$("#receiveTitleOutput").html(vo.title);
-				$("#sendNameOutput").html(vo.nickName);
-				$("#receiveCategoryNameOutput").html(vo.category_name);
-				$("#receiveContentOutput").html(vo.content);
-				if(vo.msg_category=='120') $("#friendOk").show();
-				if(vo.msg_category=='120') $("#sendButton").hide();
-				$("#answerOpener").attr('onclick',"window.open('${ctp}/message/openAnswer/"+msg_idx+"', '쪽지쓰기', 'width=515, height=460')" );
-				$("#receiveMessageModal").modal();
-			},
-			error:function(){
-				alert("전송오류가 발생하였습니다. 같은 오류가 반복된다면 관리자 또는 운영자에게 문의해주세요.")
-			}
-		})
-	}
 	</script>
 </head>
 <body>
@@ -111,7 +96,7 @@
 			<div class="col-1 align-self-center">${fb_vo.level}</div>
 			<div class="col-2 m-0 p-0 align-self-center">${fb_vo.duration}h/${fb_vo.speed}km/${fb_vo.getHeight}m</div>
 			<div class="col-1 m-0 p-0 align-self-center">${fn:substring(fb_vo.birthday,5,10)}</div>
-			<div class="col-2 ml-0 pl-0 align-self-center"><button type="button" class="btn border">취소</button></div>
+			<div class="col-2 ml-0 pl-0 align-self-center"><button type="button" class="btn border" onclick="friendCancle('${fb_vo.m_idx}')">삭제</button></div>
 			<div class="col-12"><hr></div>	
 			</c:forEach>
 			<c:if test="${empty friendVOS}">

@@ -65,6 +65,8 @@ public interface BoardDAO {
 
 	public List<ReplyVO> getboardReplyListWithBan_idx(@Param("boa_idx")int boa_idx,@Param("vo") PageVO repPageVO,@Param("ban_idx") String ban_idx);
 
+	public List<BoardVO> getPrevNextContentbyBoa_idxWithBan_idx(@Param("vo") BoardVO vo,@Param("ban_idx") String ban_idx);
+
 
 
 	

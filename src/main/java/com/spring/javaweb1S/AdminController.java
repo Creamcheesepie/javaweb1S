@@ -20,6 +20,7 @@ import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.PointVO;
 import com.spring.javaweb1S.vo.ReportCategoryVO;
 import com.spring.javaweb1S.vo.ReportVO;
+import com.spring.javaweb1S.vo.RuleSetterVO;
 
 @Controller
 @RequestMapping("/admin")
@@ -50,10 +51,12 @@ public class AdminController {
 		int level =session.getAttribute("sLevel")==null?99:(int)session.getAttribute("sLevel");
 		if(level<2) {
 			List<PointVO> point_vos= adminService.getPointList();
-			
 			List<CategoryVO> category_vos = adminService.getcategoryList();
+			int[] BoardRuleInfo = adminService.getBoardRuleInfo(2);
+			int[] replyRuleInfo = adminService.getBoardRuleInfo(3);
 			
-			
+			model.addAttribute("replyRuleInfo", replyRuleInfo);
+			model.addAttribute("boardRuleInfo", BoardRuleInfo);
 			model.addAttribute("point_vos", point_vos);
 			model.addAttribute("category_vos", category_vos);
 			return "admin/ruleUpdateForm";
@@ -190,5 +193,23 @@ public class AdminController {
 		adminService.setAskTake(ask_idx,takeContent);
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/autoLimitChange", method = RequestMethod.POST)
+	public void adminLimitChange(
+			@RequestParam(name="strLimitTime",defaultValue="",required = false)String strLimitTime,
+			@RequestParam(name="actionLimit",defaultValue="0",required = false)int actionLimit,
+			@RequestParam(name="rule_idx",defaultValue="0",required=false)int rule_idx
+			) {
+		adminService.setUpdateRuleSetterLimitOption(rule_idx,strLimitTime,actionLimit);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "autoPenaltyChange", method = RequestMethod.POST)
+	public void adminPenaltyChange(
+			@RequestParam(name="strPenaltyTime",defaultValue="",required = false)String strPenaltyTime,
+			@RequestParam(name="rule_idx",defaultValue="0",required=false)int rule_idx
+			) {
+		adminService.setUpdateRuleSetterPenaltyOption(rule_idx,strPenaltyTime);
+	}
 	
 }

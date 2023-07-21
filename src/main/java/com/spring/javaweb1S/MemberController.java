@@ -499,6 +499,15 @@ public class MemberController {
 		return "member/friendAdd";
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/friendDelete", method = RequestMethod.POST)
+	public void memberFriendDeletePost(
+			@RequestParam(name="m_idx",defaultValue="0",required=false) int m_idx,
+			@RequestParam(name="t_idx",defaultValue="0",required=false) int t_idx
+			) {
+			memberService.setFriendDelete(m_idx,t_idx);
+	}
+	
 	@RequestMapping(value = "/banList", method=RequestMethod.GET)
 	public String memberBanListGet(Model model,HttpSession session,
 			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
@@ -531,5 +540,13 @@ public class MemberController {
 		return "member/banAdd";
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/banDelete",method = RequestMethod.POST)
+	public void memberBanDelete(
+			@RequestParam(name="m_idx",defaultValue="0",required=false)int m_idx,
+			@RequestParam(name="t_idx",defaultValue="0",required=false)int t_idx
+			) {
+		memberService.setBanDelete(m_idx,t_idx);
+	}
 	
 }

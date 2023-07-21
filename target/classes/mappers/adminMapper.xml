@@ -148,6 +148,17 @@
 				A.ask_category = B.ask_category
 	</select>
 	
+	<select id="getRuleInfo" resultType="com.spring.javaweb1S.vo.RuleSetterVO">
+		select 
+			actionLimit,
+			DATE_FORMAT(limitTime , '%H:%i') as limitTime,
+			DATE_FORMAT(penaltyTime , '%H:%i') as penaltyTime
+		from
+			ruleSetter
+		where
+			rule_idx = #{rule_idx};
+	</select>
+	
 	
 	
 	
@@ -178,6 +189,14 @@
 	
 	<update id="setAskTake">
 		update ask2 set takeContent = #{takeContent}, takeSw='2', tdate=now() where ask_idx = #{ask_idx};
+	</update>
+	
+	<update id="setUpdateRuleSetterLimitOption">
+		update ruleSetter set limitTime = #{strLimitTime}, actionLimit = #{actionLimit}, cdate=now() where rule_idx = #{rule_idx};
+	</update>
+	
+	<update id="setUpdateRuleSetterPenaltyOption"> 
+		update ruleSetter set penaltyTime = #{strPenaltyTime}, cdate = now() where rule_idx = #{rule_idx};
 	</update>
 	
 

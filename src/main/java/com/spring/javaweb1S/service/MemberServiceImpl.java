@@ -228,6 +228,21 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.getBanList(m_idx,pageVO);
 	}
 
+	@Override
+	public void setFriendDelete(int m_idx, int t_idx) {
+		int status = memberDAO.getFrienStatus(m_idx,t_idx);
+		if(status==1) memberDAO.setFriendBanDelete(m_idx,t_idx);
+		else {
+			memberDAO.setFriendBanDelete(m_idx,t_idx);
+			memberDAO.setFriendBanDelete(t_idx,m_idx);
+		}
+	}
+
+	@Override
+	public void setBanDelete(int m_idx, int t_idx) {
+		memberDAO.setFriendBanDelete(m_idx,t_idx);
+	}
+
 
 
 
