@@ -19,5 +19,10 @@ public class GetherController {
 		return "gether/getherHome";
 	}
 	
+	@RequestMapping(value = "/afterList", method = RequestMethod.GET)
+	public String getherAfterListGet() {
+		
+		return "gether/afterGetherList";
+	}
 	
 }
