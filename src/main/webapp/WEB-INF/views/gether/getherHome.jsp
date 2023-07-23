@@ -32,10 +32,17 @@
 	</div>
 	<div class="col-3">
 		<div class="mainTitle test-left">참여가능 모임</div>
-		<div class="mainfont-b-22 text-center">1개</div>
+		<div class="mainfont-b-22 text-center">${availableGether}개</div>
 		<div class="mainfont-b-22 text-right">
 			<a href="${ctp}/gether/afterList">참여하기</a>
 		</div>
+		<c:if test="${sLevel<3}">
+			<hr>
+			<div class="mainTitle">
+			<a href="${ctp}/gether/makeGether">모임 만들기</a>
+			</div>
+			<hr>
+		</c:if>
 	</div>
 </div>
 </div>

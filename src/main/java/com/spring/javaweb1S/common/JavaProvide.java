@@ -9,8 +9,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 import org.apache.ibatis.transaction.Transaction;
+import org.springframework.web.multipart.MultipartFile;
 
 public class JavaProvide {
 	public String splitArrMakeOneString(String originalString, String spliter) {
@@ -58,6 +60,44 @@ public class JavaProvide {
 		}
 	}
 	
+	public void imageCheckCopyGether(String content, String realPath,String servletPath) {
+		if(content.indexOf("src=\"/") == -1) return;
+		System.out.println("업데이트된 content" + content);
+		String nextImg = content.substring(content.indexOf(servletPath)+servletPath.length());
+		System.out.println("인덱스of길이"+content.indexOf(servletPath));
+		System.out.println("nextImg : " + nextImg);
+		boolean sw = true;
+		
+		while(sw) {
+			String imgFile = nextImg.substring(0,nextImg.indexOf("\""));
+			String ofPath = realPath+"getherTemp/"+imgFile;
+			String cfPath = realPath+"gether/"+imgFile;
+			
+			try {
+				FileInputStream fis = new FileInputStream(new File(ofPath));
+				FileOutputStream fos = new FileOutputStream(new File(cfPath));
+				
+				byte[] bytes = new byte[2048];
+				int cnt = 0;
+				while((cnt = fis.read(bytes))!=-1) {
+					fos.write(bytes,0,cnt);
+				}
+				
+				fos.flush();
+				fos.close();
+				fis.close();
+			} catch (FileNotFoundException e) {
+				System.out.println("파일찾기오류 : " + e.getMessage());
+			} catch (IOException e) {
+				System.out.println("IO오류 : " + e.getMessage());
+			}
+			if(nextImg.indexOf("src=\"/")==-1) sw = false;
+			else {
+				nextImg = nextImg.substring(content.indexOf("servletPath")+servletPath.length());
+			}
+		}
+	}
+	
 	public void contentImageDelete(String content, String realPath,String servletPath){
 		if(content.indexOf("src=\"/") == -1) return;
 		
@@ -75,6 +115,28 @@ public class JavaProvide {
 				nextImg = nextImg.substring(content.indexOf("servletPath")+servletPath.length());
 			}
 		}
+	}
+	
+	public String fileUpload(MultipartFile fName, String realPath) {
+		String ofName = fName.getOriginalFilename();
+		UUID uid = UUID.randomUUID();
+		String sfName = uid.toString().substring(0,5)+"_"+ofName;
+		
+		try {
+			writeFile(fName,sfName,realPath);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return sfName;
+	}
+
+	private void writeFile(MultipartFile fName, String sfName,String realPath) throws IOException {
+		byte[] data = fName.getBytes();
+		FileOutputStream fos = new FileOutputStream(realPath+sfName);
+		fos.write(data);
+		fos.close();
 	}
 	
 	public String levelToString(int level) {

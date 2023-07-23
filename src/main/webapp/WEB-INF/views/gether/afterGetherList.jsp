@@ -20,31 +20,32 @@
 <div class="subTitle">예정된 모임</div>
 	<div class="row">
 		<div class="col-2"><!-- 사이드바 영역 -->
-			<div class="subTitle-dot">
-				<a href="${ctp}/gether/afterList">모임예정</a>
-				<hr>
-				<a>모임후기</a>
-				<hr>
-				<a>지난모임</a>
-			</div>
+			<jsp:include page="/WEB-INF/views/include/getherSideBar.jsp"/>
 		</div>
 		<div class="col-10"><!-- 메인 리스트 영역 -->
 			<div><!-- 리스트 하나 -->
+			<c:forEach var="getherVO" items="${getherVOS}">
 				<div class="row">
 					<div class="col-9">
 						<div class="mainfont-b-22">
-							모임 제목을 입력하는 자리입니다.
+							${getherVO.title}
 						</div>
-						<div class="mainfont-b-18">모임 지역이 나오는 자리입니다.</div>
-						<div class="mainfont-b-16 inactive">모임 내용이 나오는 자리입니다.</div>
+						<div class="mainfont-b-18">${getherVO.location}</div>
+						<div class="mainfont-b-16 inactive">${getherVO.content}</div>
 					</div>
 					<div class="col-3 text-right align-self-end">
-						<div class="mainfont-b-16">모임일자-월월-일일</div>
-						<div class="mainfont-b-18">모임장닉네임(장이름)</div>
+						<div class="mainfont-b-16">${getherVO.getherTime}</div>
+						<div class="mainfont-b-18">${getherVO.nickName}(${getherVO.name})</div>
 						<div class="fontdot-12 ">참여여부</div>
-						<div class="mainfont-m-16 ">인원/총인원</div>
+						<div class="mainfont-m-16 ">${getherVO.nowMember} / ${getherVO.totalMember}</div>
 					</div>
 				</div>
+			</c:forEach>
+			<c:if test="${empty getherVOS}">
+				<div class="mainfont-b-22 inactive">
+					현재 참여가능한 모임이 없습니다.
+				</div>
+			</c:if>
 			</div>
 		</div>
 	</div>

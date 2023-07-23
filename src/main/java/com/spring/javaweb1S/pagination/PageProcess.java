@@ -38,6 +38,8 @@ public interface PageProcess {
 	public PageVO pageProcessorByBoa_idx(String string, int repPageSize, int repNowPage, int blockSize, int boa_idx,
 			String ban_idx);
 
+	public PageVO afterGetherProcess(int nowPage, int pageSize, int blockSize);
+
 	
 	
 }

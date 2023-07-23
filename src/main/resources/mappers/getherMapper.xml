@@ -2,5 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.spring.javaweb1S.dao.GetherDAO">
-
+	<select id="getAfterGetherList" resultType="com.spring.javaweb1S.vo.GetherVO">
+		select
+			A.title,
+			A.content,
+			A.location,
+			A.getherTime,
+			A.totalMember,
+			A.nowMember,
+			B.nickName,
+			B.name
+		from
+			gether2 A,
+			member2 B
+		where
+				A.getherTime <![CDATA[>=]]> date_add(now(),interval +1 Year)
+			and
+				A.m_idx = B.m_idx
+		order by A.getherTime
+		limit #{vo.sin}, #{vo.pageSize};
+	</select>
+	
+	<select id="getAvailableGetherCount" resultType="int">
+		select count(get_idx) from gether2 where getherTime <![CDATA[>=]]> date_add(now(),interval +1 Year);
+	</select>
+	
+	
+	
+	<insert id="setGetherInsert">
+		insert into gether2 values(default,#{vo.m_idx},#{vo.title},#{vo.content},#{vo.location},#{vo.getherType},#{vo.totalMember},#{vo.nowMember},#{vo.gpxFile},#{vo.distance},#{vo.useTime},#{vo.getHeight},#{vo.detailCourse},#{vo.getherTime},default,null,null,null)
+	</insert>
+	
+	
+	
 </mapper>

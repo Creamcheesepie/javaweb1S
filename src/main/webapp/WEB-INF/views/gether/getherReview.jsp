@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title></title>
+<title>모임후기</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp"/>
 	<jsp:include page="/WEB-INF/views/include/mainCss.jsp"/>
 	<script>
@@ -26,7 +26,7 @@
 		<div class="col-12"><hr></div>
 		<div class="col-8">모임제목이 나옵니다.</div>
 		<div class="col-2">모임년도-월월-일일</div>
-		<div class="col-2">완료여부</div>
+		<div class="col-2">완주여부</div>
 		<div class="col-12"><hr></div>
 		<div class="col-12 text-center">주행정보 : 거리 / 획득고도 / 예상시간 / 평균속도</div>
 		<div class="col-12"><hr></div>

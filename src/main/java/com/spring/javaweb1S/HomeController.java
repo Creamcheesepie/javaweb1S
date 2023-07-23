@@ -99,4 +99,32 @@ public class HomeController {
 		fos.close();
 	}
 	
+	
+	@RequestMapping(value ="tempGetherImage")
+	public void tempGetherImageGet(MultipartFile upload, HttpServletRequest request,HttpServletResponse response) throws IOException {
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		//저장할 폴더의 실제 경로를 찾고 파일의 이름을 유일성을 가지게 변환한다.
+		String realPath = request.getSession().getServletContext().getRealPath("/resources/data/getherTemp/");
+		String ofName = upload.getOriginalFilename();
+		
+		UUID uid = UUID.randomUUID();
+		String strUid = uid.toString().substring(0,6);
+		ofName = strUid+"_"+ofName;
+		
+		//ck에디터에서 전송한 파일을 서버의 파일시스템에 저장 처리한다.
+		byte[] bytes = upload.getBytes();
+		
+		FileOutputStream fos = new FileOutputStream(new File(realPath+ofName));
+		fos.write(bytes);
+		
+		//서버 파일 시스템에 저장되어 있는 그림파일을 브라우저 편집화면(text area)에 보여주는 처리
+		PrintWriter out = response.getWriter();
+		String fileUrl = request.getContextPath()+"/getherTemp/"+ofName; //servletContext에 지정된 경로는 실제 경로와 다르기 때문에 이렇게 저장.
+		out.println("{\"orginalFilename\":\""+ofName+"\",\"uploaded\":1,\"url\":\""+fileUrl+"\"}");
+		
+		out.flush();
+		fos.close();
+	}
+	
 }

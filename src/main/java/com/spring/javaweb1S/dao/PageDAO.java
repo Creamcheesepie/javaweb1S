@@ -34,4 +34,6 @@ public interface PageDAO {
 
 	public int getTRCbyBoa_idxWithBan_idx(@Param("tableName") String tableName,@Param("boa_idx") int boa_idx,@Param("ban_idx") String ban_idx);
 
+	public int getAfterGether();
+
 }

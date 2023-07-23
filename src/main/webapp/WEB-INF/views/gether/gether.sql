@@ -8,6 +8,7 @@ create table gether2(
 	totalMember			int						not null,
 	nowMember				int						not null default 1,
 	gpxfile					varchar(100)	not null,
+	useTime					int						not null,
 	distance				int						not null,
 	getHeight				int						not null,
 	detailCourse		varchar(500)	not null,
@@ -36,6 +37,7 @@ create table gether2_member(
 	on delete restrict
 )
 
+create table gether2_review
 
 
 	

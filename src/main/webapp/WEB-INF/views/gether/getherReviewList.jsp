@@ -5,39 +5,35 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>지난 모임</title>
+<title></title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp"/>
 	<jsp:include page="/WEB-INF/views/include/mainCss.jsp"/>
 	<script>
 		"use strict";
-		
+		document.title = 'category_Name';
 	</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/navbar.jsp"/>
 <div class="container">
-<div class="mainTitle">Past Gether</div>
-<div class="subTitle">지난 모임</div>
+<div class="mainTitle">Gether Review</div>
+<div class="subTitle">모임 후기</div>
 	<div class="row">
 		<div class="col-2"><!-- 사이드바 영역 -->
-			<jsp:include page="/WEB-INF/views/include/getherSideBar.jsp"/>
+			<jsp:include page="/WEB-INF/views/include/getherSideBar.jsp"></jsp:include>
 		</div>
 		<div class="col-10"><!-- 메인 리스트 영역 -->
 			<div><!-- 리스트 하나 -->
 				<div class="row">
-					<div class="col-9">
-						<div class="mainfont-b-22">
-							모임 제목을 입력하는 자리입니다.
-						</div>
-						<div class="mainfont-b-18">모임 지역이 나오는 자리입니다.</div>
-						<div class="mainfont-b-16 inactive">모임 내용이 나오는 자리입니다.</div>
+					<div class="col-3"><!-- 메인 사진 영역 -->
+						<img src="" width=100%, height="100%">
 					</div>
-					<div class="col-3 text-right align-self-end">
-						<div class="mainfont-b-16">모임일자-월월-일일</div>
-						<div class="mainfont-b-18">모임장닉네임(장이름)</div>
-						<div class="fontdot-12 ">참여여부</div>
-						<div class="mainfont-m-16 ">인원/총인원</div>
+					<div class="col-9 text-left">
+						<div class="fontdot-12">작성자</div>
+						<div class="mainfont-b-22">모임명</div>
+						<div class="mainfont-m-16 inactive">대충 아무런 모임 내용입니다. 안녕하세요 다들 잘먹고 잘 살고 계시조?</div>
 					</div>
+					<div class="col-12"><hr></div>
 				</div>
 			</div>
 		</div>

@@ -90,4 +90,8 @@
 		select count(m_idx) from friendBanList where m_idx = #{m_idx} and <![CDATA[status>2]]>;
 	</select>
 	
+	<select id="getAfterGether" resultType="int">
+		select count(get_idx) from gether2 where <![CDATA[getherTime>=date_add(now(),interval +1 Year)]]>
+	</select>
+	
 </mapper>
