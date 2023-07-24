@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -28,18 +29,26 @@
 				<div class="row">
 					<div class="col-9">
 						<div class="mainfont-b-22">
-							${getherVO.title}
+							<a href="${ctp}/gether/getherDetail/${getherVO.get_idx}">${getherVO.title}</a>
 						</div>
 						<div class="mainfont-b-18">${getherVO.location}</div>
-						<div class="mainfont-b-16 inactive">${getherVO.content}</div>
+						<div class="mainfont-b-16 inactive">${getherVO.detailCourse}</div>
 					</div>
 					<div class="col-3 text-right align-self-end">
-						<div class="mainfont-b-16">${getherVO.getherTime}</div>
+						<div class="mainfont-b-16">모임날짜 ${fn:substring(getherVO.getherTime,0,10)}</div>
 						<div class="mainfont-b-18">${getherVO.nickName}(${getherVO.name})</div>
-						<div class="fontdot-12 ">참여여부</div>
+						<div class="fontdot-12">
+							<c:if test="${getherVO.joined == sM_idx}">
+								참여함
+							</c:if>
+							<c:if test="${getherVO.joined != sM_idx}">
+								미참가
+							</c:if>
+						</div>
 						<div class="mainfont-m-16 ">${getherVO.nowMember} / ${getherVO.totalMember}</div>
 					</div>
 				</div>
+					<hr>
 			</c:forEach>
 			<c:if test="${empty getherVOS}">
 				<div class="mainfont-b-22 inactive">

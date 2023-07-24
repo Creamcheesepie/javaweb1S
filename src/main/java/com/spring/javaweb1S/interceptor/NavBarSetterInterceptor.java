@@ -24,7 +24,7 @@ public class NavBarSetterInterceptor extends HandlerInterceptorAdapter{
 			modelAndView.addObject("nav_vos", category_vos); 
 		} 
 		else { 
-			return ;
+			return;
 		}
 		return;
 	}

@@ -21,6 +21,8 @@ create table gether2(
 	on delete restrict
 )
 
+drop table gether2
+
 create table gether2_member(
 	get_idx					int						not null,
 	m_idx						int						not null,
@@ -36,6 +38,8 @@ create table gether2_member(
 	on update cascade
 	on delete restrict
 )
+
+drop table gether2_member
 
 create table gether2_review
 

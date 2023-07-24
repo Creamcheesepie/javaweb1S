@@ -36,4 +36,6 @@ public interface PageDAO {
 
 	public int getAfterGether();
 
+	public int getPastGether();
+
 }

@@ -15,13 +15,13 @@
 		function makeGetherFormCheck(){
 			let title = $("#title").val();
 			let location = $("#location").val();
-			let totalMember = $("totalMember").val();
+			let totalMember = $("#totalMember").val();
 			let detailCourse = $("#detailCourse").val();
 			let getherTime = $("#getherTime").val();
 			let distance = $("#distance").val();
-			let useTime = $("useTime").val();
+			let useTime = $("#useTime").val();
 			let getHeight = $("#getHeight").val();
-			let content = $("#content").val();
+			let content = CKEDITOR.instances.CKEDITOR.getData();
 			
 			if(title.trim() == ""){
 				alert("모임 제목을 입력해주세요!");
@@ -43,7 +43,7 @@
 				return false;
 			}
 			
-			if(getherCourse.Time() == ""){
+			if(getherTime.trim() == ""){
 				alert("모임시간을 입력해 주세요");
 				return false;
 			}
@@ -100,14 +100,14 @@
 		</div>
 		<div class="col-12"><hr></div>
 		<div class="col-1 align-self-center">모임시간</div>
-		<div class="col-2"><input type="datetime-local" name="getherTime" class="form-control"></div>
+		<div class="col-2"><input type="datetime-local" name="getherTime" id="getherTime" class="form-control"></div>
 		<div class="col-2 align-self-center">예상 주행 정보</div>
 		<div class="col-1 align-self-center">거리</div>
 		<div class="col-1"><input type="number" name="distance" id="distance" class="form-control m-0 p-0"></div>
 		<div class="col-1 align-self-center">시간</div>
 		<div class="col-1"><input type="number" name="useTime" id="useTime" class="form-control m-0 p-0"></div>
 		<div class="col-1 align-self-center">고도</div>
-		<div class="col-1"><input type="number" name="getHeight" id="getheight" class="form-control m-0 p-0"></div>
+		<div class="col-1"><input type="number" name="getHeight" id="getHeight" class="form-control m-0 p-0"></div>
 		<div class="col-12"><hr></div>
 		<div class="col-12">
 			<textarea rows="12" name="content" id="CKEDITOR">

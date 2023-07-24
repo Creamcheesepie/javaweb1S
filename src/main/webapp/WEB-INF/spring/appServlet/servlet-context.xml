@@ -15,6 +15,8 @@
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/images/**" location="/resources/data/iamges/" />
+	<resources mapping="/getherTemp/**" location="/resources/data/getherTemp/" />
+	<resources mapping="/gether/**" location="/resources/data/gether/" />
 	<resources mapping="/boardTemp/**" location="/resources/data/boardTemp/" />
 	<resources mapping="/board/**" location="/resources/data/board/" />
 	<resources mapping="/font/**" location="/resources/data/font/" />
@@ -53,6 +55,8 @@
   		<exclude-mapping path="/tempImage/**"/>
   		<exclude-mapping path="/boardTemp/**"/>
   		<exclude-mapping path="/ckeditor/**"/>
+  		<exclude-mapping path="/getherTemp/**"/>
+  		<exclude-mapping path="/tempGetherImage/**"/>
   		<exclude-mapping path="/resources/**"/>
   		<beans:ref bean="navbarSetterInterceptor"/>
   	</interceptor>

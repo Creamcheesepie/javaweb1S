@@ -134,6 +134,8 @@
 	</select>
 
 
+
+
 	<insert id="setMemberSignIn">
 		insert into member2 values(default, #{vo.mid},#{vo.pwd},#{vo.nickName},#{vo.name},#{vo.tel},#{vo.address},#{vo.age},#{vo.gender},#{vo.birthday},#{vo.inst},#{vo.photo},default,default,#{vo.speed},#{vo.duration},#{vo.getHeight},default,default,default,default,default,default,#{vo.QRcode});
 	</insert>

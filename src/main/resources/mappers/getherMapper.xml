@@ -4,19 +4,52 @@
 <mapper namespace="com.spring.javaweb1S.dao.GetherDAO">
 	<select id="getAfterGetherList" resultType="com.spring.javaweb1S.vo.GetherVO">
 		select
+			A.get_idx,
 			A.title,
-			A.content,
+			A.detailCourse,
 			A.location,
 			A.getherTime,
 			A.totalMember,
 			A.nowMember,
 			B.nickName,
-			B.name
+			B.name,
+			(select m_idx from gether2_member where get_idx = A.get_idx and m_idx = #{m_idx}) as joined
 		from
 			gether2 A,
 			member2 B
 		where
-				A.getherTime <![CDATA[>=]]> date_add(now(),interval +1 Year)
+				A.getherTime
+			between
+				now()
+			and
+				date_add(now(),interval 1 Year)
+			and
+				A.m_idx = B.m_idx
+		order by A.getherTime
+		limit #{vo.sin}, #{vo.pageSize};
+	</select>
+	
+	<select id="getPastGetherList" resultType="com.spring.javaweb1S.vo.GetherVO">
+		select
+			A.get_idx,
+			A.title,
+			A.detailCourse,
+			A.location,
+			A.getherTime,
+			A.totalMember,
+			A.nowMember,
+			B.nickName,
+			B.name,
+			(select m_idx from gether2_member where get_idx = A.get_idx and m_idx = #{m_idx}) as joined
+		from
+			gether2 A,
+			member2 B
+		where
+				A.getherTime
+			between
+				now()
+			and
+				date_sub(now(),interval 1 Year)
 			and
 				A.m_idx = B.m_idx
 		order by A.getherTime
@@ -24,15 +57,86 @@
 	</select>
 	
 	<select id="getAvailableGetherCount" resultType="int">
-		select count(get_idx) from gether2 where getherTime <![CDATA[>=]]> date_add(now(),interval +1 Year);
+		select count(get_idx) from gether2 where getherTime between now() and date_add(now(),interval 1 Year);
+	</select>
+	
+	<select id="getGetherDetail" resultType="com.spring.javaweb1S.vo.GetherVO">
+		select
+			A.get_idx,
+			A.m_idx,
+			A.title,
+			A.content,
+			A.location,
+			A.getherType,
+			A.totalMember,
+			A.nowMember,
+			A.gpxfile,
+			A.useTime,
+			A.distance,
+			A.getHeight,
+			A.detailCourse,
+			A.getherTime,
+			A.wdate,
+			B.nickName,
+			B.name
+		from
+			gether2 A,
+			member2 B
+		where
+				A.get_idx = #{get_idx}
+			and
+				A.m_idx = B.m_idx
+	</select>
+	
+	<select id="getGetherJoinList" resultType="com.spring.javaweb1S.vo.GetherVO">
+		select
+			A.m_idx,
+			B.nickName
+		from
+			gether2_member A,
+			member2 B
+		where
+				A.get_idx = #{get_idx}
+			and
+				A.m_idx = B.m_idx		
+	</select>
+	
+	<select id="getBanUserList" resultType="com.spring.javaweb1S.vo.GetherVO">
+		select t_idx as m_idx from	friendbanList	where	m_idx = #{m_idx} and status='3';
+	</select>
+	
+	<select id="getNaBanUserList" resultType="com.spring.javaweb1S.vo.GetherVO">
+		select m_idx from friendbanList where t_idx = #{m_idx} and status='3';
+	</select>
+	
+	<select id="getGetherDate" resultType="String">
+		select join_date from gether2_member where get_idx = #{get_idx} and m_idx = #{m_idx};
 	</select>
 	
 	
 	
+	
 	<insert id="setGetherInsert">
-		insert into gether2 values(default,#{vo.m_idx},#{vo.title},#{vo.content},#{vo.location},#{vo.getherType},#{vo.totalMember},#{vo.nowMember},#{vo.gpxFile},#{vo.distance},#{vo.useTime},#{vo.getHeight},#{vo.detailCourse},#{vo.getherTime},default,null,null,null)
+		insert into gether2 values(default,#{vo.m_idx},#{vo.title},#{vo.content},#{vo.location},#{vo.getherType},#{vo.totalMember},default,#{vo.gpxFile},#{vo.useTime},#{vo.distance},#{vo.getHeight},#{vo.detailCourse},#{vo.getherTime},default,null,null);
 	</insert>
 	
+	<insert id="setGetherJoin">
+		insert into gether2_member values(#{get_idx}, #{m_idx},default,null,null,null,default);
+	</insert>
+	
+	<insert id="setSendAlertMessage">
+		insert into message2 values(default,'1',#{m_idx},'차단한 회원 활동 알림','회원님이 차단한 회원이 회원님이 등록한 모임에 참여하였습니다. 확인해 주십시오.',default,null,null,'2',null);	
+	</insert>
+
+
+
+	<update id="setUpdateNowMemberGether">
+		update gether2 set nowMember = nowMember+${i} where get_idx = #{get_idx};
+	</update>
 	
 	
+	
+	<delete id="setDeleteGether2_member">
+		delete from gether2_member where get_idx = #{get_idx} and m_idx = #{m_idx};
+	</delete>
 </mapper>

@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>지난 모임</title>
+<title>모임예정</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp"/>
 	<jsp:include page="/WEB-INF/views/include/mainCss.jsp"/>
 	<script>
@@ -24,21 +25,36 @@
 		</div>
 		<div class="col-10"><!-- 메인 리스트 영역 -->
 			<div><!-- 리스트 하나 -->
+			<c:forEach var="getherVO" items="${getherVOS}">
 				<div class="row">
 					<div class="col-9">
 						<div class="mainfont-b-22">
-							모임 제목을 입력하는 자리입니다.
+							<a href="${ctp}/gether/getherDetail/${getherVO.get_idx}">${getherVO.title}</a>
 						</div>
-						<div class="mainfont-b-18">모임 지역이 나오는 자리입니다.</div>
-						<div class="mainfont-b-16 inactive">모임 내용이 나오는 자리입니다.</div>
+						<div class="mainfont-b-18">${getherVO.location}</div>
+						<div class="mainfont-b-16 inactive">${getherVO.detailCourse}</div>
 					</div>
 					<div class="col-3 text-right align-self-end">
-						<div class="mainfont-b-16">모임일자-월월-일일</div>
-						<div class="mainfont-b-18">모임장닉네임(장이름)</div>
-						<div class="fontdot-12 ">참여여부</div>
-						<div class="mainfont-m-16 ">인원/총인원</div>
+						<div class="mainfont-b-16">모임날짜 ${fn:substring(getherVO.getherTime,0,10)}</div>
+						<div class="mainfont-b-18">${getherVO.nickName}(${getherVO.name})</div>
+						<div class="fontdot-12">
+							<c:if test="${getherVO.joined == sM_idx}">
+								참여함
+							</c:if>
+							<c:if test="${getherVO.joined != sM_idx}">
+								미참여
+							</c:if>
+						</div>
+						<div class="mainfont-m-16 ">${getherVO.nowMember} / ${getherVO.totalMember}</div>
 					</div>
 				</div>
+					<hr>
+			</c:forEach>
+			<c:if test="${empty getherVOS}">
+				<div class="mainfont-b-22 inactive">
+					지난 모임이 없습니다.
+				</div>
+			</c:if>
 			</div>
 		</div>
 	</div>

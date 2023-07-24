@@ -40,6 +40,8 @@ public interface PageProcess {
 
 	public PageVO afterGetherProcess(int nowPage, int pageSize, int blockSize);
 
+	public PageVO pastGetherProcess(int nowPage, int pageSize, int blockSize);
+
 	
 	
 }
