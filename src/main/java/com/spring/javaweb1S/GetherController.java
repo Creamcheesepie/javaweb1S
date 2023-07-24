@@ -163,13 +163,26 @@ public class GetherController {
 		String  realPath = request.getSession().getServletContext().getRealPath("/resources/data/QR/");
 		String QRName = getherService.setQRCode(link,realPath);
 		System.out.println(QRName);
+		model.addAttribute("link", link);
 		model.addAttribute("QRCode", QRName);
 		return "gether/saveQROut";
 	}
 	
-	@RequestMapping(value="/getherClearSave/{get_idx}",method = RequestMethod.GET)
-	public String getherClearSaveGet() {
+	@RequestMapping(value = "/getherClearSaver/{get_idx}",method = RequestMethod.GET)
+	public String getherClearSaveGet(HttpSession session,Model model,
+			@PathVariable("get_idx")int get_idx
+			) {
+		int m_idx = session.getAttribute("sM_idx")==null?0:(int)session.getAttribute("sM_idx");
+		GetherVO getherVO = getherService.getGetherDetail(get_idx);
 		
+		model.addAttribute("m_idx", m_idx);
+		model.addAttribute("getherVO", getherVO);
+		if(m_idx == 0)return "redirect:/member/login?from=getherClear&extra="+get_idx;
+		return "gether/getherClearSave";
+	}
+	
+	@RequestMapping(value = "/getherClearSaver/{get_idx}",method = RequestMethod.POST)
+	public String getherClearSavePost() {
 		
 		return "";
 	}

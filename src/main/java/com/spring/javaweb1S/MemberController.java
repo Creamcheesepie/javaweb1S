@@ -52,7 +52,8 @@ public class MemberController {
 	public String memberLoginPost(HttpSession session,Model model,
 			@RequestParam(name="mid",defaultValue="",required=false)String mid,
 			@RequestParam(name="pwd",defaultValue="",required=false)String pwd,
-			@RequestParam(name="from",defaultValue="",required=false)String from
+			@RequestParam(name="from",defaultValue="",required=false)String from,
+			@RequestParam(name="extra",defaultValue="",required=false)String extra
 			) {
 		MemberVO vo = memberService.getLogin(mid,pwd);
 		if(vo==null) {
@@ -87,6 +88,9 @@ public class MemberController {
 			
 			if(from.equals("attendanceList")) {
 				return "redirect:/attendance/list";
+			}
+			else if(from.equals("getherClear")) {
+				return "redirect:/gether/getherClearSaver/"+extra;
 			}
 			else {
 				return "redirect:/";

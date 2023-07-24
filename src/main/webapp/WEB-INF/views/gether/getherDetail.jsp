@@ -119,7 +119,7 @@
 			</c:if>
 			<c:if test="${getherVO.m_idx == sM_idx}">
 				<form name="getQRForm" id="getQRForm" method="post" action="${ctp}/gether/getherSaveQR">
-				<input type="hidden" name="link" id="link" value="${ctp}/getherClearSave/${getherVO.get_idx}">
+				<input type="hidden" name="link" id="link" value="${ctp}/gether/getherClearSaver/${getherVO.get_idx}">
 					<button type="submit" class="btn border">완주등록</button>
 				</form>
 			</c:if>
