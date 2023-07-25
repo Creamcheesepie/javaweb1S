@@ -72,7 +72,7 @@ public class HomeController {
 		session.invalidate();
 		return "banUser";
 	}
-	z
+	
 	@RequestMapping(value="/boardAbuseUser/{rule_idx}", method = RequestMethod.GET)
 	public String boardAbuseUserGet(HttpSession session,Model model,
 			@PathVariable("rule_idx") int rule_idx
