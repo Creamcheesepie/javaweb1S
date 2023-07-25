@@ -24,23 +24,19 @@
 			<jsp:include page="/WEB-INF/views/include/getherSideBar.jsp"></jsp:include>
 		</div>
 		<div class="col-10"><!-- 메인 리스트 영역 -->
-			<div><!-- 리스트 하나 -->
-				<div class="row">
-					<c:forEach var="grVO" items="${grVOS}" varStatus="st">
-						<div class="col-3"><!-- 메인 사진 영역 -->
-							<img src="${ctp}/getherReview/${grVO.mainImage}" width="100%" height="100%">
-						</div>
-						<div class="col-9 text-left">
-							<div class="fontdot-12">${grVO.nickName}</div>
-							<div class="mainfont-b-22">
-							<a href="${ctp}/gether/reviewDetail/${grVO.ger_idx}">${grVO.title}</a>
-							</div>
-							<div class="mainfont-m-16 inactive">${grVO.get_title}</div>
-						</div>
-						<div class="col-12"><hr></div>
-					</c:forEach>
-					
-				</div>
+			<div class="row">
+				<c:forEach var="grVO" items="${grVOS}" varStatus="st">
+					<div class="col-3"><!-- 메인 사진 영역 -->
+						<img src="${ctp}/getherReview/${grVO.mainImage}" width="100%" height="100%">
+					</div>
+					<div class="col-9 text-left">
+						<div class="fontdot-12">${grVO.nickName}</div>
+						<div class="mainfont-b-22">${grVO.title}</div>
+						<div class="mainfont-b-18 inactive">${grVO.get_title}</div>
+						<div class="mainfont-m-16 inactive">${fn:substring(grVO.content,0,25)}</div>
+					</div>
+				<div class="col-12"><hr></div>
+				</c:forEach>
 			</div>
 		</div>
 	</div>

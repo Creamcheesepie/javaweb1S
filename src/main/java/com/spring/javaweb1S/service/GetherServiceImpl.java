@@ -19,6 +19,8 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.spring.javaweb1S.dao.GetherDAO;
+import com.spring.javaweb1S.vo.GetherMemberVO;
+import com.spring.javaweb1S.vo.GetherReviewVO;
 import com.spring.javaweb1S.vo.GetherVO;
 import com.spring.javaweb1S.vo.PageVO;
 
@@ -30,6 +32,8 @@ public class GetherServiceImpl implements GetherService {
 	@Override
 	public void setGetherInsert(GetherVO getherVO) {
 		getherDAO.setGetherInsert(getherVO);
+		int get_idx = getherDAO.getGetherIdx(getherVO);
+		getherDAO.setGetherJoin(get_idx, getherVO.getM_idx());
 	}
 
 	@Override
@@ -132,5 +136,46 @@ public class GetherServiceImpl implements GetherService {
 		}
 		
 		return QRName;
+	}
+
+	@Override
+	public void setGetherClearUpdate(GetherMemberVO getherMemberVO) {
+		getherDAO.setGetherClearUpdate(getherMemberVO);
+		
+	}
+
+	@Override
+	public List<GetherVO> getMyClearList(int m_idx) {
+		return getherDAO.getMyClearList(m_idx);
+	}
+
+	@Override
+	public List<GetherMemberVO> getGetherClearList(int get_idx) {
+		return getherDAO.getGetherClearList(get_idx);
+	}
+
+	@Override
+	public void setGetherClearCheck(int get_idx, int m_idx) {
+		getherDAO.setGetherClearCheck(get_idx,m_idx);
+	}
+
+	@Override
+	public GetherMemberVO getGetherMemberDetail(int get_idx, int m_idx) {
+		return getherDAO.getGetherMemberDetail(get_idx,m_idx);
+	}
+
+	@Override
+	public void setGetherReviewInsert(GetherReviewVO getherReviewVO) {
+		getherDAO.setGetherReviewInsert(getherReviewVO);
+	}
+
+	@Override
+	public List<GetherReviewVO> getGetherReviewList(PageVO pageVO) {
+		return getherDAO.getGetherReviewList(pageVO);
+	}
+
+	@Override
+	public GetherReviewVO getGetherReviewDetail(int ger_idx) {
+		return getherDAO.getGetherReviewDetail(ger_idx);
 	}
 }

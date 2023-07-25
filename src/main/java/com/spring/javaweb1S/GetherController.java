@@ -19,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.spring.javaweb1S.common.JavaProvide;
 import com.spring.javaweb1S.pagination.PageProcess;
 import com.spring.javaweb1S.service.GetherService;
+import com.spring.javaweb1S.vo.GetherMemberVO;
+import com.spring.javaweb1S.vo.GetherReviewVO;
 import com.spring.javaweb1S.vo.GetherVO;
 import com.spring.javaweb1S.vo.PageVO;
 
@@ -32,9 +34,17 @@ public class GetherController {
 	PageProcess pageProcess;
 	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String getherHomeGet(Model model) {
+	public String getherHomeGet(Model model,
+			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
+			@RequestParam(name="pageSize",defaultValue="5",required=false)int pageSize
+			) {
 		int availableGether = getherService.getAvailableGetherCount();
+		int blockSize = 5;
 		
+		PageVO pageVO = pageProcess.pageProcessor("gether2_review", pageSize, nowPage, blockSize);
+		List<GetherReviewVO> grVOS = getherService.getGetherReviewList(pageVO);
+		
+		model.addAttribute("grVOS", grVOS);
 		model.addAttribute("availableGether", availableGether);
 		return "gether/getherHome";
 	}
@@ -63,15 +73,22 @@ public class GetherController {
 		int blockSize = 5;
 		PageVO pageVO = pageProcess.pastGetherProcess(nowPage, pageSize, blockSize);
 		List<GetherVO> getherVOS =  getherService.getPastGetherList(pageVO,m_idx);
-		
+		System.out.println(pageVO);
 		System.out.println(getherVOS);
 		model.addAttribute("getherVOS", getherVOS);
 		return "gether/pastGetherList";
 	}
 	
 	@RequestMapping(value = "/reviewList",method = RequestMethod.GET)
-	public String getherReviewGet() {
+	public String getherReviewGet(Model model,
+			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
+			@RequestParam(name="pageSize",defaultValue="5",required=false)int pageSize
+			) {
+		int blockSize = 5;
+		PageVO pageVO = pageProcess.pageProcessor("gether2_review", pageSize, nowPage, blockSize);
+		List<GetherReviewVO> grVOS = getherService.getGetherReviewList(pageVO);
 		
+		model.addAttribute("grVOS", grVOS);
 		return "gether/getherReviewList";
 	}
 	
@@ -168,7 +185,7 @@ public class GetherController {
 		return "gether/saveQROut";
 	}
 	
-	@RequestMapping(value = "/getherClearSaver/{get_idx}",method = RequestMethod.GET)
+	@RequestMapping(value = "/getherClearSave/{get_idx}",method = RequestMethod.GET)
 	public String getherClearSaveGet(HttpSession session,Model model,
 			@PathVariable("get_idx")int get_idx
 			) {
@@ -181,10 +198,88 @@ public class GetherController {
 		return "gether/getherClearSave";
 	}
 	
-	@RequestMapping(value = "/getherClearSaver/{get_idx}",method = RequestMethod.POST)
-	public String getherClearSavePost() {
+	@RequestMapping(value = "/getherClearSave",method = RequestMethod.POST)
+	public String getherClearSavePost(HttpSession session,
+			GetherMemberVO getherMemberVO
+			) {
+		getherMemberVO.setM_idx((int)session.getAttribute("sM_idx"));
 		
-		return "";
+		getherService.setGetherClearUpdate(getherMemberVO);
+		System.out.println(getherMemberVO);
+		return "redirect:/gether/myclearList";
 	}
-
+	
+	@RequestMapping(value = "/myclearList", method = RequestMethod.GET)
+	public String getherMyClearList(HttpSession session,Model model) {
+		int m_idx = (int)session.getAttribute("sM_idx");
+		List<GetherVO> getherVOS = getherService.getMyClearList(m_idx);
+		System.out.println(getherVOS);
+		model.addAttribute("getherVOS", getherVOS);
+		return "gether/myClearList";
+	}
+	
+	@RequestMapping(value = "/getherClearList/{get_idx}",method = RequestMethod.GET)
+	public String getherClearListGet(Model model,HttpSession Session,
+			@PathVariable("get_idx") int get_idx
+			) {
+		List<GetherMemberVO> getherMemberVOS = getherService.getGetherClearList(get_idx);
+		
+		
+		model.addAttribute("getherMemberVOS", getherMemberVOS);
+		return "gether/getherClearList";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "getherClearCheck", method = RequestMethod.POST)
+	public void getherClearCheckPost(
+			@RequestParam(name="get_idx",defaultValue="0",required=false) int get_idx,
+			@RequestParam(name="m_idx",defaultValue="0",required=false)	int m_idx
+			) {
+		getherService.setGetherClearCheck(get_idx,m_idx);
+	}
+	
+	@RequestMapping(value = "/reviewWrite", method = RequestMethod.POST)
+	public String getherReviewWritePost(Model model, HttpSession session,
+			@RequestParam(name="rv_get_idx",defaultValue="0",required=false) int get_idx
+			){
+		int m_idx = (int)session.getAttribute("sM_idx");
+		GetherVO getherVO = getherService.getGetherDetail(get_idx);
+		GetherMemberVO gmVO = getherService.getGetherMemberDetail(get_idx,m_idx);
+		System.out.println(gmVO);
+		model.addAttribute("getherVO", getherVO);
+		model.addAttribute("gmVO", gmVO);
+		return "gether/getherReviewWrite";
+	}
+	
+	@RequestMapping(value = "/getherReviewInput",method = RequestMethod.POST)
+	public String getherReviewInputPost(HttpSession session,MultipartFile fName,
+			GetherReviewVO getherReviewVO) {
+		JavaProvide provide = new JavaProvide();
+		
+		int m_idx = session.getAttribute("sM_idx")==null?0:(int)session.getAttribute("sM_idx");
+		getherReviewVO.setM_idx(m_idx);
+		 
+		String realPath = session.getServletContext().getRealPath("/resources/data/");
+		provide.imageCheckCopyGether(getherReviewVO.getContent(), realPath , "getherTemp/");
+		getherReviewVO.setContent(getherReviewVO.getContent().replace("/getherTemp/","/gether/"));
+		
+		realPath = session.getServletContext().getRealPath("/resources/data/reviewMain/");
+		getherReviewVO.setMainImage(provide.fileUpload(fName, realPath));
+		
+		getherService.setGetherReviewInsert(getherReviewVO);
+		getherService.setGetherClearCheck(getherReviewVO.getGet_idx(), m_idx);
+		System.out.println(getherReviewVO);
+		
+		return "redirect:/gether/reviewList";
+	}
+	
+	@RequestMapping(value = "/reviewDetail/{ger_idx}",method = RequestMethod.GET)
+	public String getherReviewDetailGet(Model model,
+			@PathVariable("ger_idx") int ger_idx
+			) {
+		GetherReviewVO grVO = getherService.getGetherReviewDetail(ger_idx);
+		
+		model.addAttribute("grVO", grVO);
+		return "gether/getherReviewDetail";
+	}
 }

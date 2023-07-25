@@ -9,6 +9,11 @@
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp"/>
 	<jsp:include page="/WEB-INF/views/include/mainCss.jsp"/>
 </head>
+<style>
+img {
+  object-fit: cover;
+}
+</style>
 <body>
 <jsp:include page="/WEB-INF/views/include/navbar.jsp"/>
 <div class="container">
@@ -18,16 +23,20 @@
 	<div class="col-9">
 		<div><!-- 모임 한 단위 -->
 			<div class="row" style="height: 100px">
-				<div class="col-3"><!-- 메인 사진 영역 -->
-					<img src="" width=100%, height="100%">
-				</div>
-				<div class="col-9 text-left">
-					<div class="fontdot-12">작성자</div>
-					<div class="mainfont-b-22">모임명</div>
-					<div class="mainfont-m-16 inactive">대충 아무런 모임 내용입니다. 안녕하세요 다들 잘먹고 잘 살고 계시조?</div>
-				</div>
+					<c:forEach var="grVO" items="${grVOS}" varStatus="st">
+						<div class="col-3"><!-- 메인 사진 영역 -->
+							<img src="${ctp}/getherReview/${grVO.mainImage}" width="100%" height="100%">
+						</div>
+						<div class="col-9 text-left">
+							<div class="fontdot-12">${grVO.nickName}</div>
+							<div class="mainfont-b-22">
+								<a href="${ctp}/gether/reviewDetail/${grVO.ger_idx}">${grVO.title}</a>
+							</div>
+							<div class="mainfont-m-16 inactive">${grVO.get_title}</div>
+						</div>
+						<div class="col-12"><hr></div>
+					</c:forEach>
 			</div>
-			<hr>
 		</div>
 	</div>
 	<div class="col-3">

@@ -95,7 +95,7 @@
 		<div class="col-2 text-right align-self-end">
 			<div class="mainfont-b-22">
 			${getherVO.nowMember}/${getherVO.totalMember}
-			<a href="${ctp}/gether/afterList">
+			<a href="javascript:history.back()">
 				<span class="material-symbols-outlined">menu</span>
 			</a>
 			</div>
@@ -119,8 +119,11 @@
 			</c:if>
 			<c:if test="${getherVO.m_idx == sM_idx}">
 				<form name="getQRForm" id="getQRForm" method="post" action="${ctp}/gether/getherSaveQR">
-				<input type="hidden" name="link" id="link" value="${ctp}/gether/getherClearSaver/${getherVO.get_idx}">
+				<input type="hidden" name="link" id="link" value="${ctp}/gether/getherClearSave/${getherVO.get_idx}">
+				<!-- 올리기 전에 서버 아이피로 고칠 것 -->
+					<button type="button" class="btn border" onclick="location.href='${ctp}/gether/getherClearSave/${getherVO.get_idx}'">내기록등록</button>
 					<button type="submit" class="btn border">완주등록</button>
+					<button type="button" class="btn border" onclick="location.href='${ctp}/gether/getherClearList/${getherVO.get_idx}'">완주기록관리</button>
 				</form>
 			</c:if>
 		</div>

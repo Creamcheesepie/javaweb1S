@@ -87,6 +87,14 @@
 			<div class="col-12">
 				<span class="subTitle">News</span>
 			</div>
+			<c:forEach var="noticeList_vo" items="${noticeList_vos}" varStatus="st">
+				<div class="col-3">
+					<a href="${ctp}/board/news/${noticeList_vo.category}">${noticeList_vo.categoryName}</a>
+				</div>
+				<div class="col-9">
+					<a href="${ctp}/board/newsRead/${noticeList_vo.boa_idx}/${noticeList_vo.category}">${noticeList_vo.title}</a>
+				</div>
+			</c:forEach>
 		</div>
 		</c:if>
 		<c:if test="${sLogin =='ok'}">
@@ -103,6 +111,14 @@
 			<div class="col-12">
 				<span class="subTitle">News</span>
 			</div>
+					<c:forEach var="noticeList_vo" items="${noticeList_vos}" varStatus="st">
+						<div class="col-3">
+							<a href="${ctp}/board/news/${noticeList_vo.category}">${noticeList_vo.categoryName}</a>
+						</div>
+						<div class="col-9">
+							<a href="${ctp}/board/newsRead/${noticeList_vo.boa_idx}/${noticeList_vo.category}">${noticeList_vo.title}</a>
+						</div>
+					</c:forEach>
 		</div>
 		</c:if>
 	</div>
@@ -115,9 +131,13 @@
 		<div class="row">
 			<div class="col-12 p0 m0">
 				<div class="row">
-				<c:forEach var="boardNew_vo" items="${boardList_vo}" varStatus="st">
-					<div class="col-2 mainfont-m-16 text-center">${boardNew_vo.categoryName}</div>
-					<div class="col-10 mainfont-m-16">${boardNew_vo.title}</div>
+				<c:forEach var="boardNew_vo" items="${boardList_vos}" varStatus="st">
+					<div class="col-2 mainfont-m-16 text-center">
+					<a href="${ctp}/board/list/${boardNew_vo.category}">${boardNew_vo.categoryName}</a>
+					</div>
+					<div class="col-10 mainfont-m-16">
+					<a href="${ctp}/board/read/${boardNew_vo.boa_idx}/${boardNew_vo.category}">${boardNew_vo.title}</a>
+					</div>
 				</c:forEach>
 				</div>
 			</div>
@@ -130,35 +150,21 @@
 			&nbsp;인기 글(조회수 기준)</h3>
 		<hr/>
 		<div class="row">
-				<div class="col-2">항목</div>
-				<div class="col-10">is simply dummy text of the printing and t</div>
-				<div class="col-2">항목</div>
-				<div class="col-10">typesetting industry. Lorem</div>
-				<div class="col-2">항목</div>
-				<div class="col-10">psum has been the industry's standard dummy text ever</div>
-				<div class="col-2">항목</div>
-				<div class="col-10">since the 1500s, when an unknown printers</div>
-				<div class="col-2">항목</div>
-				<div class="col-10">took a galley of type and</div>
-				<div class="col-2">항목</div>
-				<div class="col-10">제목</div>
-				<div class="col-2">항목</div>
-				<div class="col-10">제목</div>
-				<div class="col-2">항목</div>
-				<div class="col-10">제목</div>
-				<div class="col-2">항목</div>
-				<div class="col-10">제목</div>
-				<div class="col-2">항목</div>
-				<div class="col-10">제목</div>
-				<div class="col-2">항목</div>
-				<div class="col-10">제목</div>
+			<c:forEach var="boardHot_vo" items="${boardHotList_vos}" varStatus="st">
+				<div class="col-2 mainfont-m-16 text-center">
+				<a href="${ctp}/board/list/${boardHot_vo.category}">${boardHot_vo.categoryName}</a>
+				</div>
+				<div class="col-10 mainfont-m-16">
+				<a href="${ctp}/board/read/${boardHot_vo.boa_idx}/${boardHot_vo.category}">${boardHot_vo.title}</a>
+				</div>
+			</c:forEach>
 		</div>		
 	</div>
 	<div class="col-sm-6">
 			<hr/>
 			<h3 class="listTitle">
-			<span class="material-symbols-outlined listTitle-icon">tips_and_updates</span>
-			&nbsp;유저정보</h3>
+			<span class="material-symbols-outlined listTitle-icon">directions_bike</span>
+			&nbsp;최근 모임 후기</h3>
 		<hr/>
 	
 	</div>

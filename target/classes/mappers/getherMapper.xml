@@ -47,9 +47,9 @@
 		where
 				A.getherTime
 			between
-				now()
-			and
 				date_sub(now(),interval 1 Year)
+			and
+				now()
 			and
 				A.m_idx = B.m_idx
 		order by A.getherTime
@@ -113,6 +113,95 @@
 		select join_date from gether2_member where get_idx = #{get_idx} and m_idx = #{m_idx};
 	</select>
 	
+	<select id="getMyClearList" resultType="com.spring.javaweb1S.vo.GetherVO">
+		select
+			B.get_idx,
+			B.title,
+			B.location,
+			B.detailCourse,
+			B.getherTime,
+			A.Clear,
+			A.speed,
+			A.distance,
+			A.getHeight
+		from
+			gether2_member A,
+			gether2 B
+		where
+				A.m_idx = ${m_idx}
+			and
+				A.get_idx = B.get_idx
+			and
+				A.clear <![CDATA[>]]> 0
+		order by A.join_date desc
+	</select>
+	
+	<select id="getGetherIdx" resultType="int">
+		select get_idx from gether2 where m_idx = #{vo.m_idx} and title=#{vo.title} order by wdate desc limit 1;
+	</select>
+	
+	<select id="getGetherClearList" resultType="com.spring.javaweb1S.vo.GetherMemberVO">
+		select
+			A.get_idx,
+			A.m_idx,
+			A.speed,
+			A.distance,
+			A.getHeight,
+			A.clear,
+			B.nickName
+		from
+			gether2_member A,
+			member2 B
+		where
+				A.get_idx = #{get_idx}
+			and
+				A.m_idx = B.m_idx
+	</select>
+	
+	<select id="getGetherMemberDetail" resultType="com.spring.javaweb1S.vo.GetherMemberVO">
+		select
+			A.*,
+			B.nickName
+		from
+			gether2_member A,
+			member2 B
+		where
+				A.get_idx = #{get_idx}
+			and
+				A.m_idx	= #{m_idx}
+			and
+				A.m_idx = B.m_idx
+	</select>
+	
+	<select id="getGetherReviewList" resultType="com.spring.javaweb1S.vo.GetherReviewVO">
+		select
+			A.title,
+			A.ger_idx,
+			A.get_title,
+			A.get_idx,
+			A.mainImage,
+			B.nickName,
+			A.clear
+		from
+			gether2_review A,
+			member2 B
+		where
+			A.m_idx=B.m_idx
+		order by A.ger_idx desc;
+	</select>
+	
+	<select id="getGetherReviewDetail" resultType="com.spring.javaweb1S.vo.GetherReviewVO">
+		select
+			A.*,
+			B.nickName
+		from
+			gether2_review A,
+			member2 B
+		where
+				A.ger_idx = #{ger_idx}
+			and 
+				A.m_idx=B.m_idx
+	</select>
 	
 	
 	
@@ -128,11 +217,26 @@
 		insert into message2 values(default,'1',#{m_idx},'차단한 회원 활동 알림','회원님이 차단한 회원이 회원님이 등록한 모임에 참여하였습니다. 확인해 주십시오.',default,null,null,'2',null);	
 	</insert>
 
+	<insert id="setGetherReviewInsert">
+		insert into gether2_review values(default,#{vo.get_title},#{vo.get_idx},#{vo.m_idx},#{vo.title},#{vo.content},#{vo.mainImage},#{vo.speed},#{vo.getHeight},#{vo.distance},#{vo.clear});
+	</insert>
+
+
 
 
 	<update id="setUpdateNowMemberGether">
 		update gether2 set nowMember = nowMember+${i} where get_idx = #{get_idx};
 	</update>
+	
+	<update id="setGetherClearUpdate">
+		update gether2_member set speed = #{vo.speed}, distance=#{vo.distance},getHeight=#{vo.getHeight},clear=#{vo.clear} where get_idx=#{vo.get_idx} and m_idx = #{vo.m_idx};
+	</update>
+	
+	<update id="setGetherClearCheck">
+		update gether2_member set clear = clear+2 where get_idx = #{get_idx} and m_idx = #{m_idx};
+	</update>
+	
+	
 	
 	
 	

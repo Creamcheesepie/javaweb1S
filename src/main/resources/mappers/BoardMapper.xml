@@ -126,6 +126,44 @@
 		select B.title,B.boa_idx,C.category,C.name as categoryName from board2 B, board2_category C  where B.category = C.category and <![CDATA[B.category>2]]> and <![CDATA[B.category<100]]> and B.ddate is null order by B.boa_idx desc limit 10;
 	</select>
 	
+	<select id="getHotBoardList" resultType="com.spring.javaweb1S.vo.BoardVO">
+		select 
+			B.title,B.boa_idx,C.category,C.name as categoryName 
+		from 
+			board2 B, 
+			board2_category C  
+		where 
+				B.category = C.category 
+			and 
+				<![CDATA[B.category>2]]> and <![CDATA[B.category<100]]> 
+			and 
+				B.ddate is null 
+			and
+				B.wdate
+			between
+				date_sub(now(),interval 1 Week)
+			and
+				now()
+			order by B.viewCnt desc 
+			limit 10;
+	</select>
+	
+	<select id="getNoticeList" resultType="com.spring.javaweb1S.vo.BoardVO">
+		select
+			B.title,B.boa_idx,C.category,C.name as categoryName
+		from
+			board2 B, 
+			board2_category C
+		where
+			B.category = C.category 				
+		and 
+			B.category = '1'
+		and 
+			B.ddate is null
+		order by B.boa_idx desc
+		limit 4;	
+	</select>
+	
 	<select id="getBoardCntByIdxWithLimitTime" resultType="int">
 		select count(boa_idx) from board2 where m_idx = #{m_idx} and wdate between #{limitTime} and now();
 	</select>

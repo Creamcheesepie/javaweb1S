@@ -41,7 +41,23 @@ create table gether2_member(
 
 drop table gether2_member
 
-create table gether2_review
+create table gether2_review(
+	ger_idx					int						not null primary key auto_increment,
+	get_title				varchar(30)		not null,
+	get_idx					int						not null,
+	m_idx						int						not null,
+	title						varchar(30)		not null,
+	content					text					not null,
+	mainImage				varchar(100)	not null,
+	speed						int						not null,
+	getHeight				int						not null,
+	distance				int						not	null,
+	clear						int						not null,
+	foreign key(m_idx) references member2(m_idx)
+	on update cascade
+	on delete restrict
+)
+
 
 
 	

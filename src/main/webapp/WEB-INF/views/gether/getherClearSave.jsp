@@ -16,14 +16,45 @@
 <body>
 <div style="margin: 15px 15px 15px 15px">
 	<div class="mainTitle">${getherVO.title}모임 결과</div>
-	<div class="mainfont-b-20">${sNickName}님</div>
-	<div class="mainfont-b-18">속도</div>
-	<div style="width:150px"><input type="number" class="form-control"></div>
-	<div class="mainfont-b-18">거리</div>
-	<div style="width:150px"><input type="number" class="form-control"></div>
-	<div class="mainfont-b-18">획득고도</div>
-	<div style="width:150px"><input type="number" class="form-control"></div>
-	<button type="button" class="btn border" style="width: 100px">입력</button>
+	<form name="getherClearForm" id="getherClearForm" method="post" action="${ctp}/gether/getherClearSave">
+	<div class="row" style="width: 450px;">
+		<div class="col-12 text-right">
+		<span class="mainfont-b-20">닉네임 : ${sNickName}님</span>
+		</div>
+		<div class="col-12"><hr></div>
+		<div class="col-4">속도</div>
+		<div class="col-4">거리</div>
+		<div class="col-4">획득고도</div>
+		<div class="col-3 mr-0">
+			<input type="number" name="speed" id="speed" class="form-control">
+		</div>
+		<div class="col-1 text-left align-self-end ml-0 fontdot-12">Km/h</div>
+		<div class="col-3 mr-0">
+			<input type="number" name="distance" id="distance" class="form-control">
+		</div>
+		<div class="col-1 text-left align-self-end ml-0 fontdot-12">Km</div>
+		<div class="col-3">
+			<input type="number" name="getHeight" id="getHeight" class="form-control">
+		</div>
+		<div class="col-1 text-left align-self-end ml-0 fontdot-12">m</div>
+		<div class="col-12"><hr></div>
+		<div class="col-5"></div>
+		<div class="col-3 text-right align-self-center mt-2">
+		완주여부
+		</div>
+		<div class="col-4">
+		<select name="clear" id="clear" class="form-control">
+			<option value="1">미완주</option>
+			<option value="2">완주</option>
+		</select>
+		</div>
+		<div class="col-12"><hr></div>
+		<div class="col-12 text-center">
+			<input type="hidden" name="get_idx" id="get_idx" value="${getherVO.get_idx}">
+			<button type="submit" class="btn border" style="width: 100px">입력</button>
+		</div>
+	</div>
+	</form>
 </div>
 </body>
 </html>

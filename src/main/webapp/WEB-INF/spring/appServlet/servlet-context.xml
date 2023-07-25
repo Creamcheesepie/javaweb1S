@@ -21,6 +21,8 @@
 	<resources mapping="/board/**" location="/resources/data/board/" />
 	<resources mapping="/font/**" location="/resources/data/font/" />
 	<resources mapping="/ckeditor/**" location="/resources/ckeditor/"/>
+	<resources mapping="/getherReview/**" location="/resources/data/reviewMain/"/>
+	
 	
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->

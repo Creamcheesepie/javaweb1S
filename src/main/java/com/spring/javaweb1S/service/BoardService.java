@@ -63,6 +63,10 @@ public interface BoardService {
 
 	public List<BoardVO> getPrevNextContentbyBoa_idx(BoardVO vo, String ban_idx);
 
+	public List<BoardVO> getHotBoardList();
+
+	public List<BoardVO> getNoticeList();
+
 	
 
 

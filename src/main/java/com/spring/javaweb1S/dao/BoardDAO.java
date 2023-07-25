@@ -67,6 +67,10 @@ public interface BoardDAO {
 
 	public List<BoardVO> getPrevNextContentbyBoa_idxWithBan_idx(@Param("vo") BoardVO vo,@Param("ban_idx") String ban_idx);
 
+	public List<BoardVO> getHotBoardList();
+
+	public List<BoardVO> getNoticeList();
+
 
 
 	

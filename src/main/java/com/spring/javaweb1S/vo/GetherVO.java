@@ -25,5 +25,8 @@ public class GetherVO {
 	private String nickName;
 	private String name;
 	
+	private String speed;
+	private int	clear;
+	
 	private int joined;
 }

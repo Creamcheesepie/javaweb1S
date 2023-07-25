@@ -218,6 +218,16 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.getPrevNextContentbyBoa_idxWithBan_idx(vo,ban_idx);
 	}
 
+	@Override
+	public List<BoardVO> getHotBoardList() {
+		return boardDAO.getHotBoardList();
+	}
+
+	@Override
+	public List<BoardVO> getNoticeList() {
+		return boardDAO.getNoticeList();
+	}
+
 	
 
 	

@@ -21,6 +21,10 @@
 	<hr>
 	<a href="${ctp}/gether/reviewList">모임후기</a>
 	<hr>
+	<c:if test="${sLogin =='ok'}">
+		<a href="${ctp}/gether/myclearList">내 기록</a>
+		<hr>
+	</c:if>
 	<a href="${ctp}/gether/pastList">지난모임</a>
 	</div>
 </div>

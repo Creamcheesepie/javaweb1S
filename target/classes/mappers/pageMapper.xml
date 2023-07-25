@@ -95,7 +95,7 @@
 	</select>
 	
 	<select id="getPastGether" resultType="int">
-		select count(get_idx) from gether2 where 	getherTime between now() and date_sub(now(),interval 1 Year);
+		select count(get_idx) from gether2 where 	getherTime between date_sub(now(),interval 1 Year) and now();
 	</select>
 	
 </mapper>

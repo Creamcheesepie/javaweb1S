@@ -37,8 +37,14 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		List<BoardVO> boardList_vos = boardService.getNewBoardList();
+		List<BoardVO> boardHotList_vos = boardService.getHotBoardList();
+		List<BoardVO> noticeList_vos = boardService.getNoticeList();
 		
-		model.addAttribute("boardList_vo", boardList_vos);
+		System.out.println(noticeList_vos);
+		
+		model.addAttribute("noticeList_vos", noticeList_vos);
+		model.addAttribute("boardHotList_vos", boardHotList_vos);
+		model.addAttribute("boardList_vos", boardList_vos);
 		return "home";
 	}
 	
