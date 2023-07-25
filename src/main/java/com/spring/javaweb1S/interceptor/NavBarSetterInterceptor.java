@@ -20,7 +20,7 @@ public class NavBarSetterInterceptor extends HandlerInterceptorAdapter{
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 		if(!"XMLHttpRequest".equals(request.getHeader("x-requested-with"))) {
-			List<CategoryVO> category_vos = boardService.getCategoryList();
+ 			List<CategoryVO> category_vos = boardService.getCategoryList();
 			modelAndView.addObject("nav_vos", category_vos); 
 		} 
 		else { 

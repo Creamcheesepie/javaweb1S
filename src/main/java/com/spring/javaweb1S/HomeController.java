@@ -23,13 +23,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaweb1S.service.BoardService;
+import com.spring.javaweb1S.service.GetherService;
 import com.spring.javaweb1S.vo.BoardVO;
+import com.spring.javaweb1S.vo.GetherReviewVO;
 import com.spring.javaweb1S.vo.OffendListVO;
 
 @Controller
 public class HomeController {
 	@Autowired
 	BoardService boardService;
+	
+	@Autowired
+	GetherService getherService;
+	
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -39,9 +45,11 @@ public class HomeController {
 		List<BoardVO> boardList_vos = boardService.getNewBoardList();
 		List<BoardVO> boardHotList_vos = boardService.getHotBoardList();
 		List<BoardVO> noticeList_vos = boardService.getNoticeList();
+		List<GetherReviewVO> getherListVOS = getherService.getGetherFrontReviewList();
 		
 		System.out.println(noticeList_vos);
 		
+		model.addAttribute("getherListVOS", getherListVOS);
 		model.addAttribute("noticeList_vos", noticeList_vos);
 		model.addAttribute("boardHotList_vos", boardHotList_vos);
 		model.addAttribute("boardList_vos", boardList_vos);
@@ -64,7 +72,7 @@ public class HomeController {
 		session.invalidate();
 		return "banUser";
 	}
-	
+	z
 	@RequestMapping(value="/boardAbuseUser/{rule_idx}", method = RequestMethod.GET)
 	public String boardAbuseUserGet(HttpSession session,Model model,
 			@PathVariable("rule_idx") int rule_idx

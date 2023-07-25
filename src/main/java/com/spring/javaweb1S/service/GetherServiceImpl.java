@@ -178,4 +178,9 @@ public class GetherServiceImpl implements GetherService {
 	public GetherReviewVO getGetherReviewDetail(int ger_idx) {
 		return getherDAO.getGetherReviewDetail(ger_idx);
 	}
+
+	@Override
+	public List<GetherReviewVO> getGetherFrontReviewList() {
+		return getherDAO.getGetherFrontReviewList();
+	}
 }

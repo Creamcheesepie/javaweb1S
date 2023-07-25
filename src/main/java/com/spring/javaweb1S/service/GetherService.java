@@ -47,5 +47,7 @@ public interface GetherService {
 
 	public GetherReviewVO getGetherReviewDetail(int ger_idx);
 
+	public List<GetherReviewVO> getGetherFrontReviewList();
+
 
 }

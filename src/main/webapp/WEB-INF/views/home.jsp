@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
 <html>
 <head>
@@ -13,7 +14,6 @@
 	}
 	
 	Kakao.init('d50d68f65732dab8ab61379182e4fe11');
-	
 	function simpleLoginKakao(){
 		Kakao.Auth.authorize({
 			  redirectUri: '${ctp}/',
@@ -34,28 +34,27 @@
 <hr/>
 <div class="row">
 	<div class="col-sm-8">
-	<h2>아무거나 규탄한다! 이것저것 보장하라!</h2>
+	<h2>게시판</h2>
 	<div id="demo" class="carousel slide" data-ride="carousel">
 	  <!-- Indicators -->
 	  <ul class="carousel-indicators">
 	    <li data-target="#demo" data-slide-to="0" class="active"></li>
-	    <li data-target="#demo" data-slide-to="1"></li>
-	    <li data-target="#demo" data-slide-to="2"></li>
+	  	<c:forEach var="nav_vo" items="${nav_vos}" varStatus="st">
+	    <li data-target="#demo" data-slide-to="${st.count}"></li>
+	    </c:forEach>
 	  </ul>
 	
 	  <!-- The slideshow -->
 	  <div class="carousel-inner" style="height:350px">
 	    <div class="carousel-item active">
-	      <img src="la.jpg" alt="Los Angeles">
+	      <a href=""><img src="la.jpg" alt="Los Angeles"></a>
 	    </div>
+		  <c:forEach var="nav_vo" items="${nav_vos}" varStatus="st">
 	    <div class="carousel-item">
-	      <img src="chicago.jpg" alt="Chicago">
+	  	<a href="${ctp}/board/list/${nav_vo.category}"><img src="${ctp}/mainCategoryIMG/${nav_vo.category}.jpg" width="100%"></a>
 	    </div>
-	    <div class="carousel-item">
-	      <img src="ny.jpg" alt="New York">
-	    </div>
+	  	</c:forEach>
 	  </div>
-	
 	  <!-- Left and right controls -->
 	  <a class="carousel-control-prev" href="#demo" data-slide="prev">
 	    <span class="carousel-control-prev-icon"></span>
@@ -151,10 +150,10 @@
 		<hr/>
 		<div class="row">
 			<c:forEach var="boardHot_vo" items="${boardHotList_vos}" varStatus="st">
-				<div class="col-2 mainfont-m-16 text-center">
+				<div class="col-2 agro-b-16 text-center">
 				<a href="${ctp}/board/list/${boardHot_vo.category}">${boardHot_vo.categoryName}</a>
 				</div>
-				<div class="col-10 mainfont-m-16">
+				<div class="col-10 agro-b-16">
 				<a href="${ctp}/board/read/${boardHot_vo.boa_idx}/${boardHot_vo.category}">${boardHot_vo.title}</a>
 				</div>
 			</c:forEach>
@@ -166,7 +165,21 @@
 			<span class="material-symbols-outlined listTitle-icon">directions_bike</span>
 			&nbsp;최근 모임 후기</h3>
 		<hr/>
-	
+		<div class="row">
+			<c:forEach var="grVO" items="${getherListVOS}" varStatus="st">
+				<div class="col-3"><!-- 메인 사진 영역 -->
+					<img src="${ctp}/getherReview/${grVO.mainImage}" width="100%" height="100%">
+				</div>
+				<div class="col-9 text-left">
+					<div class="fontdot-12">${grVO.nickName}</div>
+					<div class="mainfont-b-22">
+					<a href="${ctp}/gether/reviewDetail/${grVO.ger_idx}">${grVO.title}</a>
+					</div>
+					<div class="mainfont-m-16 inactive">${grVO.get_title}</div>
+				</div>
+				<div class="col-12"><hr></div>
+			</c:forEach>
+		</div>
 	</div>
 	<div class="col-sm-3">
 		<hr/>

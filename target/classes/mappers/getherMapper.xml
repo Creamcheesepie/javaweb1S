@@ -190,6 +190,24 @@
 		order by A.ger_idx desc;
 	</select>
 	
+	<select id="getGetherFrontReviewList" resultType="com.spring.javaweb1S.vo.GetherReviewVO">
+		select
+			A.title,
+			A.ger_idx,
+			A.get_title,
+			A.get_idx,
+			A.mainImage,
+			B.nickName,
+			A.clear
+		from
+			gether2_review A,
+			member2 B
+		where
+			A.m_idx=B.m_idx
+		order by A.ger_idx desc
+		limit 5;
+	</select>
+	
 	<select id="getGetherReviewDetail" resultType="com.spring.javaweb1S.vo.GetherReviewVO">
 		select
 			A.*,

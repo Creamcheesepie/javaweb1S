@@ -22,6 +22,8 @@
 	<resources mapping="/font/**" location="/resources/data/font/" />
 	<resources mapping="/ckeditor/**" location="/resources/ckeditor/"/>
 	<resources mapping="/getherReview/**" location="/resources/data/reviewMain/"/>
+	<resources mapping="/mainCategoryIMG/**" location="/resources/data/mainCategory/"/>
+	
 	
 	
 
@@ -60,6 +62,7 @@
   		<exclude-mapping path="/getherTemp/**"/>
   		<exclude-mapping path="/tempGetherImage/**"/>
   		<exclude-mapping path="/resources/**"/>
+  		<exclude-mapping path="/mainCategoryIMG/**"/>
   		<beans:ref bean="navbarSetterInterceptor"/>
   	</interceptor>
   	<interceptor>

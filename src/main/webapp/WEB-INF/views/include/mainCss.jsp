@@ -199,4 +199,10 @@
 	.inactive{
 		color : lightgray;
 	}
+	.agro-b-16{
+		font-family: 'SBAggroB';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
+		font-weight: 500;
+		font-size: 16px;
+	}
 	</style>

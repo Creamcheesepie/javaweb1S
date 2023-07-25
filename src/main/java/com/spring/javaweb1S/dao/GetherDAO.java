@@ -55,6 +55,8 @@ public interface GetherDAO {
 
 	public GetherReviewVO getGetherReviewDetail(@Param("ger_idx") int ger_idx);
 
+	public List<GetherReviewVO> getGetherFrontReviewList();
+
 
 
 	

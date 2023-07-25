@@ -157,14 +157,19 @@
 		</div>
 	</div>
 	<div class="col-12 p0 m0"></div>
+	<div class="col-12 mainfont-b-16">기존 카테고리 변경</div>
 	<c:forEach var="category_vo" items="${category_vos}" varStatus="st">
 	<div class="col-2">
+		${category_vo.name}
 		<div class="input-group">
 			<input type="text" name="categoryNameUpdate${st.count}" id="categoryNameUpdate${st.count}" value="${category_vo.name}" class="form-control">
 			<div class="input-group-append">
 				<button type="button" class="btn border">변경하기</button> 
 			</div>
 		</div>
+		<hr>
+		<div>대표이미지 등록</div>
+		<input type="file" class="form-control-file border">
 	</div>
 	</c:forEach>
 </div>

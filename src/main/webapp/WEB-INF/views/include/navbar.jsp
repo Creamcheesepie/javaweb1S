@@ -82,9 +82,6 @@
 </div>
 <ul class="navbar-nav">
   <li class="nav-item">
-    <a class="nav-link" href="#">gallary</a>
-  </li>
-  <li class="nav-item">
     <a class="nav-link" href="${ctp}/gether/home">gether</a>
   </li>
   <c:if test="${sLogin =='ok'}">
