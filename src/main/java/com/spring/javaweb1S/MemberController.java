@@ -185,6 +185,7 @@ public class MemberController {
 		String sCode =(String)session.getAttribute("verCode");
 		if(verCode.equals(sCode)) {
 			res="2";
+			session.setMaxInactiveInterval(1800);
 		}
 
 		return res;
@@ -572,4 +573,88 @@ public class MemberController {
 		else return "member/pwdFindForm";
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "sendMidVerificationEmail",method=RequestMethod.POST)
+	public String sendMidVerificationEmailPost(HttpSession session,
+			@RequestParam(name="emailName",defaultValue="",required=false)String emailName,
+			@RequestParam(name="dom_idx",defaultValue="0",required=false)int dom_idx
+			) throws MessagingException {
+		boolean emailCheck = memberService.getEmailCheck(emailName,dom_idx);
+		if(!emailCheck) return "0";
+		
+		String domain= memberService.getDomainDom_idx(dom_idx);
+		String verCode = UUID.randomUUID().toString().substring(0, 6);
+		
+		String toMail = emailName+domain;
+		String title = "본인인증 메일입니다.";
+		String content = "<h2>본인인증 코드입니다</h2><hr/>"+verCode+"<hr/>이 코드를 인증 창에 입력해 주시기 바랍니다."	;
+		
+		
+		//메일 전송을위한 객체 2개
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+		
+		messageHelper.setTo(toMail);
+		messageHelper.setSubject(title);
+		messageHelper.setText(content,true);
+		
+		mailSender.send(message);
+		//이메일을 전송하고 나면 인증 코드를 세션에 저장한다.
+		session.setAttribute("verCode", verCode);
+		session.setMaxInactiveInterval(300);
+		
+		return "1";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/midFindOutput",method  = RequestMethod.POST)
+	public String memberMidFindOutputPost(
+			@RequestParam(name="emailName",defaultValue="",required=false)String emailName,
+			@RequestParam(name="dom_idx",defaultValue="0",required=false)int dom_idx
+			) {
+		String res = "";
+		res = memberService.getMidFind(emailName,dom_idx);
+		
+		return res;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/pwdFindOutput", method = RequestMethod.POST)
+	public String memberPwdFindOutputPost(
+			@RequestParam(name="emailName",defaultValue="",required=false)String emailName,
+			@RequestParam(name="dom_idx",defaultValue="0",required=false)int dom_idx,
+			@RequestParam(name="mid",defaultValue="0",required=false)String mid
+			) throws MessagingException {
+		String res="0";
+		boolean pwdCheck = memberService.getPwdFindCheck(emailName,dom_idx,mid);
+		
+		if(pwdCheck) {
+			int m_idx= memberService.getM_idxByMid(mid);
+			String domain= memberService.getDomainDom_idx(dom_idx);
+			String verCode = UUID.randomUUID().toString().substring(0, 6);
+			
+			String toMail = emailName+domain;
+			String title = "함께타요 임시 비밀번호입니다.";
+			String content = "<h2>임시 비밀번호입니다.</h2><hr/>"+verCode+"<hr/>이 비밀번호로 로그인 후 꼭 비밀번호를 변경해 주세요."	;
+			
+			
+			//메일 전송을위한 객체 2개
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+			
+			messageHelper.setTo(toMail);
+			messageHelper.setSubject(title);
+			messageHelper.setText(content,true);
+			
+			mailSender.send(message);
+			MemberVO vo =new MemberVO();
+			
+			vo.setM_idx(m_idx);
+			vo.setPwd(verCode);
+			memberService.setMemberPwdUpdate(vo);
+			res="1";
+		}
+		
+		return res;
+	}
 }

@@ -259,6 +259,50 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.getMyPageBanList(m_idx);
 	}
 
+	@Override
+	public boolean getEmailCheck(String emailName, int dom_idx) {
+		boolean res = false;
+		String check = memberDAO.getEmailCheck(emailName,dom_idx);
+		if(check==null) res = false;
+		else if (check != null) res = true;
+		
+		return res;
+	}
+
+	@Override
+	public String getMidFind(String emailName, int dom_idx) {
+		String mid = memberDAO.getMidFind(emailName,dom_idx);
+		String outMid = "";
+		char[] cArrMid = mid.toCharArray();
+		
+		for(int i = 0; i<cArrMid.length;i++) {
+			if(i%3==0 || i%4==0) {
+				cArrMid[i] = '*';
+			}
+			outMid += cArrMid[i];
+		}
+		
+		return outMid;
+	}
+
+	@Override
+	public boolean getPwdFindCheck(String emailName, int dom_idx, String mid) {
+		boolean res = false;
+		String fmid = memberDAO.getMidFind(emailName,dom_idx);
+		if(fmid==null) {
+			return false;
+		}
+		else if(fmid.equals(mid)) {
+			res=true;
+		}
+		return res;
+	}
+
+	@Override
+	public int getM_idxByMid(String mid) {
+		return memberDAO.getM_idxByMid(mid);
+	}
+
 
 
 

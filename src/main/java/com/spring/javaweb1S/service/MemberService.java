@@ -76,6 +76,15 @@ public interface MemberService {
 	public List<MemberVO> getMyPageFriendList(int m_idx);
 
 	public List<MemberVO> getMyPageBanList(int m_idx);
+
+	public boolean getEmailCheck(String emailName, int dom_idx);
+
+	public String getMidFind(String emailName, int dom_idx);
+
+	public boolean getPwdFindCheck(String emailName, int dom_idx, String mid);
+
+	public int getM_idxByMid(String mid);
+
 	
 	
 	

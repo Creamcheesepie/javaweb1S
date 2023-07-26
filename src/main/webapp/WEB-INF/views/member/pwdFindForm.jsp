@@ -39,22 +39,39 @@
 	</style>
 	<script>
 		'use strict';
-		function logIn(){
-			let mid = loginform.mid.value;
-			let pwd = loginform.pwd.value;
+		
+		function pwdFind(){
+			let emailName = $("#emailName").val();
+			let dom_idx = $("#dom_idx").val();
+			let mid = $("#mid").val();
 			
 			if(mid.trim()==""){
-				alert("아이디를 입력해주세요.");
-				$("#mid").focus();
+				alert("아이디를 입력해주세요!");
 				return false;
 			}
 			
-			if(pwd.trim()==""){
-				alert("비밀번호를 입력해 주세요.");
-				$("#pwd").focus();
+			if(emailName.trim()==""){
+				alert("이메일을 입력해주세요!");
 				return false;
 			}
-			loginform.submit();
+			
+			$.ajax({
+				type:"post",
+				data:{emailName:emailName,dom_idx:dom_idx,mid:mid},
+				url:"${ctp}/member/pwdFindOutput",
+				success:function(res){
+					if(res==0){
+						alert("해당 아이디와 이메일로 가입된 계정이 없습니다.\n다시 확인해주세요.");
+						return false;
+					}
+					else if(res == 1 ){
+						alert("임시 비밀번호를 발송하였습니다.\n임시 비밀번호를 통해 로그인해 주세요.\n이후 마이페이지에서 비밀번호를 변경해주세요.");
+					}
+				},
+				error:function(res){
+					alert("전송오류가 발생하였습니다. 같은 오류가 반복된다면 운영자 또는 관리자에게 연락해주세요.");
+				}
+			})
 		}
 	</script>
 </head>
@@ -63,12 +80,13 @@
 		<form name="loginform" method="post">
 		<div class="row">
 			<div class="col-12">
-				<span class="loginTitle">아이디/비밀번호 찾기</span>
+				<span class="loginTitle">비밀번호 찾기</span>
+				<span class="fontdot-12"><br>회원님의 이메일로 임시 비밀번호를 보내드립니다.</span>
 				<hr style="margin: 7px 0px 7px 0px"/>
 			</div>
 			<div class="col-7"><span class="loginSubTitle">아이디</span></div><div class="col-5"><span></span></div>
 			<div class="col-12">
-				<input type="text" name="mid" class="form-control">
+				<input type="text" name="mid" id="mid" class="form-control">
 			</div>
 			<div class="col-7"><span class="loginSubTitle">이메일 입력</span></div><div class="col-5"><span></span></div>
 			<div class="col-12">
@@ -89,7 +107,7 @@
 		</form>
 		<div class="row mt-3">
 			<div class="col-12 text-center ">
-				<button type="button" onclick="location.href='${ctp}/member/signIn'" class="btn"><span class="btn-text">비밀번호 찾기</span></button>
+				<button type="button" onclick="pwdFind()" class="btn"><span class="btn-text">비밀번호 찾기</span></button>
 			</div>
 			<div class="col-12 text-center mt-2">
 				<a href="${ctp}/member/findForm/mid"><span class="mini-Link">아이디 찾기</span></a>

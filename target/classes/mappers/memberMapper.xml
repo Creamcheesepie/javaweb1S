@@ -197,6 +197,17 @@
 		limit 5
 	</select>
 	
+	<select id="getEmailCheck" resultType="String">
+		select emailName from email where emailName = #{emailName} and dom_idx = #{dom_idx};
+	</select>
+	
+	<select id="getMidFind" resultType="String">
+		select mid from member2 where m_idx = (select m_idx from email where emailName=#{emailName} and dom_idx = #{dom_idx});
+	</select>
+	
+	<select id="getM_idxByMid" resultType="int">
+		select m_idx from member2 where mid = #{mid};
+	</select>
 
 
 	<insert id="setMemberSignIn">

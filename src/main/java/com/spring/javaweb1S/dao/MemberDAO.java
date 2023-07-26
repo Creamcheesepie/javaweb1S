@@ -79,6 +79,14 @@ public interface MemberDAO {
 
 	public List<MemberVO> getMyPageBanList(@Param("m_idx") int m_idx);
 
+	public String getEmailCheck(@Param("emailName")String emailName,@Param("dom_idx") int dom_idx);
+
+	public String getMidFind(@Param("emailName") String emailName,@Param("dom_idx") int dom_idx);
+
+	public int getM_idxByMid(@Param("mid")String mid);
+
+
+
 
 	
 
