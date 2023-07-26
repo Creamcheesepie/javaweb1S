@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.spring.javaweb1S.service.BoardService;
 import com.spring.javaweb1S.service.GetherService;
 import com.spring.javaweb1S.vo.BoardVO;
+import com.spring.javaweb1S.vo.GetherMemberVO;
 import com.spring.javaweb1S.vo.GetherReviewVO;
 import com.spring.javaweb1S.vo.OffendListVO;
 
@@ -47,9 +48,15 @@ public class HomeController {
 		List<BoardVO> noticeList_vos = boardService.getNoticeList();
 		List<BoardVO> newsList_vos = boardService.getNewsList();
 		List<GetherReviewVO> getherListVOS = getherService.getGetherFrontReviewList();
+		GetherMemberVO longestRider = getherService.getLongestRider();
+		GetherMemberVO fastestRider = getherService.getfastestRider();
+		GetherMemberVO highestRider = getherService.gethighestRider();
 		
 		System.out.println(noticeList_vos);
 		
+		model.addAttribute("HR", highestRider);
+		model.addAttribute("FR", fastestRider);
+		model.addAttribute("LLR", longestRider);
 		model.addAttribute("getherListVOS", getherListVOS);
 		model.addAttribute("noticeList_vos", noticeList_vos);
 		model.addAttribute("newsList_vos",  newsList_vos);

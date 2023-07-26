@@ -183,4 +183,22 @@ public class GetherServiceImpl implements GetherService {
 	public List<GetherReviewVO> getGetherFrontReviewList() {
 		return getherDAO.getGetherFrontReviewList();
 	}
+
+	@Override
+	public GetherMemberVO getLongestRider() {
+		return getherDAO.getLongestRider();
+	}
+
+	@Override
+	public GetherMemberVO getfastestRider() {
+		GetherMemberVO resVO = getherDAO.getFastestRider();
+		int getherCnt = getherDAO.getGetherMemberM_idxCnt(resVO.getM_idx());
+		resVO.setSpeed(resVO.getSpeed()/getherCnt);
+		return resVO;
+	}
+
+	@Override
+	public GetherMemberVO gethighestRider() {
+		return getherDAO.gethighestRider();
+	}
 }

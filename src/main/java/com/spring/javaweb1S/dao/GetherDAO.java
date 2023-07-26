@@ -57,6 +57,14 @@ public interface GetherDAO {
 
 	public List<GetherReviewVO> getGetherFrontReviewList();
 
+	public GetherMemberVO getLongestRider();
+
+	public GetherMemberVO getFastestRider();
+
+	public int getGetherMemberM_idxCnt(@Param("m_idx")int m_idx);
+
+	public GetherMemberVO gethighestRider();
+
 
 
 	

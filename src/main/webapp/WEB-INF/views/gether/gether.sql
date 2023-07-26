@@ -58,7 +58,35 @@ create table gether2_review(
 	on delete restrict
 )
 
+select
+	B.nickName,
+	sum(A.distance) as distance
+from
+	gether2_member A,
+	member2 B,
+	gether2 C
+where
+		A.m_idx = B.m_idx
+	and
+		A.get_idx = C.get_idx
+	and
+		C.getherTime
+	between
+		last_day(now() - interval 2 month) + interval 1 day
+	and
+		last_day(now() - interval 1 month)
+	order by distance desc
+limit 1;
 
-
-	
+SELECT B.nickname,
+       Sum(A.distance) AS distance
+FROM   gether2_member A,
+       member2 B,
+       gether2 C
+WHERE  A.m_idx = B.m_idx
+       AND A.get_idx = C.get_idx
+       AND C.gethertime BETWEEN Last_day(Now() - INTERVAL 2 month) + INTERVAL 1 day 
+       											AND Last_day(Now() - INTERVAL 1 month)
+ORDER  BY distance DESC
+LIMIT  1; 
 

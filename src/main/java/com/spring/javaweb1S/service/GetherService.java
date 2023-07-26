@@ -49,5 +49,11 @@ public interface GetherService {
 
 	public List<GetherReviewVO> getGetherFrontReviewList();
 
+	public GetherMemberVO getLongestRider();
+
+	public GetherMemberVO getfastestRider();
+
+	public GetherMemberVO gethighestRider();
+
 
 }

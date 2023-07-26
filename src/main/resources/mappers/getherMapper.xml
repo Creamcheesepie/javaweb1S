@@ -221,7 +221,76 @@
 				A.m_idx=B.m_idx
 	</select>
 	
+	<select id="getLongestRider" resultType="com.spring.javaweb1S.vo.GetherMemberVO">
+		select
+			B.nickName,
+			sum(A.distance) as distance
+		from
+			gether2_member A,
+			member2 B,
+			gether2 C
+		where
+				A.m_idx = B.m_idx
+			and
+				A.get_idx = C.get_idx
+			and
+				C.getherTime
+			between
+				last_day(now() - interval 2 month) + interval 1 day
+			and
+				last_day(now() - interval 1 month)
+			order by distance desc
+		limit 1;	
+	</select>
 	
+	<select id="getFastestRider" resultType="com.spring.javaweb1S.vo.GetherMemberVO">
+		select
+			B.nickName,
+			sum(A.speed) as speed,
+			A.m_idx
+		from
+			gether2_member A,
+			member2 B,
+			gether2 C
+		where
+				A.m_idx = B.m_idx
+			and
+				A.get_idx = C.get_idx
+			and
+				C.getherTime
+			between
+				last_day(now() - interval 2 month) + interval 1 day
+			and
+				last_day(now() - interval 1 month)
+			order by speed desc
+		limit 1;	
+	</select>
+	
+	<select id="getGetherMemberM_idxCnt" resultType="int">
+		select	count(m_idx) from gether2_member where m_idx = #{m_idx} and clear>2;
+	</select>
+	
+	<select id="gethighestRider" resultType="com.spring.javaweb1S.vo.GetherMemberVO">
+		select
+			B.nickName,
+			A.getHeight
+		from
+			gether2_member A,
+			member2 B,
+			gether2 C
+		where
+				A.m_idx = B.m_idx
+			and
+				A.get_idx = C.get_idx
+			and
+				C.getherTime
+			between
+				last_day(now() - interval 2 month) + interval 1 day
+			and
+				last_day(now() - interval 1 month)	
+		order by getHeight desc
+		limit 1;
+	</select>
 	
 	<insert id="setGetherInsert">
 		insert into gether2 values(default,#{vo.m_idx},#{vo.title},#{vo.content},#{vo.location},#{vo.getherType},#{vo.totalMember},default,#{vo.gpxFile},#{vo.useTime},#{vo.distance},#{vo.getHeight},#{vo.detailCourse},#{vo.getherTime},default,null,null);

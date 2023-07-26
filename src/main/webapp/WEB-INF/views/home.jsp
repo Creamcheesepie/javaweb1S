@@ -210,6 +210,12 @@
 		<hr/>
 		<h4 class="listTitle"><span class="material-symbols-outlined subTitle-icon">hotel_class</span>&nbsp;저번달 MVP 라이더</h4>
 		<hr/>
+		<div>최장거리</div>
+		<div>${LLR.nickName} ${LLR.distance}km</div>
+		<div>최고평속 </div>
+		<div>${FR.nickName} ${FR.speed}km/h</div>
+		<div>최고고도 </div>
+		<div>${HR.nickName} ${HR.getHeight}m</div>
 	</div>
 	<div class="col-sm-3">
 		<hr/>
