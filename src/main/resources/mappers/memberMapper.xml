@@ -109,7 +109,7 @@
 				concat('%',#{searchStr},'%');
 	</select>
 	
-		<select id="getBanList" resultType="com.spring.javaweb1S.vo.MemberVO">
+	<select id="getBanList" resultType="com.spring.javaweb1S.vo.MemberVO">
 		select
 			A.t_idx as m_idx,
 			B.nickName,
@@ -133,7 +133,70 @@
 		select status from friendbanList where m_idx = #{m_idx} and t_idx = #{t_idx};
 	</select>
 
-
+	<select id="getMyMessageList" resultType="com.spring.javaweb1S.vo.MessageVO">
+		select
+			A.msg_idx, 
+			A.title,
+			A.m_idx,
+			A.receive_m_idx,
+			B.nickName,
+			A.sdate,
+			A.readSw,
+			A.msg_category
+		from 
+			message2 A, member2 B 
+		where
+			(A.receive_m_idx=B.m_idx and A.m_idx=#{m_idx})
+			or
+			(A.m_idx=B.m_idx and A.receive_m_idx=#{m_idx})
+		order by A.msg_idx desc limit 5; 
+	</select>
+	
+		<select id="getMyPageFriendList" resultType="com.spring.javaweb1S.vo.MemberVO">
+		select
+			A.t_idx as m_idx,
+			B.nickName,
+			B.name,
+			B.age,
+			B.gender,
+			B.level,
+			B.speed,
+			B.duration,
+			B.getheight,
+			B.birthday
+		from
+			friendbanList A,
+			member2 B
+		where
+				A.m_idx = #{m_idx}
+			and
+				A.t_idx = B.m_idx
+			and
+				<![CDATA[A.status<3]]>
+		order by A.setDate desc
+		limit 5
+	</select>
+	
+	<select id="getMyPageBanList" resultType="com.spring.javaweb1S.vo.MemberVO">
+		select
+			A.t_idx as m_idx,
+			B.nickName,
+			B.mid,
+			A.extra,
+			A.setDate
+		from
+			friendbanList A,
+			member2 B
+		where
+				A.m_idx = #{m_idx}
+			and
+				A.t_idx = B.m_idx
+			and
+				<![CDATA[A.status>2]]>
+		order by A.setDate desc
+		limit 5
+	</select>
+	
 
 
 	<insert id="setMemberSignIn">

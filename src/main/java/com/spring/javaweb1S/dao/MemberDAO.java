@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.DomainVO;
 import com.spring.javaweb1S.vo.MemberVO;
+import com.spring.javaweb1S.vo.MessageVO;
 import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.ReplyVO;
 
@@ -71,6 +72,13 @@ public interface MemberDAO {
 	public int getFrienStatus(@Param("m_idx") int m_idx,@Param("t_idx") int t_idx);
 
 	public void setFriendBanDelete(@Param("m_idx") int m_idx,@Param("t_idx") int t_idx);
+
+	public List<MessageVO> getMyMessageList(@Param("m_idx") int m_idx);
+
+	public List<MemberVO> getMyPageFriendList(@Param("m_idx") int m_idx);
+
+	public List<MemberVO> getMyPageBanList(@Param("m_idx") int m_idx);
+
 
 	
 

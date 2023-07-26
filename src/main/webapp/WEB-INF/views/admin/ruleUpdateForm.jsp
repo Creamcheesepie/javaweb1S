@@ -167,9 +167,11 @@
 				<button type="button" class="btn border">변경하기</button> 
 			</div>
 		</div>
-		<hr>
-		<div>대표이미지 등록</div>
-		<input type="file" class="form-control-file border">
+		<div class="mt-2 mb-2">대표이미지 등록</div>
+		<form action="${ctp}/admin/MainImageUpload/${st.index}" method="post" enctype="multipart/form-data">
+		<input type="file" name="fName" id="fName" class="form-control-file border">
+		<button type="submit" class="btn border mt-2">등록</button>
+		</form>
 	</div>
 	</c:forEach>
 </div>

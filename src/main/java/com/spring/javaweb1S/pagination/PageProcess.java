@@ -42,6 +42,8 @@ public interface PageProcess {
 
 	public PageVO pastGetherProcess(int nowPage, int pageSize, int blockSize);
 
+	public PageVO pageProcessor(String string, int nowPage, int pageSize, int blockSize, String ban_idx);
+
 	
 	
 }

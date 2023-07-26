@@ -71,6 +71,12 @@ public interface BoardDAO {
 
 	public List<BoardVO> getNoticeList();
 
+	public List<BoardVO> getNewsList();
+
+	public List<BoardVO> getAllBoardList(@Param("sin") int sin,@Param("pageSize") int pageSize);
+
+	public List<BoardVO> getAllBoardListWithBan_idx(@Param("sin") int sin,@Param("pageSize") int pageSize,@Param("ban_idx") String ban_idx);
+
 
 
 	

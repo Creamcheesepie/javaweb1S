@@ -44,6 +44,9 @@
 			${grVO.content}
 		</div>
 		<div class="col-12"><hr></div>
+		<div class="col-12 text-center">
+			<button type="button" onclick="location.href='${ctp}/gether/afterList'" class="btn border">모임참석하러가기</button>
+		</div>
 	</div>
 </div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp"/>	

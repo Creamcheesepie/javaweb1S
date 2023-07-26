@@ -67,6 +67,12 @@ public interface BoardService {
 
 	public List<BoardVO> getNoticeList();
 
+	public List<BoardVO> getNewsList();
+
+	public List<BoardVO> getAllBoardList(int sin, int pageSize);
+
+	public List<BoardVO> getAllboardList(int sin, int pageSize, String ban_idx);
+
 	
 
 

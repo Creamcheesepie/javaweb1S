@@ -201,8 +201,26 @@
 	}
 	.agro-b-16{
 		font-family: 'SBAggroB';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
 		font-weight: 500;
 		font-size: 16px;
+	}
+	.frontTitle{
+		font-family: 'establishRoomNo703OTF';
+		font-weight: 500;
+		font-size: 55px;
+	}
+	
+	@font-face {
+    font-family: 'establishRoomNo703OTF';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2112@1.0/establishRoomNo703OTF.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+	}
+	
+	@font-face {
+		font-family: 'SBAggroB';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
+		font-weight: normal;
+    font-style: normal;
 	}
 	</style>

@@ -228,6 +228,21 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.getNoticeList();
 	}
 
+	@Override
+	public List<BoardVO> getNewsList() {
+		return boardDAO.getNewsList();
+	}
+
+	@Override
+	public List<BoardVO> getAllBoardList(int sin, int pageSize) {
+		return boardDAO.getAllBoardList(sin,pageSize);
+	}
+
+	@Override
+	public List<BoardVO> getAllboardList(int sin, int pageSize, String ban_idx) {
+		return boardDAO.getAllBoardListWithBan_idx(sin,pageSize,ban_idx);
+	}
+
 	
 
 	

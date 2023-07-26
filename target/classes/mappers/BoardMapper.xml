@@ -73,6 +73,60 @@
 		limit #{sin}, #{pageSize};
 	</select>
 	
+		<select id="getAllBoardList" resultType="com.spring.javaweb1S.vo.BoardVO">
+		select 
+			B.boa_idx,
+			B.m_idx,
+			M.nickName,
+			M.name,
+			M.mid,
+			B.title,
+			B.viewCnt,
+			B.recommendCnt,
+			B.wdate,
+			B.ddate,
+			B.category,
+			C.name as categoryName 
+		from 
+			board2 B, member2 M, board2_category C
+		where 
+				M.m_idx=B.m_idx
+			and
+				B.category = C.category
+			and
+				B.category = C.category 
+		order by B.boa_idx desc 
+		limit #{sin}, #{pageSize};
+	</select>
+	
+		<select id="getAllBoardListWithBan_idx" resultType="com.spring.javaweb1S.vo.BoardVO">
+		select 
+			B.boa_idx,
+			B.m_idx,
+			M.nickName,
+			M.name,
+			M.mid,
+			B.title,
+			B.viewCnt,
+			B.recommendCnt,
+			B.wdate,
+			B.ddate,
+			B.category,
+			C.name as categoryName 
+		from 
+			board2 B, member2 M, board2_category C
+		where 
+				M.m_idx=B.m_idx
+			and
+				B.category = C.category
+			and not
+				B.m_idx
+					in
+					${ban_idx} 
+		order by B.boa_idx desc 
+		limit #{sin}, #{pageSize};
+	</select>
+	
 	<select id="getboardRead" resultType="com.spring.javaweb1S.vo.BoardVO">
 		select B.boa_idx,B.m_idx,M.nickName,M.name,M.mid,B.title,B.content,B.viewCnt,B.recommendCnt,B.wdate,B.cdate,B.ddate,B.category,C.name as categoryName,M.level,M.speed,M.getheight,M.duration,M.photo,M.inst from board2 B, member2 M, board2_category C where M.m_idx=B.m_idx and B.category = C.category and B.boa_idx = #{boa_idx}; 
 	</select>
@@ -150,6 +204,32 @@
 	
 	<select id="getNoticeList" resultType="com.spring.javaweb1S.vo.BoardVO">
 		select
+			a.nickName,
+			B.title,
+			B.boa_idx,
+			B.viewCnt,
+			B.recommendCnt,
+			B.wdate,
+			C.category,
+			C.name as categoryName
+		from
+			member2 A,
+			board2 B,
+			board2_category C
+		where
+			B.m_idx = A.m_idx
+		and
+			B.category = C.category 				
+		and 
+			B.category = '1'
+		and 
+			B.ddate is null
+		order by B.boa_idx desc
+		limit 4;	
+	</select>
+	
+	<select id="getNewsList" resultType="com.spring.javaweb1S.vo.BoardVO">
+		select
 			B.title,B.boa_idx,C.category,C.name as categoryName
 		from
 			board2 B, 
@@ -157,7 +237,7 @@
 		where
 			B.category = C.category 				
 		and 
-			B.category = '1'
+			B.category = '2'
 		and 
 			B.ddate is null
 		order by B.boa_idx desc

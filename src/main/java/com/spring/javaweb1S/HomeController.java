@@ -45,12 +45,14 @@ public class HomeController {
 		List<BoardVO> boardList_vos = boardService.getNewBoardList();
 		List<BoardVO> boardHotList_vos = boardService.getHotBoardList();
 		List<BoardVO> noticeList_vos = boardService.getNoticeList();
+		List<BoardVO> newsList_vos = boardService.getNewsList();
 		List<GetherReviewVO> getherListVOS = getherService.getGetherFrontReviewList();
 		
 		System.out.println(noticeList_vos);
 		
 		model.addAttribute("getherListVOS", getherListVOS);
 		model.addAttribute("noticeList_vos", noticeList_vos);
+		model.addAttribute("newsList_vos",  newsList_vos);
 		model.addAttribute("boardHotList_vos", boardHotList_vos);
 		model.addAttribute("boardList_vos", boardList_vos);
 		return "home";

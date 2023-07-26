@@ -27,7 +27,11 @@
 <!-- 헤더 -->
 <jsp:include page="/WEB-INF/views/include/navbar.jsp"/>
 <!-- 첫 이미지 표시부 -->
-<div class="fullImageSlide m-0 p-0" style="width:100%;height:60%;background-color: skyblue" >
+<div class="text-center frontTitle" style="margin: 30px 0px 0px 0px">
+	함께타요
+</div>
+<div class="text-center" >
+	<img src="${ctp}/mainCategoryIMG/frontIMG.jpg">
 </div>
 <!-- 게시글 정보 표시부 -->
 <div class="container">
@@ -47,11 +51,17 @@
 	  <!-- The slideshow -->
 	  <div class="carousel-inner" style="height:350px">
 	    <div class="carousel-item active">
-	      <a href=""><img src="la.jpg" alt="Los Angeles"></a>
+	      <a href="${ctp}/board/listAll"><img src="${ctp}/mainCategoryIMG/all.jpg"></a>
+	      <div class="carousel-caption">
+	      	<h3>전체목록</h3>
+	      </div>
 	    </div>
 		  <c:forEach var="nav_vo" items="${nav_vos}" varStatus="st">
 	    <div class="carousel-item">
-	  	<a href="${ctp}/board/list/${nav_vo.category}"><img src="${ctp}/mainCategoryIMG/${nav_vo.category}.jpg" width="100%"></a>
+	  		<a href="${ctp}/board/list/${nav_vo.category}"><img src="${ctp}/mainCategoryIMG/${nav_vo.category}.jpg" width="100%"></a>
+		  	<div class="carousel-caption">
+		    	<h3>${nav_vo.name}</h3>
+		  	</div>
 	    </div>
 	  	</c:forEach>
 	  </div>
@@ -62,7 +72,6 @@
 	  <a class="carousel-control-next" href="#demo" data-slide="next">
 	    <span class="carousel-control-next-icon"></span>
 	  </a>
-	
 		</div>
 		<hr/>
 	</div>
@@ -94,6 +103,14 @@
 					<a href="${ctp}/board/newsRead/${noticeList_vo.boa_idx}/${noticeList_vo.category}">${noticeList_vo.title}</a>
 				</div>
 			</c:forEach>
+			<c:forEach var="newsList_vo" items="${newsList_vos}" varStatus="st">
+				<div class="col-3">
+					<a href="${ctp}/board/news/${newsList_vo.category}">${newsList_vo.categoryName}</a>
+				</div>
+				<div class="col-9">
+					<a href="${ctp}/board/newsRead/${newsList_vo.boa_idx}/${newsList_vo.category}">${newsList_vo.title}</a>
+				</div>
+			</c:forEach>
 		</div>
 		</c:if>
 		<c:if test="${sLogin =='ok'}">
@@ -118,10 +135,18 @@
 							<a href="${ctp}/board/newsRead/${noticeList_vo.boa_idx}/${noticeList_vo.category}">${noticeList_vo.title}</a>
 						</div>
 					</c:forEach>
+					<c:forEach var="newsList_vo" items="${newsList_vos}" varStatus="st">
+						<div class="col-3">
+							<a href="${ctp}/board/news/${newsList_vo.category}">${newsList_vo.categoryName}</a>
+						</div>
+						<div class="col-9">
+							<a href="${ctp}/board/newsRead/${newsList_vo.boa_idx}/${newsList_vo.category}">${newsList_vo.title}</a>
+						</div>
+					</c:forEach>
 		</div>
 		</c:if>
 	</div>
-	<div class="col-sm-6">
+	<div class="col-sm-6 ">
 		<hr/>
 		<h3 class="listTitle">
 		<span class="material-symbols-outlined listTitle-icon">autorenew</span>
@@ -131,10 +156,10 @@
 			<div class="col-12 p0 m0">
 				<div class="row">
 				<c:forEach var="boardNew_vo" items="${boardList_vos}" varStatus="st">
-					<div class="col-2 mainfont-m-16 text-center">
+					<div class="col-2 agro-b-16 text-center">
 					<a href="${ctp}/board/list/${boardNew_vo.category}">${boardNew_vo.categoryName}</a>
 					</div>
-					<div class="col-10 mainfont-m-16">
+					<div class="col-10 agro-b-16">
 					<a href="${ctp}/board/read/${boardNew_vo.boa_idx}/${boardNew_vo.category}">${boardNew_vo.title}</a>
 					</div>
 				</c:forEach>
@@ -189,11 +214,6 @@
 	<div class="col-sm-3">
 		<hr/>
 		<h4 class="listTitle align-self-center"><span class="material-symbols-outlined subTitle-icon">bolt</span>&nbsp;최근 우수 활동 회원</h4>
-		<hr/>
-	</div>
-	<div class="col-sm-12">
-		<hr/>
-		<h1 class="listTitle"><span class="material-symbols-outlined galary-icon">photo_library</span>&nbsp;메인 갤러리</h1>
 		<hr/>
 	</div>
 	<div>

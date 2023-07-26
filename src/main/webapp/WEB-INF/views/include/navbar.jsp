@@ -57,7 +57,7 @@
 
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark M-0 P-0">
-	<a class="navbar-brand" href="${ctp}/" style="margin-left: 10px"><span class="navTitle">메인으로</span></a>
+	<a class="navbar-brand" href="${ctp}/" style="margin-left: 10px"><span class="navTitle">함께타요</span></a>
 <ul class="navbar-nav">
 	<li>
 		<a class="nav-link" href="${ctp}/attendance/list">attendance</a>
@@ -73,7 +73,7 @@
 <div class="dropdown">
   <button class="dropbtn">Board</button>
   <div class="dropdown-content">
-    <a href="${ctp}/board/list/all">게시판 전부보기</a>
+    <a href="${ctp}/board/listAll">게시판 전부보기</a>
   <c:forEach var="nav_vo" items="${nav_vos}" varStatus="st">
   	<a href="${ctp}/board/list/${nav_vo.category}">${nav_vo.name} 게시판</a>
   </c:forEach>

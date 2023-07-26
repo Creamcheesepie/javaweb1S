@@ -220,5 +220,16 @@ public class JavaProvide {
 		}
 		return outputTime;
 	}
+
+	public void fileUploadRename(MultipartFile fName, String realPath, String reName) {
+		String sfName = reName;
+		try {
+			writeFile(fName,sfName,realPath);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 }

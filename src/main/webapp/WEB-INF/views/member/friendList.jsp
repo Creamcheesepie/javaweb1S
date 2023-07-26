@@ -89,15 +89,15 @@
 		</div>
 		<div class="row mainfont-m-14 text-center">
 			<c:forEach var="fb_vo" items="${friendVOS}" varStatus="st">
-			<div class="col-2 align-self-center">${fb_vo.nickName}</div>
-			<div class="col-2 align-self-center">${fb_vo.name}</div>
-			<div class="col-1 align-self-center">${fb_vo.age}</div>
-			<div class="col-1 align-self-center">${fb_vo.gender}</div>
-			<div class="col-1 align-self-center">${fb_vo.level}</div>
-			<div class="col-2 m-0 p-0 align-self-center">${fb_vo.duration}h/${fb_vo.speed}km/${fb_vo.getHeight}m</div>
-			<div class="col-1 m-0 p-0 align-self-center">${fn:substring(fb_vo.birthday,5,10)}</div>
-			<div class="col-2 ml-0 pl-0 align-self-center"><button type="button" class="btn border" onclick="friendCancle('${fb_vo.m_idx}')">삭제</button></div>
-			<div class="col-12"><hr></div>	
+				<div class="col-2 align-self-center">${fb_vo.nickName}</div>
+				<div class="col-2 align-self-center">${fb_vo.name}</div>
+				<div class="col-1 align-self-center">${fb_vo.age}</div>
+				<div class="col-1 align-self-center">${fb_vo.gender}</div>
+				<div class="col-1 align-self-center">${fb_vo.level}</div>
+				<div class="col-2 m-0 p-0 align-self-center">${fb_vo.duration}h/${fb_vo.speed}km/${fb_vo.getHeight}m</div>
+				<div class="col-1 m-0 p-0 align-self-center">${fn:substring(fb_vo.birthday,5,10)}</div>
+				<div class="col-2 ml-0 pl-0 align-self-center"><button type="button" class="btn border" onclick="friendCancle('${fb_vo.m_idx}')">삭제</button></div>
+				<div class="col-12"><hr></div>	
 			</c:forEach>
 			<c:if test="${empty friendVOS}">
 				<div class="col-12">

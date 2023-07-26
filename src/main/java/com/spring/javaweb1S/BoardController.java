@@ -36,7 +36,7 @@ public class BoardController {
 	public String boardNewsGet(Model model,
 			@PathVariable("category") String strCategory,
 			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
-			@RequestParam(name="pageSize",defaultValue="5",required=false)int pageSize
+			@RequestParam(name="pageSize",defaultValue="15",required=false)int pageSize
 			) {
 		int category = Integer.parseInt(strCategory);
 		int blockSize = 5;
@@ -57,7 +57,7 @@ public class BoardController {
 	public String boardListGet(Model model,HttpSession session,
 			@PathVariable("category") String strCategory,
 			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
-			@RequestParam(name="pageSize",defaultValue="5",required=false)int pageSize
+			@RequestParam(name="pageSize",defaultValue="11",required=false)int pageSize
 			) {
 		int m_idx = session.getAttribute("sM_idx")==null?0:(int)session.getAttribute("sM_idx");
 		//카테고리 처리
@@ -86,7 +86,43 @@ public class BoardController {
 			model.addAttribute("boardList_vos", boardList_vos);
 		}
 		
+		List<BoardVO> noticeVOS = boardService.getNoticeList();
+		model.addAttribute("noticeVOS", noticeVOS);
 		return "board/boardList";
+	}
+	
+	//사용자 전체가 사용 가능한 일반 게시판
+	@RequestMapping(value = "/listAll",method=RequestMethod.GET)
+	public String boardAllListGet(Model model,HttpSession session,
+			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
+			@RequestParam(name="pageSize",defaultValue="15",required=false)int pageSize
+			) {
+		int m_idx = session.getAttribute("sM_idx")==null?0:(int)session.getAttribute("sM_idx");
+		
+		int blockSize = 5;
+		if(m_idx==0) {
+			//페이지처리
+			PageVO pageVO = page.pageProcessor("board2",pageSize,nowPage,blockSize);
+			model.addAttribute("pageVO", pageVO);
+			//리스트 가져오기
+			List<BoardVO> boardList_vos = boardService.getAllBoardList(pageVO.getSin(),pageVO.getPageSize());
+			model.addAttribute("boardList_vos", boardList_vos);
+		}
+		else {
+			//차단된 사람들의 m_idx를 가공 후 저장
+			String ban_idx = boardService.getbanListByM_idx(m_idx);
+			//페이지처리
+			PageVO pageVO = page.pageProcessor("board2",nowPage,pageSize,blockSize,ban_idx);
+			model.addAttribute("pageVO", pageVO);
+			//리스트 가져오기
+			List<BoardVO> boardList_vos = boardService.getAllboardList(pageVO.getSin(),pageVO.getPageSize(),ban_idx);
+			System.out.println(ban_idx);
+			model.addAttribute("boardList_vos", boardList_vos);
+		}
+		
+		List<BoardVO> noticeVOS = boardService.getNoticeList();
+		model.addAttribute("noticeVOS", noticeVOS);
+		return "board/AllboardList";
 	}
 	
 	//뉴스 게시판 작성

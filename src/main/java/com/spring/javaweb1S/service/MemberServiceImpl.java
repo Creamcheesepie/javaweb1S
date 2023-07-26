@@ -17,6 +17,7 @@ import com.spring.javaweb1S.dao.PointDAO;
 import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.DomainVO;
 import com.spring.javaweb1S.vo.MemberVO;
+import com.spring.javaweb1S.vo.MessageVO;
 import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.ReplyVO;
 
@@ -242,6 +243,22 @@ public class MemberServiceImpl implements MemberService {
 	public void setBanDelete(int m_idx, int t_idx) {
 		memberDAO.setFriendBanDelete(m_idx,t_idx);
 	}
+
+	@Override
+	public List<MessageVO> getMyMessageList(int m_idx) {
+		return memberDAO.getMyMessageList(m_idx);
+	}
+
+	@Override
+	public List<MemberVO> getMyPageFriendList(int m_idx) {
+		return memberDAO.getMyPageFriendList(m_idx);
+	}
+
+	@Override
+	public List<MemberVO> getMyPageBanList(int m_idx) {
+		return memberDAO.getMyPageBanList(m_idx);
+	}
+
 
 
 

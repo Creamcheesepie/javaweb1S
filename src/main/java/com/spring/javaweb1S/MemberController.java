@@ -13,6 +13,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +27,7 @@ import com.spring.javaweb1S.service.MemberService;
 import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.DomainVO;
 import com.spring.javaweb1S.vo.MemberVO;
+import com.spring.javaweb1S.vo.MessageVO;
 import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.ReplyVO;
 
@@ -221,7 +223,13 @@ public class MemberController {
 		String domain = memberService.getDomainDom_idx(mvo.getDom_idx());
 		List<BoardVO> boardVOS = memberService.getMyPageBoardList(m_idx);
 		List<ReplyVO> replyVOS = memberService.getMyPageReplyList(m_idx);
+		List<MessageVO> messageVOS = memberService.getMyMessageList(m_idx);
+		List<MemberVO> friendVOS = memberService.getMyPageFriendList(m_idx);
+		List<MemberVO> banVOS = memberService.getMyPageBanList(m_idx);
 		
+		model.addAttribute("friendVOS", friendVOS);
+		model.addAttribute("banVOS", banVOS);
+		model.addAttribute("messageVOS", messageVOS);
 		model.addAttribute("replyVOS", replyVOS);
 		model.addAttribute("boardVOS", boardVOS);
 		model.addAttribute("domain", domain);
@@ -551,6 +559,17 @@ public class MemberController {
 			@RequestParam(name="t_idx",defaultValue="0",required=false)int t_idx
 			) {
 		memberService.setBanDelete(m_idx,t_idx);
+	}
+	
+	@RequestMapping(value = "/findForm/{sw}",method = RequestMethod.GET)
+	public String memberFindFromGet(Model model,
+			@PathVariable("sw") String sW 
+			) {
+		List<DomainVO> domain_vos = memberService.getDomainlist();
+		model.addAttribute("domain_vos",domain_vos);
+		System.out.println(sW);
+		if(sW.equals("mid"))return "member/midFindForm";
+		else return "member/pwdFindForm";
 	}
 	
 }

@@ -7,11 +7,15 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.javaweb1S.common.JavaProvide;
 import com.spring.javaweb1S.pagination.PageProcess;
 import com.spring.javaweb1S.service.AdminService;
 import com.spring.javaweb1S.vo.AskVO;
@@ -211,5 +215,15 @@ public class AdminController {
 			) {
 		adminService.setUpdateRuleSetterPenaltyOption(rule_idx,strPenaltyTime);
 	}
-	
+	JavaProvide provide = new JavaProvide();
+	@RequestMapping(value = "/MainImageUpload/{category}", method = RequestMethod.POST)
+	public String adminBoardImageUpload(HttpSession session,MultipartFile fName,
+			@PathVariable("category") int category
+			) {
+		category = category+3;
+		String realPath = session.getServletContext().getRealPath("/resources/data/mainCategory/");
+		String reName = category+".jpg";
+		provide.fileUploadRename(fName, realPath,reName);
+		return "redirect:/admin/ruleUpdateForm";
+	}
 }
