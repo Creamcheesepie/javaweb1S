@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.javaweb1S.dao.AdminDAO;
 import com.spring.javaweb1S.vo.AskVO;
+import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.CategoryVO;
 import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.PointVO;
@@ -138,6 +139,46 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public void setUpdateRuleSetterPenaltyOption(int rule_idx, String strPenaltyTime) {
 		adminDAO.setUpdateRuleSetterPenaltyOption(rule_idx,strPenaltyTime);
+	}
+
+	@Override
+	public List<ReportVO> getBanList() {
+		return adminDAO.getBanList();
+	}
+
+	@Override
+	public ReportVO getBandetail(int ban_idx) {
+		return adminDAO.getBandetail(ban_idx);
+	}
+
+	@Override
+	public void setBanOff(int ban_idx) {
+		adminDAO.setBanOff(ban_idx);
+	}
+
+	@Override
+	public void setBanUpdate(int ban_idx, String banType, String cdate, String reason) {
+		adminDAO.setBanUpdate(ban_idx,banType,cdate,reason);
+	}
+
+	@Override
+	public List<BoardVO> getAdminBoardList(PageVO pageVO) {
+		return adminDAO.getAdminBoardList(pageVO);
+	}
+
+	@Override
+	public void setBoardRestore(int boa_idx) {
+		adminDAO.setBoardRestore(boa_idx);
+	}
+
+	@Override
+	public void setBoardDelete(int boa_idx) {
+		adminDAO.setBoardDelete(boa_idx);
+	}
+
+	@Override
+	public void setDateBaseDelete(int boa_idx) {
+		adminDAO.setDateBaseDelete(boa_idx);
 	}
 
 }

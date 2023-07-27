@@ -102,4 +102,8 @@
 		select count(get_idx) from gether2 where 	getherTime between date_sub(now(),interval 1 Year) and now();
 	</select>
 	
+	<select id="getTRCWithOutNews" resultType="int">
+		select count(boa_idx) from board2 where <![CDATA[category>2]]> and <![CDATA[category<100]]>; 
+	</select>
+	
 </mapper>

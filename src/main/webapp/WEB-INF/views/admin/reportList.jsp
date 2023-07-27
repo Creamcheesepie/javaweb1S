@@ -97,6 +97,7 @@
 <body>
 <jsp:include page="/WEB-INF/views/include/navbar.jsp"/>
 <div class="container">
+<jsp:include page="/WEB-INF/views/include/adminHeader.jsp"/>
 	<form action="${ctp}/admin/adminReportForm" method="post">
 	<div class="row">
 		<div class="col-12">

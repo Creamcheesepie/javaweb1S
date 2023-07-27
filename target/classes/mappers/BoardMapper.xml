@@ -16,27 +16,24 @@
 	</select>
 	
 	<select id="getboardList" resultType="com.spring.javaweb1S.vo.BoardVO">
-		select 
-			B.boa_idx,
-			B.m_idx,
-			M.nickName,
-			M.name,
-			M.mid,
-			B.title,
-			B.viewCnt,
-			B.recommendCnt,
-			B.wdate,
-			B.ddate,
-			B.category,
-			C.name as categoryName 
-		from 
-			board2 B, member2 M, board2_category C
-		where 
-				M.m_idx=B.m_idx 
-			and
-				B.category = C.category 
-			and 
-				B.category = #{category} 
+		select B.boa_idx,
+					 B.m_idx,
+					 M.nickName,
+					 M.name,
+					 M.mid,
+					 B.title,
+					 B.viewCnt,
+					 B.recommendCnt,
+					 B.wdate,
+					 B.ddate,
+					 B.category,
+					 C.name as categoryName 
+		from  board2 B, 
+					member2 M, 
+					board2_category C
+		where M.m_idx=B.m_idx 
+			and B.category = C.category 
+			and B.category = #{category} 
 		order by B.boa_idx desc 
 		limit #{sin}, #{pageSize};
 	</select>
@@ -74,55 +71,51 @@
 	</select>
 	
 		<select id="getAllBoardList" resultType="com.spring.javaweb1S.vo.BoardVO">
-		select 
-			B.boa_idx,
-			B.m_idx,
-			M.nickName,
-			M.name,
-			M.mid,
-			B.title,
-			B.viewCnt,
-			B.recommendCnt,
-			B.wdate,
-			B.ddate,
-			B.category,
-			C.name as categoryName 
-		from 
-			board2 B, member2 M, board2_category C
-		where 
-				M.m_idx=B.m_idx
-			and
-				B.category = C.category
-			and
-				B.category = C.category 
-		order by B.boa_idx desc 
+		select B.boa_idx,
+					 B.m_idx,
+					 M.nickName,
+					 M.name,
+					 M.mid,
+					 B.title,
+					 B.viewCnt,
+					 B.recommendCnt,
+					 B.wdate,
+					 B.ddate,
+					 B.category,
+					 C.name as categoryName 
+		from board2 B, 
+				 member2 M, 
+				 board2_category C
+		where M.m_idx=B.m_idx
+			and B.category = C.category
+			and <![CDATA[B.category>2]]> 
+			and <![CDATA[B.category<100]]> 
+		order by B.boa_idx desc
 		limit #{sin}, #{pageSize};
 	</select>
 	
 		<select id="getAllBoardListWithBan_idx" resultType="com.spring.javaweb1S.vo.BoardVO">
-		select 
-			B.boa_idx,
-			B.m_idx,
-			M.nickName,
-			M.name,
-			M.mid,
-			B.title,
-			B.viewCnt,
-			B.recommendCnt,
-			B.wdate,
-			B.ddate,
-			B.category,
-			C.name as categoryName 
-		from 
-			board2 B, member2 M, board2_category C
-		where 
-				M.m_idx=B.m_idx
-			and
-				B.category = C.category
-			and not
-				B.m_idx
-					in
-					${ban_idx} 
+		select B.boa_idx,
+					 B.m_idx,
+					 M.nickName,
+					 M.name,
+					 M.mid,
+					 B.title,
+					 B.viewCnt,
+					 B.recommendCnt,
+					 B.wdate,
+					 B.ddate,
+					 B.category,
+					 C.name as categoryName 
+		from board2 B,
+				 member2 M,
+				 board2_category C
+		where M.m_idx=B.m_idx
+			and B.category = C.category
+			and <![CDATA[B.category>2]]> 
+			and <![CDATA[B.category<100]]> 
+			and not B.m_idx
+					 in ${ban_idx} 
 		order by B.boa_idx desc 
 		limit #{sin}, #{pageSize};
 	</select>
@@ -181,65 +174,53 @@
 	</select>
 	
 	<select id="getHotBoardList" resultType="com.spring.javaweb1S.vo.BoardVO">
-		select 
-			B.title,B.boa_idx,C.category,C.name as categoryName 
+		select B.title,
+					 B.boa_idx,
+					 C.category,
+					 C.name as categoryName 
 		from 
 			board2 B, 
 			board2_category C  
-		where 
-				B.category = C.category 
-			and 
-				<![CDATA[B.category>2]]> and <![CDATA[B.category<100]]> 
-			and 
-				B.ddate is null 
-			and
-				B.wdate
-			between
-				date_sub(now(),interval 1 Week)
-			and
-				now()
-			order by B.viewCnt desc 
-			limit 10;
+		where B.category = C.category 
+			and <![CDATA[B.category>2]]> 
+			and <![CDATA[B.category<100]]> 
+			and B.ddate is null 
+			and B.wdate between date_sub(now(),interval 1 Week)
+											and now()
+		order by B.viewCnt desc 
+		limit 10;
 	</select>
 	
 	<select id="getNoticeList" resultType="com.spring.javaweb1S.vo.BoardVO">
-		select
-			a.nickName,
-			B.title,
-			B.boa_idx,
-			B.viewCnt,
-			B.recommendCnt,
-			B.wdate,
-			C.category,
-			C.name as categoryName
-		from
-			member2 A,
-			board2 B,
-			board2_category C
-		where
-			B.m_idx = A.m_idx
-		and
-			B.category = C.category 				
-		and 
-			B.category = '1'
-		and 
-			B.ddate is null
+		select a.nickName,
+					 B.title,
+					 B.boa_idx,
+					 B.viewCnt,
+					 B.recommendCnt,
+					 B.wdate,
+					 C.category,
+					 C.name as categoryName
+		from member2 A,
+				 board2 B,
+				 board2_category C
+		where B.m_idx = A.m_idx
+			and B.category = C.category 				
+			and B.category = '1'
+			and B.ddate is null
 		order by B.boa_idx desc
 		limit 4;	
 	</select>
 	
 	<select id="getNewsList" resultType="com.spring.javaweb1S.vo.BoardVO">
-		select
-			B.title,B.boa_idx,C.category,C.name as categoryName
-		from
-			board2 B, 
-			board2_category C
-		where
-			B.category = C.category 				
-		and 
-			B.category = '2'
-		and 
-			B.ddate is null
+		select B.title,
+					 B.boa_idx,
+					 C.category,
+					 C.name as categoryName
+		from board2 B, 
+				 board2_category C
+		where B.category = C.category 				
+			and B.category = '2'
+			and B.ddate is null
 		order by B.boa_idx desc
 		limit 4;	
 	</select>

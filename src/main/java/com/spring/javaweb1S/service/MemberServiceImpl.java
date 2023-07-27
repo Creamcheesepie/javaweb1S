@@ -303,6 +303,30 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.getM_idxByMid(mid);
 	}
 
+	@Override
+	public List<MemberVO> getMostBoardMember() {
+		return memberDAO.getMostBoardMember();
+	}
+
+	@Override
+	public List<MemberVO> getMostReplyMember() {
+		return memberDAO.getMostReplyMember();
+	}
+
+	@Override
+	public boolean banClearCheck(int m_idx) {
+		boolean res = false;
+		String cdate  = memberDAO.getBadUserCdateByM_idx(m_idx);
+		if(cdate == null) res = true;
+		
+		return res;
+	}
+
+	@Override
+	public void setMemberLevelUpdate(int m_idx, int level) {
+		memberDAO.setMemberLevelUpdate(m_idx,level);
+	}
+
 
 
 

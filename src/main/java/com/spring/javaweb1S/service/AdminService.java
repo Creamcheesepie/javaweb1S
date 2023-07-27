@@ -3,6 +3,7 @@ package com.spring.javaweb1S.service;
 import java.util.List;
 
 import com.spring.javaweb1S.vo.AskVO;
+import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.CategoryVO;
 import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.PointVO;
@@ -47,6 +48,23 @@ public interface AdminService {
 
 	public void setUpdateRuleSetterPenaltyOption(int rule_idx, String strPenaltyTime);
 
+	public List<ReportVO> getBanList();
+
+	public ReportVO getBandetail(int ban_idx);
+
+	public void setBanOff(int ban_idx);
+
+	public void setBanUpdate(int ban_idx, String banType, String cdate, String reason);
+
+	public List<BoardVO> getAdminBoardList(PageVO pageVO);
+
+	public void setBoardRestore(int boa_idx);
+
+	public void setBoardDelete(int boa_idx);
+
+	public void setDateBaseDelete(int boa_idx);
+
+	
 
 
 

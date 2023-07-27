@@ -6,6 +6,42 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri/dist/galmuri.css">
 	<style>
+		
+	@font-face {
+    font-family: 'establishRoomNo703OTF';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2112@1.0/establishRoomNo703OTF.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+	}
+	
+	@font-face {
+		font-family: 'SBAggroB';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
+		font-weight: normal;
+    font-style: normal;
+	}
+	
+	@font-face {
+    font-family: 'Giants-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Giants-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+	}
+	
+	@font-face {
+    font-family: 'MBC1961GulimM';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/MBC1961GulimM.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+	}
+	
+	@font-face {
+    font-family: 'TheJamsil5Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+	}
+	
 	body {
 	  min-height: 100vh;
 	  display: flex;
@@ -209,18 +245,25 @@
 		font-weight: 500;
 		font-size: 55px;
 	}
-	
-	@font-face {
-    font-family: 'establishRoomNo703OTF';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2112@1.0/establishRoomNo703OTF.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+	.MVP{
+		font-family: 'Giants-Bold';
+		font-weight: 700;
+		font-size: 18px;
+	}
+	.MVP-member1{
+		font-family : 'TheJamsil5Bold';
+		font-weight: 700;
+		font-size : 16px;
+	}
+	.MVP-member2{
+		font-family : 'TheJamsil5Bold';
+		font-weight: 600;
+		font-size : 15px;
+	}
+	.MVP-member3{
+		font-family : 'TheJamsil5Bold';
+		font-weight: 400;
+		font-size : 15px;
 	}
 	
-	@font-face {
-		font-family: 'SBAggroB';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
-		font-weight: normal;
-    font-style: normal;
-	}
 	</style>

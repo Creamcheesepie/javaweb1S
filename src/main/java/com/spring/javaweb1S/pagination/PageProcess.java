@@ -44,6 +44,8 @@ public interface PageProcess {
 
 	public PageVO pageProcessor(String string, int nowPage, int pageSize, int blockSize, String ban_idx);
 
+	public PageVO pageProcessorWithOutNews(String string, int pageSize, int nowPage, int blockSize);
+
 	
 	
 }

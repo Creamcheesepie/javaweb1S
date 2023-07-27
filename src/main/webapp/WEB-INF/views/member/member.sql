@@ -82,3 +82,27 @@ create table friendBanList(
 	on update cascade
 	on delete restrict
 )
+
+select count(B.boa_idx) as boaCnt,
+			 A.nickName,
+			 A.m_idx
+from member2 A,
+		 board2 B
+where A.m_idx = B.m_idx
+	and B.wdate between date_sub(now(), interval 1 month)
+									and	now()
+group by A.m_idx
+order by boaCnt desc
+limit 5;
+
+select count(B.boa_idx) as boaCnt,
+			 A.nickName,
+			 A.m_idx
+from member2 A,
+		 board2 B
+where A.m_idx = B.m_idx
+	and B.wdate between date_sub(now(), interval 1 month)
+									and	now()
+group by A.m_idx
+order by boaCnt desc
+limit 5;

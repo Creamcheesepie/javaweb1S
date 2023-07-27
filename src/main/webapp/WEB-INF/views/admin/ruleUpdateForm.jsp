@@ -122,6 +122,7 @@
 <body>
 <jsp:include page="/WEB-INF/views/include/navbar.jsp"/>
 <div class="container">
+<jsp:include page="/WEB-INF/views/include/adminHeader.jsp"/>
 <div class="mainTitle">사이트 관리<hr></div>
 <div class="subTitle">포인트 관리</div>
 <div class="mainfont-b-16">사이트 활동시 부여되는 포인트를 관리합니다.<hr></div>

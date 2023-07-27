@@ -85,6 +85,14 @@ public interface MemberDAO {
 
 	public int getM_idxByMid(@Param("mid")String mid);
 
+	public List<MemberVO> getMostBoardMember();
+
+	public List<MemberVO> getMostReplyMember();
+
+	public String getBadUserCdateByM_idx(@Param("m_idx")int m_idx);
+
+	public void setMemberLevelUpdate(@Param("m_idx") int m_idx,@Param("level") int level);
+
 
 
 

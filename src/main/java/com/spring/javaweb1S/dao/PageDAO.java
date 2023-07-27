@@ -40,4 +40,6 @@ public interface PageDAO {
 
 	public int getTRCWithBan_idx(@Param("tableName") String tableName,@Param("ban_idx")  String ban_idx);
 
+	public int getTRCWithOutNews();
+
 }

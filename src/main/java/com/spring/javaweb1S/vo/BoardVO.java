@@ -27,4 +27,6 @@ public class BoardVO {
 	private int level;
 	private String strLevel;
 	private String inst;
+	
+	private int deleteCnt;
 }

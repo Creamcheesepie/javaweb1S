@@ -63,9 +63,21 @@ public class MemberController {
 			return "member/login";
 		}
 		else { //세션에 로그인 후 필요한 정보를 저장
-			//임시정지 대상과 정지대상 회원은 session에 정보를 저장하지 않고 내보냄.
-			if(vo.getLevel() == 5) return "redirect:/badUser";
-			if(vo.getLevel() == 6) return "redirect:/banUser";
+			//임시정지 대상과 정지대상 회원은 session에 정보를 저장하지 않고 내보냄.임시 제재의 경우 날짜 확인 후 날짜가 지났으면 준회원으로 전환 후 로그인 처리.
+			if(vo.getLevel()>4) {
+				boolean banClearChecker = memberService.banClearCheck(vo.getM_idx());
+				if(vo.getLevel() == 5 && !banClearChecker) {
+					return "redirect:/badUser";
+				}
+				else if(vo.getLevel() == 6)	{
+					return "redirect:/banUser";
+				}
+				else if(banClearChecker) {
+					int level = 4;
+					memberService.setMemberLevelUpdate(vo.getM_idx(),level);
+					return "redirect:/clearUser";
+				}
+			}
 		
 			
 			LevelToString levelToString = new LevelToString();

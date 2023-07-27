@@ -110,3 +110,27 @@ create table board2_reply(
 )
 
 select boa_idx,title from board2 in(select bao_idx from board2 where boa_idx> limit1),(select bao_idx from board2 where <![CDATA[boa_idx<#{boa_idx}]]> order by desc limit1);
+
+
+select B.boa_idx,
+			 B.m_idx,
+			 M.nickName,
+			 M.name,
+			 M.mid,
+			 B.title,
+			 B.viewCnt,
+			 B.recommendCnt,
+			 B.wdate,
+			 B.ddate,
+			 B.category,
+			 C.name as categoryName,
+			 TIMESTAMPDIFF(day,B.ddate, now()) as deleteCnt 
+from board2 B, 
+		 member2 M, 
+		 board2_category C
+where M.m_idx=B.m_idx
+	and B.category = C.category
+	and B.category>2
+	and B.category<100
+group by B.boa_idx
+order by B.boa_idx desc

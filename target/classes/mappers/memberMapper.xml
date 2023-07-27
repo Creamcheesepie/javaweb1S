@@ -208,6 +208,46 @@
 	<select id="getM_idxByMid" resultType="int">
 		select m_idx from member2 where mid = #{mid};
 	</select>
+	
+	<select id="getMostBoardMember" resultType="com.spring.javaweb1S.vo.MemberVO">
+		select count(B.boa_idx) as boaCnt,
+					 A.nickName,
+					 A.m_idx
+		from member2 A,
+				 board2 B
+		where A.m_idx = B.m_idx
+			and B.wdate between date_sub(now(), interval 1 month)
+											and	now()
+		group by A.m_idx
+		order by boaCnt desc
+		limit 5;
+	</select>
+	
+	<select id="getMostReplyMember" resultType="com.spring.javaweb1S.vo.MemberVO">
+		select count(B.rep_idx) as repCnt,
+					 A.nickName,
+					 A.m_idx
+		from member2 A,
+				 board2_reply B
+		where A.m_idx = B.m_idx 
+			and B.wdate between date_sub(now(), interval 1 month)
+											and	now()
+		group by A.m_idx
+		order by repCnt desc
+		limit 5;
+	</select>
+	
+	<select id="getBadUserCdateByM_idx" resultType="String">
+		select cdate
+		from banList
+		where m_idx = #{m_idx}
+			and	banType= '3_tempBan'
+			and cdate between now
+										and date_add(now(), interval 10 year)
+		limit 1;
+	</select>
+	
+	
 
 
 	<insert id="setMemberSignIn">
@@ -272,6 +312,10 @@
 	
 	<update id="setMemberPwdUpdate">
 		update member2 set pwd = #{vo.pwd} where m_idx = #{vo.m_idx};
+	</update>
+	
+	<update id="setMemberLevelUpdate">
+		update member2 set level = #{level} where m_idx = #{m_idx};
 	</update>
 	
 	

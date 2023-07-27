@@ -114,25 +114,20 @@
 	</select>
 	
 	<select id="getMyClearList" resultType="com.spring.javaweb1S.vo.GetherVO">
-		select
-			B.get_idx,
-			B.title,
-			B.location,
-			B.detailCourse,
-			B.getherTime,
-			A.Clear,
-			A.speed,
-			A.distance,
-			A.getHeight
-		from
-			gether2_member A,
-			gether2 B
-		where
-				A.m_idx = ${m_idx}
-			and
-				A.get_idx = B.get_idx
-			and
-				A.clear <![CDATA[>]]> 0
+		select B.get_idx,
+					 B.title,
+					 B.location,
+					 B.detailCourse,
+					 B.getherTime,
+					 A.Clear,
+					 A.speed,
+					 A.distance,
+					 A.getHeight
+		from gether2_member A,
+				 gether2 B
+		where	A.m_idx = ${m_idx}
+			and	A.get_idx = B.get_idx
+			and	A.clear <![CDATA[>]]> 0
 		order by A.join_date desc
 	</select>
 	
@@ -191,19 +186,16 @@
 	</select>
 	
 	<select id="getGetherFrontReviewList" resultType="com.spring.javaweb1S.vo.GetherReviewVO">
-		select
-			A.title,
-			A.ger_idx,
-			A.get_title,
-			A.get_idx,
-			A.mainImage,
-			B.nickName,
-			A.clear
-		from
-			gether2_review A,
-			member2 B
-		where
-			A.m_idx=B.m_idx
+		select A.title,
+					 A.ger_idx,
+					 A.get_title,
+					 A.get_idx,
+					 A.mainImage,
+					 B.nickName,
+					 A.clear
+		from gether2_review A,
+				 member2 B
+		where	A.m_idx=B.m_idx
 		order by A.ger_idx desc
 		limit 5;
 	</select>
@@ -222,48 +214,34 @@
 	</select>
 	
 	<select id="getLongestRider" resultType="com.spring.javaweb1S.vo.GetherMemberVO">
-		select
-			B.nickName,
-			sum(A.distance) as distance
-		from
-			gether2_member A,
-			member2 B,
-			gether2 C
-		where
-				A.m_idx = B.m_idx
-			and
-				A.get_idx = C.get_idx
-			and
-				C.getherTime
-			between
-				last_day(now() - interval 2 month) + interval 1 day
-			and
-				last_day(now() - interval 1 month)
-			order by distance desc
-		limit 1;	
+		select B.nickName,
+					 sum(A.distance) as distance
+		from	gether2_member A,
+					member2 B,
+					gether2 C
+		where A.m_idx = B.m_idx
+			and A.get_idx = C.get_idx
+			and C.getherTime between last_day(now() - interval 2 month) + interval 1 day
+													 and last_day(now() - interval 1 month)
+		group by B.nickName
+		order by distance desc
+		limit 3;	
 	</select>
 	
 	<select id="getFastestRider" resultType="com.spring.javaweb1S.vo.GetherMemberVO">
-		select
-			B.nickName,
-			sum(A.speed) as speed,
-			A.m_idx
-		from
-			gether2_member A,
-			member2 B,
-			gether2 C
-		where
-				A.m_idx = B.m_idx
-			and
-				A.get_idx = C.get_idx
-			and
-				C.getherTime
-			between
-				last_day(now() - interval 2 month) + interval 1 day
-			and
-				last_day(now() - interval 1 month)
-			order by speed desc
-		limit 1;	
+		select	B.nickName,
+						avg(A.speed) as speed,
+						A.m_idx
+		from	gether2_member A,
+					member2 B,
+					gether2 C
+		where A.m_idx = B.m_idx
+			and A.get_idx = C.get_idx
+			and C.getherTime between last_day(now() - interval 2 month) + interval 1 day
+													 and last_day(now() - interval 1 month)
+		group by B.nickName	
+		order by speed desc
+		limit 3;	
 	</select>
 	
 	<select id="getGetherMemberM_idxCnt" resultType="int">
@@ -271,26 +249,32 @@
 	</select>
 	
 	<select id="gethighestRider" resultType="com.spring.javaweb1S.vo.GetherMemberVO">
-		select
-			B.nickName,
-			A.getHeight
-		from
-			gether2_member A,
-			member2 B,
-			gether2 C
-		where
-				A.m_idx = B.m_idx
-			and
-				A.get_idx = C.get_idx
-			and
-				C.getherTime
-			between
-				last_day(now() - interval 2 month) + interval 1 day
-			and
-				last_day(now() - interval 1 month)	
+		select B.nickName,
+					 A.getHeight
+		from gether2_member A,
+				 member2 B,
+				 gether2 C
+		where A.m_idx = B.m_idx
+			and A.get_idx = C.get_idx
+			and C.getherTime between last_day(now() - interval 2 month) + interval 1 day
+										 			 and last_day(now() - interval 1 month)	
 		order by getHeight desc
-		limit 1;
+		limit 3;
 	</select>
+	
+	<select id="getMostGetherReviewMember" resultType="com.spring.javaweb1S.vo.MemberVO">
+		select count(A.ger_idx) as gerCnt,
+					 B.nickName
+		from gether2_review A,
+				 member2 B
+		where A.m_idx = B.m_idx
+			and A.wdate between date_sub(now(), interval 1 month)
+											and	now()		
+		order by gerCnt desc
+		limit	5;
+	</select>
+	
+	
 	
 	<insert id="setGetherInsert">
 		insert into gether2 values(default,#{vo.m_idx},#{vo.title},#{vo.content},#{vo.location},#{vo.getherType},#{vo.totalMember},default,#{vo.gpxFile},#{vo.useTime},#{vo.distance},#{vo.getHeight},#{vo.detailCourse},#{vo.getherTime},default,null,null);
@@ -305,7 +289,7 @@
 	</insert>
 
 	<insert id="setGetherReviewInsert">
-		insert into gether2_review values(default,#{vo.get_title},#{vo.get_idx},#{vo.m_idx},#{vo.title},#{vo.content},#{vo.mainImage},#{vo.speed},#{vo.getHeight},#{vo.distance},#{vo.clear});
+		insert into gether2_review values(default,#{vo.get_title},#{vo.get_idx},#{vo.m_idx},#{vo.title},#{vo.content},#{vo.mainImage},#{vo.speed},#{vo.getHeight},#{vo.distance},#{vo.clear},default);
 	</insert>
 
 

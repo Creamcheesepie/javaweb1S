@@ -28,20 +28,8 @@
 <body>
 <jsp:include page="/WEB-INF/views/include/navbar.jsp"/>
 <div class="container">
-	<div class="row">
-		<div class="col-12 text-center">
-			<span class="mainfont-b-22">관리자 페이지</span>
-		</div>
-		<div class="col-12 text-center mainfont-b-18">
-			<a href="javascript:ruleUpdateFormPost()">사이트관리</a> | 
-			<a href="javascript:adminReportFormPost()">신고관리</a> | 
-			<a href="javascript:adminAskFormPost()">문의관리</a> | 
-			<a>제재유저관리</a> | 
-			<a>게시글관리</a>
-			<form name="ruleUpdateForm" method="post" action="${ctp}/admin/ruleUpdateForm" style="display:none"></form>
-			<form name="adminReportForm" method="post" action="${ctp}/admin/adminReportForm" style="display:none"></form>
-			<form name="adminAskForm" method="post" action="${ctp}/admin/adminAskForm" style="display:none"></form>
-		</div>
+<jsp:include page="/WEB-INF/views/include/adminHeader.jsp"/>
+
 		<div class="row">
 			<div class="col-6">
 				회원 변동
@@ -55,7 +43,7 @@
 				
 			</div>
 		</div>
-	</div>
+	
 </div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp"/>	
 </body>

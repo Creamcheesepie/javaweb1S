@@ -19,6 +19,7 @@ import com.spring.javaweb1S.common.JavaProvide;
 import com.spring.javaweb1S.pagination.PageProcess;
 import com.spring.javaweb1S.service.AdminService;
 import com.spring.javaweb1S.vo.AskVO;
+import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.CategoryVO;
 import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.PointVO;
@@ -215,15 +216,94 @@ public class AdminController {
 			) {
 		adminService.setUpdateRuleSetterPenaltyOption(rule_idx,strPenaltyTime);
 	}
-	JavaProvide provide = new JavaProvide();
+	
 	@RequestMapping(value = "/MainImageUpload/{category}", method = RequestMethod.POST)
 	public String adminBoardImageUpload(HttpSession session,MultipartFile fName,
 			@PathVariable("category") int category
 			) {
+		JavaProvide provide = new JavaProvide();
 		category = category+3;
 		String realPath = session.getServletContext().getRealPath("/resources/data/mainCategory/");
 		String reName = category+".jpg";
 		provide.fileUploadRename(fName, realPath,reName);
 		return "redirect:/admin/ruleUpdateForm";
 	}
+	
+	@RequestMapping(value = "/adminBanListForm", method = RequestMethod.POST)
+	public String adminBanListFormPost(Model model) {
+		List<ReportVO> banListVOS = adminService.getBanList();
+		System.out.println(banListVOS);
+		model.addAttribute("BLVOS", banListVOS);
+		return "admin/banUserList";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getBanDetail", method = RequestMethod.POST)
+	public ReportVO adminGetBanDetailPost(
+			@RequestParam(name="ban_idx",defaultValue="0",required=false)int ban_idx
+			) {
+		ReportVO vo = adminService.getBandetail(ban_idx);
+		return vo;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/banOff", method = RequestMethod.POST)
+	public void adminBanOffPost(
+			@RequestParam(name="ban_idx",defaultValue="0",required=false) int ban_idx
+			) {
+		adminService.setBanOff(ban_idx);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/banUpdateSet", method = RequestMethod.POST)
+	public void adminBanUpdateSetPost(
+			@RequestParam(name="ban_idx",defaultValue="0",required = false)int ban_idx,
+			@RequestParam(name="banType",defaultValue="",required = false)String banType,
+			@RequestParam(name="cdate",defaultValue="",required = false)String cdate,
+			@RequestParam(name="reasonInput",defaultValue="",required = false) String reason,
+			@RequestParam(name="originalContent",defaultValue="",required = false) String originalContent
+			) {
+		reason = originalContent+"<hr>제재내용수정<br>"+reason;
+		adminService.setBanUpdate(ban_idx,banType,cdate,reason);
+	}
+	
+	@RequestMapping(value = "/adminBoardList", method = RequestMethod.GET)
+	public String adminBoardListGet(Model model,
+			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
+			@RequestParam(name="pageSize",defaultValue="15",required=false)int pageSize
+			) {
+		int blockSize = 5;
+		PageVO pageVO = pageProcess.pageProcessorWithOutNews("board", pageSize, nowPage, blockSize);
+		List<BoardVO> boardVOS = adminService.getAdminBoardList(pageVO);
+		System.out.println(boardVOS);
+		model.addAttribute("boardVOS", boardVOS);
+		return "admin/adminBoardList";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/boardRestore", method = RequestMethod.POST)
+	public void adminBoradRestoreGet(
+			@RequestParam(name="boa_idx",defaultValue="0",required = false) int boa_idx
+			) {
+		adminService.setBoardRestore(boa_idx);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/boardDelete", method = RequestMethod.POST)
+	public void adminBoradDeleteGet(
+			@RequestParam(name="boa_idx",defaultValue="0",required = false) int boa_idx
+			) {
+		adminService.setBoardDelete(boa_idx);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/dateBaseDelete", method = RequestMethod.POST)
+	public void admindateBaseDeleteGet(
+			@RequestParam(name="boa_idx",defaultValue="0",required = false) int boa_idx
+			) {
+		adminService.setDateBaseDelete(boa_idx);
+	}
+	
+	
+
 }

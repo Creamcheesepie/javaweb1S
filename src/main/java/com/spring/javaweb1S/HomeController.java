@@ -24,9 +24,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaweb1S.service.BoardService;
 import com.spring.javaweb1S.service.GetherService;
+import com.spring.javaweb1S.service.MemberService;
 import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.GetherMemberVO;
 import com.spring.javaweb1S.vo.GetherReviewVO;
+import com.spring.javaweb1S.vo.MemberVO;
 import com.spring.javaweb1S.vo.OffendListVO;
 
 @Controller
@@ -36,6 +38,9 @@ public class HomeController {
 	
 	@Autowired
 	GetherService getherService;
+	
+	@Autowired
+	MemberService memberService;
 	
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
@@ -48,15 +53,21 @@ public class HomeController {
 		List<BoardVO> noticeList_vos = boardService.getNoticeList();
 		List<BoardVO> newsList_vos = boardService.getNewsList();
 		List<GetherReviewVO> getherListVOS = getherService.getGetherFrontReviewList();
-		GetherMemberVO longestRider = getherService.getLongestRider();
-		GetherMemberVO fastestRider = getherService.getfastestRider();
-		GetherMemberVO highestRider = getherService.gethighestRider();
+		List<GetherMemberVO> longestRiderVOS = getherService.getLongestRider();
+		List<GetherMemberVO> fastestRiderVOS = getherService.getfastestRider();
+		List<GetherMemberVO> highestRiderVOS = getherService.gethighestRider();
+		List<MemberVO> mostBoardVOS = memberService.getMostBoardMember();
+		List<MemberVO> mostReplyVOS = memberService.getMostReplyMember();
+		List<MemberVO> mostGetherReviewVOS = getherService.getMostGetherReviewMember();
 		
 		System.out.println(noticeList_vos);
 		
-		model.addAttribute("HR", highestRider);
-		model.addAttribute("FR", fastestRider);
-		model.addAttribute("LLR", longestRider);
+		model.addAttribute("MGRVOS", mostGetherReviewVOS);
+		model.addAttribute("MRVOS", mostReplyVOS);
+		model.addAttribute("MBVOS", mostBoardVOS);
+		model.addAttribute("HR", highestRiderVOS);
+		model.addAttribute("FR", fastestRiderVOS);
+		model.addAttribute("LLR", longestRiderVOS);
 		model.addAttribute("getherListVOS", getherListVOS);
 		model.addAttribute("noticeList_vos", noticeList_vos);
 		model.addAttribute("newsList_vos",  newsList_vos);
@@ -80,6 +91,12 @@ public class HomeController {
 	public String banUserGet(HttpSession session) {
 		session.invalidate();
 		return "banUser";
+	}
+	
+	@RequestMapping(value = "/clearUser", method= RequestMethod.GET)
+	public String clearUserGet(HttpSession session) {
+		session.invalidate();
+		return "clearUser";
 	}
 	
 	@RequestMapping(value="/boardAbuseUser/{rule_idx}", method = RequestMethod.GET)

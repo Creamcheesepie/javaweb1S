@@ -22,6 +22,7 @@ import com.spring.javaweb1S.dao.GetherDAO;
 import com.spring.javaweb1S.vo.GetherMemberVO;
 import com.spring.javaweb1S.vo.GetherReviewVO;
 import com.spring.javaweb1S.vo.GetherVO;
+import com.spring.javaweb1S.vo.MemberVO;
 import com.spring.javaweb1S.vo.PageVO;
 
 @Service
@@ -185,20 +186,22 @@ public class GetherServiceImpl implements GetherService {
 	}
 
 	@Override
-	public GetherMemberVO getLongestRider() {
+	public List<GetherMemberVO> getLongestRider() {
 		return getherDAO.getLongestRider();
 	}
 
 	@Override
-	public GetherMemberVO getfastestRider() {
-		GetherMemberVO resVO = getherDAO.getFastestRider();
-		int getherCnt = getherDAO.getGetherMemberM_idxCnt(resVO.getM_idx());
-		resVO.setSpeed(resVO.getSpeed()/getherCnt);
-		return resVO;
+	public List<GetherMemberVO> getfastestRider() {
+		return getherDAO.getFastestRider();
 	}
 
 	@Override
-	public GetherMemberVO gethighestRider() {
+	public List<GetherMemberVO> gethighestRider() {
 		return getherDAO.gethighestRider();
+	}
+
+	@Override
+	public List<MemberVO> getMostGetherReviewMember() {
+		return getherDAO.getMostGetherReviewMember();
 	}
 }

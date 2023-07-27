@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.spring.javaweb1S.vo.AskVO;
+import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.CategoryVO;
 import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.PointVO;
@@ -55,5 +56,21 @@ public interface AdminDAO {
 	public void setUpdateRuleSetterLimitOption(@Param("rule_idx") int rule_idx,@Param("strLimitTime") String strLimitTime,@Param("actionLimit") int actionLimit);
 
 	public void setUpdateRuleSetterPenaltyOption(@Param("rule_idx") int rule_idx,@Param("strPenaltyTime") String strLimitTime);
+
+	public List<ReportVO> getBanList();
+
+	public ReportVO getBandetail(@Param("ban_idx") int ban_idx);
+
+	public void setBanOff(@Param("ban_idx") int ban_idx);
+
+	public void setBanUpdate(@Param("ban_idx")int ban_idx,@Param("banType") String banType,@Param("cdate") String cdate,@Param("reason") String reason);
+
+	public List<BoardVO> getAdminBoardList(@Param("vo") PageVO pageVO);
+
+	public void setBoardRestore(@Param("boa_idx") int boa_idx);
+
+	public void setBoardDelete(@Param("boa_idx") int boa_idx);
+
+	public void setDateBaseDelete(@Param("boa_idx") int boa_idx);
 	
 }

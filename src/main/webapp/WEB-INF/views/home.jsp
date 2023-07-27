@@ -210,23 +210,60 @@
 		<hr/>
 		<h4 class="listTitle"><span class="material-symbols-outlined subTitle-icon">hotel_class</span>&nbsp;저번달 MVP 라이더</h4>
 		<hr/>
-		<div>최장거리</div>
-		<div>${LLR.nickName} ${LLR.distance}km</div>
-		<div>최고평속 </div>
-		<div>${FR.nickName} ${FR.speed}km/h</div>
-		<div>최고고도 </div>
-		<div>${HR.nickName} ${HR.getHeight}m</div>
+		<div><span class="mvp">BEST 달린거리</span></div>
+		<hr style="margin: 1px 0px 1px 0px">
+		<c:if test="${!empty LLR}">
+		<c:forEach var="LRVO" items="${LLR}" varStatus="st">
+			<div class="MVP-member${st.count}">${st.count}위. ${LRVO.nickName} ${LRVO.distance}km</div>
+		</c:forEach>
+		</c:if>
+		<c:if test="${empty LLR}">
+			지난 달 모임 기록이 없습니다.
+		</c:if>
+		<div class="mt-1"><span class="mvp">BEST 평균속도</span></div>
+		<hr style="margin: 1px 0px 1px 0px">
+		<c:if test="${!empty FR}">
+		<c:forEach var="FRVO" items="${FR}" varStatus="st">
+			<div class="MVP-member${st.count}">${st.count}위. ${FRVO.nickName} ${FRVO.speed}km/h</div>
+		</c:forEach>
+		</c:if>
+		<c:if test="${empty FR}">
+			지난 달 모임 기록이 없습니다.
+		</c:if>
+		<div><span class="mvp">BEST 획득고도</span></div>
+		<hr style="margin: 1px 0px 1px 0px">	
+		<c:if test="${!empty HR}">
+		<c:forEach var="HRVO" items="${HR}" varStatus="st">
+			<div class="MVP-member${st.count}">${st.count}위. ${HRVO.nickName} ${HRVO.getHeight}m</div>
+		</c:forEach>
+		</c:if>
+		<c:if test="${empty HR}">
+			지난 달 모임 기록이 없습니다.
+		</c:if>
 	</div>
 	<div class="col-sm-3">
 		<hr/>
 		<h4 class="listTitle align-self-center"><span class="material-symbols-outlined subTitle-icon">bolt</span>&nbsp;최근 우수 활동 회원</h4>
 		<hr/>
+		<div><span class="mvp">최다 게시글</span></div>
+		<c:forEach var="MBVO" items="${MBVOS}">
+		<div class="MVP-member3">${MBVO.nickName}(${MBVO.boaCnt}개)</div>
+		</c:forEach>
+		<div><span class="mvp">최다 댓글</span></div>
+		<c:forEach var="MRVO" items="${MRVOS}">
+		<div class="MVP-member3">${MRVO.nickName}(${MRVO.repCnt}개)</div>
+		</c:forEach>
+		<div><span class="mvp">최다 모임 후기</span></div>
+		<c:forEach var="MGRVO" items="${MGRVOS}">
+		<div class="MVP-member3">${MGRVO.nickName}(${MGRVO.gerCnt}개)</div>
+		</c:forEach>
+		
 	</div>
 	<div>
 	</div>
 </div>
-
 </div>
+<div class="mb-5"></div>
 <!-- 푸터 -->
 <jsp:include page="/WEB-INF/views/include/footer.jsp"/>
  </body>

@@ -37,4 +37,8 @@ public class MemberVO {
 	private int status;
 	private String setDate;
 	private String extra;
+	
+	private int boaCnt;
+	private int repCnt;
+	private int gerCnt;
 }

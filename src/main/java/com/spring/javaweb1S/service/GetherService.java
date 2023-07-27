@@ -5,6 +5,7 @@ import java.util.List;
 import com.spring.javaweb1S.vo.GetherMemberVO;
 import com.spring.javaweb1S.vo.GetherReviewVO;
 import com.spring.javaweb1S.vo.GetherVO;
+import com.spring.javaweb1S.vo.MemberVO;
 import com.spring.javaweb1S.vo.PageVO;
 
 public interface GetherService {
@@ -49,11 +50,13 @@ public interface GetherService {
 
 	public List<GetherReviewVO> getGetherFrontReviewList();
 
-	public GetherMemberVO getLongestRider();
+	public List<GetherMemberVO> getLongestRider();
 
-	public GetherMemberVO getfastestRider();
+	public List<GetherMemberVO> getfastestRider();
 
-	public GetherMemberVO gethighestRider();
+	public List<GetherMemberVO> gethighestRider();
+
+	public List<MemberVO> getMostGetherReviewMember();
 
 
 }

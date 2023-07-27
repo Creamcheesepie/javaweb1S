@@ -57,6 +57,7 @@
 <body>
 <jsp:include page="/WEB-INF/views/include/navbar.jsp"/>
 <div class="container">
+<jsp:include page="/WEB-INF/views/include/adminHeader.jsp"/>
 	<div class="">
 		<span class="mainTitle">문의 관리</span>
 	</div>

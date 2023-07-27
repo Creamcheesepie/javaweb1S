@@ -25,5 +25,7 @@ public class ReportVO {
 	private String reportednickName;
 	private String reportedTitle;
 	private String reportedContent;
-	
+	private String cdate;
+	private int ban_idx;
+	private String banType;
 }

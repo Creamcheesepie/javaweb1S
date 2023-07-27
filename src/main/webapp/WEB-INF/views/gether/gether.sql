@@ -90,3 +90,17 @@ WHERE  A.m_idx = B.m_idx
 ORDER  BY distance DESC
 LIMIT  1; 
 
+select	B.nickName,
+				A.get_idx,
+				sum(A.speed) as speed,
+				A.m_idx
+from	gether2_member A,
+			member2 B,
+			gether2 C
+where A.m_idx = B.m_idx
+	and A.get_idx = C.get_idx
+	and C.getherTime between	last_day(now() - interval 2 month) + interval 1 day
+											 and	last_day(now() - interval 1 month)
+group by B.nickName
+order by totalspeed asc
+

@@ -85,6 +85,15 @@ public interface MemberService {
 
 	public int getM_idxByMid(String mid);
 
+	public List<MemberVO> getMostBoardMember();
+
+	public List<MemberVO> getMostReplyMember();
+
+	public boolean banClearCheck(int m_idx);
+
+	public void setMemberLevelUpdate(int m_idx, int level);
+
+
 	
 	
 	

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.spring.javaweb1S.vo.GetherMemberVO;
 import com.spring.javaweb1S.vo.GetherReviewVO;
 import com.spring.javaweb1S.vo.GetherVO;
+import com.spring.javaweb1S.vo.MemberVO;
 import com.spring.javaweb1S.vo.PageVO;
 
 public interface GetherDAO {
@@ -57,13 +58,13 @@ public interface GetherDAO {
 
 	public List<GetherReviewVO> getGetherFrontReviewList();
 
-	public GetherMemberVO getLongestRider();
+	public List<GetherMemberVO> getLongestRider();
 
-	public GetherMemberVO getFastestRider();
+	public List<GetherMemberVO> getFastestRider();
 
-	public int getGetherMemberM_idxCnt(@Param("m_idx")int m_idx);
+	public List<GetherMemberVO> gethighestRider();
 
-	public GetherMemberVO gethighestRider();
+	public List<MemberVO> getMostGetherReviewMember();
 
 
 

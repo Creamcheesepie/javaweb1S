@@ -19,22 +19,18 @@
 	</select>
 	
 	<select id="getReportList" resultType="com.spring.javaweb1S.vo.ReportVO">
-		select
-			A.rep_idx,
-			B.name as category_name,
-			A.title,
-			A.wdate,
-			C.nickName,
-			A.takeSw,
-			A.tdate
-		from
-			report2 A,
-			report2_category B,
-			member2 C
-		where
-				A.m_idx=C.m_idx
-			and
-				A.rep_category = B.rep_category
+		select A.rep_idx,
+					 B.name as category_name,
+					 A.title,
+					 A.wdate,
+					 C.nickName,
+					 A.takeSw,
+					 A.tdate
+		from report2 A,
+				 report2_category B,
+				 member2 C
+		where A.m_idx=C.m_idx
+			and A.rep_category = B.rep_category
 			<if test="rep_category>0 and afterDate.equals('') and beforeDate.equals('')">
 			and	A.rep_category = #{rep_category}
 			</if>
@@ -49,16 +45,12 @@
 	</select>
 	
 	<select id="getReportByRep_idx" resultType="com.spring.javaweb1S.vo.ReportVO">
-		select
-		 A.* ,
-		 B.nickName 
-		from
-			report2 A,
-			member2 B
-		where  
-				A.m_idx = B.m_idx
-			and
-				A.rep_idx = #{rep_idx}
+		select A.* ,
+		 			 B.nickName 
+		from report2 A,
+				 member2 B
+		where A.m_idx = B.m_idx
+			and A.rep_idx = #{rep_idx}
 	</select>
 	
 	<select id="getReportCategoryByCategory" resultType="com.spring.javaweb1S.vo.ReportCategoryVO">
@@ -159,8 +151,61 @@
 			rule_idx = #{rule_idx};
 	</select>
 	
+	<select id="getBanList" resultType="com.spring.javaweb1S.vo.ReportVO">
+		select A.ban_idx,
+					 A.m_idx,
+					 A.banType,
+					 A.cdate,
+					 A.wdate,
+					 A.reason as content,
+					 B.nickName
+		from banlist A,
+				 member2 B
+		where A.m_idx = B.M_idx
+			and	A.cdate between now()
+											and date_add(now(), interval 1 year)
+		order by A.cdate;
+	</select>
 	
-	
+	<select id="getBandetail" resultType="com.spring.javaweb1S.vo.ReportVO">
+				select A.ban_idx,
+					 A.m_idx,
+					 A.banType,
+					 A.cdate,
+					 A.wdate,
+					 A.reason as content,
+					 B.nickName
+		from banlist A,
+				 member2 B
+		where A.m_idx = B.M_idx
+			and A.ban_idx = #{ban_idx};
+	</select>
+
+	<select id="getAdminBoardList" resultType="com.spring.javaweb1S.vo.BoardVO">
+		select B.boa_idx,
+					 B.m_idx,
+					 M.nickName,
+					 M.name,
+					 M.mid,
+					 B.title,
+					 B.viewCnt,
+					 B.recommendCnt,
+					 B.wdate,
+					 B.ddate,
+					 B.category,
+					 C.name as categoryName,
+					 TIMESTAMPDIFF(day,B.ddate, now()) as deleteCnt 
+		from board2 B, 
+				 member2 M, 
+				 board2_category C
+		where M.m_idx=B.m_idx
+			and B.category = C.category
+			and <![CDATA[B.category>2]]> 
+			and <![CDATA[B.category<100]]>
+		group by B.boa_idx
+		order by B.boa_idx desc
+		limit #{vo.sin}, #{vo.pageSize};
+	</select>	
 	
 	<insert id="setCategoryInput">
 		insert board2_category values(#{maxCategory},#{categoryName},default,null,default);
@@ -199,5 +244,24 @@
 		update ruleSetter set penaltyTime = #{strPenaltyTime}, cdate = now() where rule_idx = #{rule_idx};
 	</update>
 	
+	<update id="setBanOff">
+		update banlist set cdate = now() where ban_idx = #{ban_idx};
+	</update>
+	
+	<update id="setBanUpdate">
+		update banlist set cdate = #{cdate}, banType=#{banType}, reason = #{reason} where ban_idx = #{ban_idx};
+	</update>
+	
+	<update id="setBoardRestore">
+		update board2 set ddate = null where boa_idx = #{boa_idx};
+	</update>
+	
+	<update id="setBoardDelete">
+		update board2 set ddate = now() where boa_idx = #{boa_idx};
+	</update>
+	
+	<delete id="setDateBaseDelete">
+		delete from board2 where boa_idx = #{boa_idx}; 
+	</delete>
 
 </mapper>
