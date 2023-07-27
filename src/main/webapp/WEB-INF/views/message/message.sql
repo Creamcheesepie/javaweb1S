@@ -115,3 +115,22 @@ create table ask2(
 	on delete restrict
 )
 
+		select A.m_idx,
+					 A.nickName,
+					 A.name,
+					 A.level,
+					 A.point,
+					 A.totalCnt,
+					 (select count(boa_idx) from board2 where m_idx = A.m_idx) as boaCnt,
+					 (select count(rep_idx) from board2_reply where m_idx = A.m_idx) as repCnt,
+					 (select count(off_idx) from offenderList where m_idx = A.m_idx) as offCnt
+		from member2 A,
+				 board2 B,
+				 board2_reply C
+		where	A.m_idx = B.m_idx
+			and	A.m_idx = C.m_idx
+		group by 1
+		order by m_idx desc
+		
+
+

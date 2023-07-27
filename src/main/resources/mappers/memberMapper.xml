@@ -318,6 +318,11 @@
 		update member2 set level = #{level} where m_idx = #{m_idx};
 	</update>
 	
+	<update id="setRideInfoUpdate">
+		update member2 set speed = #{vo.speed}, getHeight = #{vo.getHeight}, duration = #{vo.duration} where m_idx = #{m_idx};
+	</update>
+	
+	
 	
 	<delete id="setFriendBanDelete">
 		delete from friendbanList where m_idx = #{m_idx}  and t_idx = #{t_idx};

@@ -3,28 +3,26 @@
 
 <mapper namespace="com.spring.javaweb1S.dao.GetherDAO">
 	<select id="getAfterGetherList" resultType="com.spring.javaweb1S.vo.GetherVO">
-		select
-			A.get_idx,
-			A.title,
-			A.detailCourse,
-			A.location,
-			A.getherTime,
-			A.totalMember,
-			A.nowMember,
-			B.nickName,
-			B.name,
-			(select m_idx from gether2_member where get_idx = A.get_idx and m_idx = #{m_idx}) as joined
-		from
-			gether2 A,
-			member2 B
-		where
-				A.getherTime
-			between
-				now()
-			and
-				date_add(now(),interval 1 Year)
-			and
-				A.m_idx = B.m_idx
+		select	A.get_idx,
+						A.title,
+						A.detailCourse,
+						A.location,
+						A.getherTime,
+						A.totalMember,
+						A.nowMember,
+						B.nickName,
+						B.name,
+						(select m_idx 
+						 from gether2_member 
+						 where get_idx = A.get_idx 
+						   and m_idx = #{m_idx}) 
+						   as joined
+		from gether2 A,
+				 member2 B
+		where  A.m_idx = B.m_idx
+			and  A.getherTime between now()
+													  and date_add(now(),interval 1 Year)
+			
 		order by A.getherTime
 		limit #{vo.sin}, #{vo.pageSize};
 	</select>
@@ -61,31 +59,27 @@
 	</select>
 	
 	<select id="getGetherDetail" resultType="com.spring.javaweb1S.vo.GetherVO">
-		select
-			A.get_idx,
-			A.m_idx,
-			A.title,
-			A.content,
-			A.location,
-			A.getherType,
-			A.totalMember,
-			A.nowMember,
-			A.gpxfile,
-			A.useTime,
-			A.distance,
-			A.getHeight,
-			A.detailCourse,
-			A.getherTime,
-			A.wdate,
-			B.nickName,
-			B.name
-		from
-			gether2 A,
-			member2 B
-		where
-				A.get_idx = #{get_idx}
-			and
-				A.m_idx = B.m_idx
+		select A.get_idx,
+					 A.m_idx,
+					 A.title,
+					 A.content,
+					 A.location,
+					 A.getherType,
+					 A.totalMember,
+					 A.nowMember,
+					 A.gpxfile,
+					 A.useTime,
+					 A.distance,
+					 A.getHeight,
+					 A.detailCourse,
+					 A.getherTime,
+					 A.wdate,
+					 B.nickName,
+					 B.name
+		from	gether2 A,
+					member2 B
+		where A.get_idx = #{get_idx}
+			and A.m_idx = B.m_idx
 	</select>
 	
 	<select id="getGetherJoinList" resultType="com.spring.javaweb1S.vo.GetherVO">

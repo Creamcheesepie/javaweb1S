@@ -103,7 +103,7 @@
 <jsp:include page="/WEB-INF/views/include/adminHeader.jsp"/>
 <div class="mainTitle">제재유저 관리<hr></div>
 <div class="row text-center">
-	<div class="col-12  text-left..">
+	<div class="col-12  text-left">
 		<span class="subTitle">현재 제재 중인 유저만 표시됩니다.</span>
 	</div>
 	<div class="col-12"><hr></div>

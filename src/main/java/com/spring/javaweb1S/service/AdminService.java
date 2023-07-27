@@ -5,10 +5,12 @@ import java.util.List;
 import com.spring.javaweb1S.vo.AskVO;
 import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.CategoryVO;
+import com.spring.javaweb1S.vo.MemberVO;
 import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.PointVO;
 import com.spring.javaweb1S.vo.ReportCategoryVO;
 import com.spring.javaweb1S.vo.ReportVO;
+import com.spring.javaweb1S.vo.StatVO;
 
 public interface AdminService {
 
@@ -63,6 +65,14 @@ public interface AdminService {
 	public void setBoardDelete(int boa_idx);
 
 	public void setDateBaseDelete(int boa_idx);
+
+	public List<StatVO> getNewMemberWeek();
+
+	public List<StatVO> getBoardStat();
+
+	public List<MemberVO> getMemberList(PageVO pageVO);
+
+	public void setMemberLevel(int m_idx, int level);
 
 	
 

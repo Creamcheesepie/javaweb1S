@@ -19,6 +19,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.spring.javaweb1S.dao.GetherDAO;
+import com.spring.javaweb1S.dao.MemberDAO;
 import com.spring.javaweb1S.vo.GetherMemberVO;
 import com.spring.javaweb1S.vo.GetherReviewVO;
 import com.spring.javaweb1S.vo.GetherVO;
@@ -29,6 +30,9 @@ import com.spring.javaweb1S.vo.PageVO;
 public class GetherServiceImpl implements GetherService {
 	@Autowired
 	GetherDAO getherDAO;
+	
+	@Autowired
+	MemberDAO memberDAO;
 
 	@Override
 	public void setGetherInsert(GetherVO getherVO) {
@@ -158,6 +162,18 @@ public class GetherServiceImpl implements GetherService {
 	@Override
 	public void setGetherClearCheck(int get_idx, int m_idx) {
 		getherDAO.setGetherClearCheck(get_idx,m_idx);
+		GetherMemberVO gvo = getherDAO.getGetherMemberDetail(get_idx, m_idx);
+		MemberVO mvo = memberDAO.getM_idxInfo(m_idx);
+		
+		int avgSpeed = (gvo.getSpeed()+mvo.getSpeed())/2;
+		int avgGetHeight = (gvo.getGetHeight()+mvo.getGetHeight())/2;
+		int avgDuration = ((gvo.getDistance()/gvo.getSpeed())+mvo.getDuration())/2;
+		
+		mvo.setSpeed(avgSpeed);
+		mvo.setGetHeight(avgGetHeight);
+		mvo.setDuration(avgDuration);
+		memberDAO.setRideInfoUpdate(mvo,m_idx);
+		
 	}
 
 	@Override

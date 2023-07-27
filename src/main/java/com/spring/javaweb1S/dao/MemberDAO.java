@@ -93,6 +93,8 @@ public interface MemberDAO {
 
 	public void setMemberLevelUpdate(@Param("m_idx") int m_idx,@Param("level") int level);
 
+	public void setRideInfoUpdate(@Param("vo") MemberVO mvo,@Param("m_idx") int m_idx);
+
 
 
 

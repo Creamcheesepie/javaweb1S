@@ -41,4 +41,5 @@ public class MemberVO {
 	private int boaCnt;
 	private int repCnt;
 	private int gerCnt;
+	private int offCnt;
 }

@@ -168,7 +168,7 @@
 	</select>
 	
 	<select id="getBandetail" resultType="com.spring.javaweb1S.vo.ReportVO">
-				select A.ban_idx,
+		select A.ban_idx,
 					 A.m_idx,
 					 A.banType,
 					 A.cdate,
@@ -207,6 +207,51 @@
 		limit #{vo.sin}, #{vo.pageSize};
 	</select>	
 	
+	<select id="getNewMemberWeek" resultType="com.spring.javaweb1S.vo.StatVO">
+		select date_format(signindate, '%Y-%v') as year_week,
+			 count(*) as res1
+		from member2
+		where signindate between date_sub(now(), interval 2 month)
+										 and now()
+		group by 1;
+	</select>
+	
+	<select id="getBoardStat" resultType="com.spring.javaweb1S.vo.StatVO">
+		select A.category as res1,
+					 count(A.boa_idx) as res2,
+					 B.name as strRes
+		from board2 A,
+				 board2_category B
+		where A.wdate between date_sub(now(), interval 1 month)
+									 	and now()
+			and <![CDATA[A.category>2]]> 
+			and <![CDATA[A.category<100]]>
+			and A.category = B.category
+		group by 1;
+	</select>
+	
+	<select id="getMemberList" resultType="com.spring.javaweb1S.vo.MemberVO">
+		select A.m_idx,
+					 A.nickName,
+					 A.name,
+					 A.level,
+					 A.point,
+					 A.totalCnt,
+					 (select count(boa_idx) from board2 where m_idx = A.m_idx) as boaCnt,
+					 (select count(rep_idx) from board2_reply where m_idx = A.m_idx) as repCnt,
+					 (select count(off_idx) from offenderList where m_idx = A.m_idx) as offCnt
+		from member2 A,
+				 board2 B,
+				 board2_reply C
+		where	A.m_idx = B.m_idx
+			and	A.m_idx = C.m_idx
+		group by 1
+		order by m_idx desc
+		limit ${vo.sin}, ${vo.pageSize};
+	</select>
+	
+	
+	
 	<insert id="setCategoryInput">
 		insert board2_category values(#{maxCategory},#{categoryName},default,null,default);
 	</insert>
@@ -214,6 +259,9 @@
 	<insert id="setBanList">
 		insert banList values(default, #{m_idx},#{banType},#{cdate},default,#{reason});
 	</insert>
+	
+	
+	
 	
 	
 	<update id="setPointSetterUpdate">

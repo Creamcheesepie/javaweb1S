@@ -29,7 +29,8 @@
 		<a href="javascript:adminReportFormPost()">신고관리</a> | 
 		<a href="javascript:adminAskFormPost()">문의관리</a> | 
 		<a href="javascript:adminBanListFormPost()">제재유저관리</a> | 
-		<a href="${ctp}/admin/adminBoardList">게시글관리</a>
+		<a href="${ctp}/admin/adminBoardList">게시글관리</a> |
+		<a href="${ctp}/admin/memberList">회원목록</a>
 		<form name="ruleUpdateForm" method="post" action="${ctp}/admin/ruleUpdateForm" style="display:none"></form>
 		<form name="adminReportForm" method="post" action="${ctp}/admin/adminReportForm" style="display:none"></form>
 		<form name="adminAskForm" method="post" action="${ctp}/admin/adminAskForm" style="display:none"></form>

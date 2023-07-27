@@ -21,11 +21,13 @@ import com.spring.javaweb1S.service.AdminService;
 import com.spring.javaweb1S.vo.AskVO;
 import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.CategoryVO;
+import com.spring.javaweb1S.vo.MemberVO;
 import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.PointVO;
 import com.spring.javaweb1S.vo.ReportCategoryVO;
 import com.spring.javaweb1S.vo.ReportVO;
 import com.spring.javaweb1S.vo.RuleSetterVO;
+import com.spring.javaweb1S.vo.StatVO;
 
 @Controller
 @RequestMapping("/admin")
@@ -38,9 +40,14 @@ public class AdminController {
 	
 	
 	@RequestMapping(value = "/home",method = RequestMethod.POST)
-	public String adminHomePost(HttpSession session) {
+	public String adminHomePost(HttpSession session,Model model) {
 		int level =session.getAttribute("sLevel")==null?99:(int)session.getAttribute("sLevel");
 		if(level<2) {
+			List<StatVO> statVOS = adminService.getNewMemberWeek();
+			List<StatVO> boaStatVOS = adminService.getBoardStat();
+			
+			model.addAttribute("boaStatVOS", boaStatVOS);
+			model.addAttribute("statVOS", statVOS);
 			return "admin/adminHome";
 		}
 		else return "redirect:/unusualapproach";
@@ -302,6 +309,29 @@ public class AdminController {
 			@RequestParam(name="boa_idx",defaultValue="0",required = false) int boa_idx
 			) {
 		adminService.setDateBaseDelete(boa_idx);
+	}
+	
+	@RequestMapping(value = "/memberList", method = RequestMethod.GET)
+	public String adminMemberListGet(Model model,
+			@RequestParam(name="nowPage", defaultValue="1",required=false)int nowPage,
+			@RequestParam(name="pageSize",defaultValue="15",required=false)int pageSize
+			) {
+		int blockSize = 5;
+		PageVO pageVO = pageProcess.pageProcessor("member2", pageSize, nowPage, blockSize);
+		List<MemberVO> memberVOS = adminService.getMemberList(pageVO);
+		
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("mVOS", memberVOS);
+		return "admin/memberList";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/memberLevelChange", method = RequestMethod.POST)
+	public void adminMemberLevelChange(
+			@RequestParam(name="m_idx",defaultValue="0",required=false) int m_idx,
+			@RequestParam(name="level",defaultValue="4",required=false)	int level
+			) {
+		adminService.setMemberLevel(m_idx,level);
 	}
 	
 	

@@ -7,11 +7,13 @@ import org.apache.ibatis.annotations.Param;
 import com.spring.javaweb1S.vo.AskVO;
 import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.CategoryVO;
+import com.spring.javaweb1S.vo.MemberVO;
 import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.PointVO;
 import com.spring.javaweb1S.vo.ReportCategoryVO;
 import com.spring.javaweb1S.vo.ReportVO;
 import com.spring.javaweb1S.vo.RuleSetterVO;
+import com.spring.javaweb1S.vo.StatVO;
 
 public interface AdminDAO {
 
@@ -72,5 +74,11 @@ public interface AdminDAO {
 	public void setBoardDelete(@Param("boa_idx") int boa_idx);
 
 	public void setDateBaseDelete(@Param("boa_idx") int boa_idx);
+
+	public List<StatVO> getNewMemberWeek();
+
+	public List<StatVO> getBoardStat();
+
+	public List<MemberVO> getMemberList(@Param("vo")PageVO pageVO);
 	
 }

@@ -106,3 +106,29 @@ where A.m_idx = B.m_idx
 group by A.m_idx
 order by boaCnt desc
 limit 5;
+
+select date_format(signindate, '%Y-%v') as year_week,
+			 count(*) as member
+	from member2 
+	where signindate between date_sub(now(), interval 1 month)
+										 and now()
+group by 1;
+
+
+		select date_format(signindate, '%Y-%v') as year_week,
+			 count(*) as res1
+		from member2
+		where signindate between date_sub(now(), interval 3 month)
+										 and now()
+		group by 1;
+
+select A.category,
+			 count(A.boa_idx),
+			 B.name
+from board2 A,
+		 board2_category B
+where A.wdate between date_sub(now(), interval 1 month)
+							 	and now()
+	and A.ddate is null
+	and A.category = B.category
+group by 1;

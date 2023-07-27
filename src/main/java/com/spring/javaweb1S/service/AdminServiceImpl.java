@@ -1,4 +1,4 @@
-package com.spring.javaweb1S.service;
+	package com.spring.javaweb1S.service;
 
 import java.util.List;
 
@@ -9,11 +9,13 @@ import com.spring.javaweb1S.dao.AdminDAO;
 import com.spring.javaweb1S.vo.AskVO;
 import com.spring.javaweb1S.vo.BoardVO;
 import com.spring.javaweb1S.vo.CategoryVO;
+import com.spring.javaweb1S.vo.MemberVO;
 import com.spring.javaweb1S.vo.PageVO;
 import com.spring.javaweb1S.vo.PointVO;
 import com.spring.javaweb1S.vo.ReportCategoryVO;
 import com.spring.javaweb1S.vo.ReportVO;
 import com.spring.javaweb1S.vo.RuleSetterVO;
+import com.spring.javaweb1S.vo.StatVO;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -179,6 +181,26 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public void setDateBaseDelete(int boa_idx) {
 		adminDAO.setDateBaseDelete(boa_idx);
+	}
+
+	@Override
+	public List<StatVO> getNewMemberWeek() {
+		return adminDAO.getNewMemberWeek();
+	}
+
+	@Override
+	public List<StatVO> getBoardStat() {
+		return adminDAO.getBoardStat();
+	}
+
+	@Override
+	public List<MemberVO> getMemberList(PageVO pageVO) {
+		return adminDAO.getMemberList(pageVO);
+	}
+
+	@Override
+	public void setMemberLevel(int m_idx, int level) {
+		adminDAO.setMemberLevel(m_idx,level);
 	}
 
 }
