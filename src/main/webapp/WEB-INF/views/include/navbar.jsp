@@ -60,18 +60,18 @@
 	<a class="navbar-brand" href="${ctp}/" style="margin-left: 10px"><span class="navTitle">함께타요</span></a>
 <ul class="navbar-nav">
 	<li>
-		<a class="nav-link" href="${ctp}/attendance/list">attendance</a>
+		<a class="nav-link" href="${ctp}/attendance/list">출석하기</a>
 	</li>
 </ul>
 <div class="dropdown">
-  <button class="dropbtn">News</button>
+  <button class="dropbtn">뉴스</button>
   <div class="dropdown-content">
     <a href="${ctp}/board/news/2">새 소식</a>
     <a href="${ctp}/board/news/1">공지사항</a>
   </div>
 </div>	
 <div class="dropdown">
-  <button class="dropbtn">Board</button>
+  <button class="dropbtn">게시판</button>
   <div class="dropdown-content">
     <a href="${ctp}/board/listAll">게시판 전부보기</a>
   <c:forEach var="nav_vo" items="${nav_vos}" varStatus="st">
@@ -82,7 +82,7 @@
 </div>
 <ul class="navbar-nav">
   <li class="nav-item">
-    <a class="nav-link" href="${ctp}/gether/home">gether</a>
+    <a class="nav-link" href="${ctp}/gether/home">모임</a>
   </li>
   <c:if test="${sLogin =='ok'}">
   <li class="nav-item">

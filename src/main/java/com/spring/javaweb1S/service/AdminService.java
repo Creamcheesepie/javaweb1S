@@ -74,6 +74,14 @@ public interface AdminService {
 
 	public void setMemberLevel(int m_idx, int level);
 
+	public List<StatVO> getReplyStat();
+
+	public StatVO getRideAVG();
+
+	public List<StatVO> getCategoryReplyStat();
+
+	public void setCategoryUpdate(int category, String name);
+
 	
 
 

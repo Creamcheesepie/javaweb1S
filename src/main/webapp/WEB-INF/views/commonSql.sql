@@ -64,5 +64,33 @@ create table banList(
 	on delete restrict
 )
 
+		select	B.title as strRes,
+						count(a.rep_idx) as res1
+		from board2_reply A,
+				 board2 B,
+				 board2_category C
+		where	A.boa_idx = B.boa_idx
+			and	B.category = C.category
+		group by strRes
+		order by res1 desc
+		limit 10
+		
+		select	avg(duration) as res1,
+						avg(speed) as res2,
+						avg(getHeight) as res3
+		from member2
+		where level <5 
 
-
+		select A.m_idx,
+					 A.nickName,
+					 A.name,
+					 A.level,
+					 A.point,
+					 A.totalCnt,
+					 (select count(boa_idx) from board2 where m_idx = A.m_idx) as boaCnt,
+					 (select count(rep_idx) from board2_reply where m_idx = A.m_idx) as repCnt,
+					 (select count(off_idx) from offenderList where m_idx = A.m_idx) as offCnt
+		from member2 A
+		group by 1
+		order by m_idx desc
+		limit ${vo.sin}, ${vo.pageSize};

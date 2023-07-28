@@ -240,15 +240,47 @@
 					 (select count(boa_idx) from board2 where m_idx = A.m_idx) as boaCnt,
 					 (select count(rep_idx) from board2_reply where m_idx = A.m_idx) as repCnt,
 					 (select count(off_idx) from offenderList where m_idx = A.m_idx) as offCnt
-		from member2 A,
-				 board2 B,
-				 board2_reply C
-		where	A.m_idx = B.m_idx
-			and	A.m_idx = C.m_idx
+		from member2 A
 		group by 1
 		order by m_idx desc
 		limit ${vo.sin}, ${vo.pageSize};
 	</select>
+	
+	<select id="getReplyStat" resultType="com.spring.javaweb1S.vo.StatVO">
+		select	B.title as strRes,
+						count(a.rep_idx) as res1
+		from board2_reply A,
+				 board2 B,
+				 board2_category C
+		where	A.boa_idx = B.boa_idx
+			and	B.category = C.category
+		group by strRes
+		order by res1 desc
+		limit 10;
+	</select>
+	
+	<select id="getRideAVG" resultType="com.spring.javaweb1S.vo.StatVO">
+		select	avg(duration) as res1,
+						avg(speed) as res2,
+						avg(getHeight) as res3
+		from member2
+		where level <![CDATA[<]]> 5
+	</select>
+	
+	<select id="getCategoryReplyStat" resultType="com.spring.javaweb1S.vo.StatVO">
+		select	c.name as strRes,
+						count(a.rep_idx) as res1
+		from board2_reply A,
+				 board2 B,
+				 board2_category C
+		where	A.boa_idx = B.boa_idx
+			and	B.category = C.category
+			and	A.wdate between date_sub(now(), interval 1 month)
+									 		and now()
+		group by strRes
+		order by res1 desc
+	</select>
+	
 	
 	
 	
@@ -307,6 +339,13 @@
 	<update id="setBoardDelete">
 		update board2 set ddate = now() where boa_idx = #{boa_idx};
 	</update>
+	
+	<update id="setCategoryUpdate">
+		update board2_category set name = #{name} where category = #{category}; 
+	</update>
+	
+	
+	
 	
 	<delete id="setDateBaseDelete">
 		delete from board2 where boa_idx = #{boa_idx}; 

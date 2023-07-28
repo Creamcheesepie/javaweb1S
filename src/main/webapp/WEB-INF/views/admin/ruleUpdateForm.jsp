@@ -48,7 +48,7 @@
 			success:function(res){
 				if(res==1){
 					alert("카테고리 추가에 성공하였습니다.");
-					location.reload
+					location.reload();
 				}
 				else{
 					alert("오류가 발생하여 카테고리 추가에 실패하였습니다.");
@@ -58,6 +58,24 @@
 				alert("전송오류가 발생하였습니다. 같은 현상이 반복된다면 관리자에게 연락해주십시오.")
 			}
 		})
+	}
+	
+	function categoryChangeName(category,st){
+		let name = $("#categoryNameUpdate"+st).val();
+		
+		$.ajax({
+			type:"post",
+			data:{category:category,name:name},
+			url:"${ctp}/admin/categoryUpdate",
+			success:function(){
+				alert("카테고리를 수정하였습니다.");
+				location.reload();
+			},
+			error:function(){
+				alert("전송오류가 발생하였습니다. 같은 오류가 반복된다면 관리자에게 연락해주세요.");
+			}
+		})
+		
 	}
 	
 	function BoardlimitDataChange(){
@@ -165,7 +183,7 @@
 		<div class="input-group">
 			<input type="text" name="categoryNameUpdate${st.count}" id="categoryNameUpdate${st.count}" value="${category_vo.name}" class="form-control">
 			<div class="input-group-append">
-				<button type="button" class="btn border">변경하기</button> 
+				<button type="button" class="btn border" onclick="categoryChangeName('${category_vo.category}','${st.count}')">변경하기</button> 
 			</div>
 		</div>
 		<div class="mt-2 mb-2">대표이미지 등록</div>

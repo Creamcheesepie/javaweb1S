@@ -203,4 +203,24 @@ public class AdminServiceImpl implements AdminService {
 		adminDAO.setMemberLevel(m_idx,level);
 	}
 
+	@Override
+	public List<StatVO> getReplyStat() {
+		return adminDAO.getReplyStat();
+	}
+
+	@Override
+	public StatVO getRideAVG() {
+		return adminDAO.getRideAVG();
+	}
+
+	@Override
+	public List<StatVO> getCategoryReplyStat() {
+		return adminDAO.getCategoryReplyStat();
+	}
+
+	@Override
+	public void setCategoryUpdate(int category, String name) {
+		adminDAO.setCategoryUpdate(category,name);
+	}
+
 }

@@ -80,5 +80,13 @@ public interface AdminDAO {
 	public List<StatVO> getBoardStat();
 
 	public List<MemberVO> getMemberList(@Param("vo")PageVO pageVO);
+
+	public List<StatVO> getReplyStat();
+
+	public StatVO getRideAVG();
+
+	public List<StatVO> getCategoryReplyStat();
+
+	public void setCategoryUpdate(@Param("category")int category,@Param("name") String name);
 	
 }

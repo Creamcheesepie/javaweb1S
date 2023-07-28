@@ -230,7 +230,11 @@
 	</select>
 	
 	<select id="getBanCount" resultType="int">
-		select count(m_idx) from banList where banType=#{banType} and m_idx=#{m_idx} and cdate <![CDATA[>]]>  date_sub(now(),interval 1 year);
+		select count(m_idx) 
+			from banList 
+		 where banType=#{banType} 
+			 and m_idx=#{m_idx} 
+			 and cdate <![CDATA[>]]>  date_sub(now(),interval 1 year);
 	</select>
 	
 	<select id="getBanListByM_idx" resultType="com.spring.javaweb1S.vo.BoardVO">

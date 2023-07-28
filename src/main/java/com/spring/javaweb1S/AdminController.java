@@ -45,7 +45,15 @@ public class AdminController {
 		if(level<2) {
 			List<StatVO> statVOS = adminService.getNewMemberWeek();
 			List<StatVO> boaStatVOS = adminService.getBoardStat();
+			List<StatVO> repStatVOS = adminService.getReplyStat();
+			List<StatVO> BCRStatVOS = adminService.getCategoryReplyStat();
+			StatVO rideStatVO = adminService.getRideAVG();
 			
+			
+			System.out.println(rideStatVO);
+			model.addAttribute("BCRStatVOS", BCRStatVOS);
+			model.addAttribute("rideStatVO", rideStatVO);
+			model.addAttribute("repStatVOS", repStatVOS);
 			model.addAttribute("boaStatVOS", boaStatVOS);
 			model.addAttribute("statVOS", statVOS);
 			return "admin/adminHome";
@@ -334,6 +342,15 @@ public class AdminController {
 		adminService.setMemberLevel(m_idx,level);
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/categoryUpdate",method = RequestMethod.POST)
+	public void adminCategoryUpdatePost(
+			@RequestParam(name="category",defaultValue="0",required = false) int category,
+			@RequestParam(name="name",defaultValue="",required = false)String name
+			) {
+		adminService.setCategoryUpdate(category,name);
+		
+	}
 	
 
 }
