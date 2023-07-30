@@ -272,7 +272,7 @@
 		let pwd = $("#pwd").val();
 		
 		if(!pwdRegEx.test(pwd)){
-			$("#pwdChecked").html("비밀번호 양식은 영문 대소문자에 숫자, 특수문자 1개 이상 있어야합니다.");
+			$("#pwdChecked").html("비밀번호 양식은 영문 대소문자, 숫자, 특수문자 1개 이상으로 8자 이상입니다.");
 		 	pwdOk = "false";
 		}
 		else {

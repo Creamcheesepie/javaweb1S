@@ -25,7 +25,7 @@
 			margin-top: 8%;
 			border-radius: 22px;
 			border-style: solid;
-			
+			margin-bottom: 5%;
 			border-color: lightgray;
 			padding : 2%;
 			width: 600px;
