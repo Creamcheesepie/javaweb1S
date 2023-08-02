@@ -23,7 +23,7 @@
 	<resources mapping="/ckeditor/**" location="/resources/ckeditor/"/>
 	<resources mapping="/getherReview/**" location="/resources/data/reviewMain/"/>
 	<resources mapping="/mainCategoryIMG/**" location="/resources/data/mainCategory/"/>
-	
+	<resources mapping="/gpxFiles/**" location="/resources/data/gpxFiles/"/>
 	
 	
 

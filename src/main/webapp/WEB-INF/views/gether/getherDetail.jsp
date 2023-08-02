@@ -110,6 +110,9 @@
 		<div class="col-12">
 			${getherVO.content}
 		</div>
+		<div class="col-12">
+			<a href= "${ctp}/resources/data/gpxFiles/${getherVO.gpxFile}" download="${getherVO.title}gpx">gpx파일 다운로드</a>
+		</div>
 		<div class="col-12 text-center">
 			<c:if test="${joinChecker == 0 && getherVO.m_idx!=sM_idx}">
 				<button type="button" class="btn border" onclick="joinGether('${getherVO.get_idx}')">참여하기</button>
@@ -119,7 +122,7 @@
 			</c:if>
 			<c:if test="${getherVO.m_idx == sM_idx}">
 				<form name="getQRForm" id="getQRForm" method="post" action="${ctp}/gether/getherSaveQR">
-				<input type="hidden" name="link" id="link" value="${ctp}/gether/getherClearSave/${getherVO.get_idx}">
+				<input type="hidden" name="link" id="link" value="http://49.142.157.251:9090/gether/getherClearSave/${getherVO.get_idx}">
 				<!-- 올리기 전에 서버 아이피로 고칠 것 -->
 					<button type="button" class="btn border" onclick="location.href='${ctp}/gether/getherClearSave/${getherVO.get_idx}'">내기록등록</button>
 					<button type="submit" class="btn border">완주등록</button>

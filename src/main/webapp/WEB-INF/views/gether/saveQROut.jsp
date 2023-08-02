@@ -16,6 +16,6 @@
 <body>
 ${link}
 <a href="${link}">모임 완료페이지로 이동</a>
-<img src="QRCode">
+<img src="${ctp}/resources/data/QR/${QRCode}.png" style="width: 300px ; height: 300px">
 </body>
 </html>

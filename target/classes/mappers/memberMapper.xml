@@ -84,29 +84,20 @@
 	</select>
 	
 	<select id="getMemberSearchForFriendAdd" resultType="com.spring.javaweb1S.vo.MemberVO">
-		select 
-			A.m_idx,
-			A.nickName,
-			A.name,
-			A.mid,
-			A.duration,
-			A.speed,
-			A.getheight,
-			A.level,
-			B.status 
-		from 
-			member2 as A 
-			left join friendBanList as B
-			on A.m_idx = B.t_idx
-		where 
-			not	
-				A.m_idx 
-			in 
-				(#{m_idx})
-			and
-				A.${searchOption} 
-			like 
-				concat('%',#{searchStr},'%');
+		select 	A.m_idx,
+						A.nickName,
+						A.name,
+						A.mid,
+						A.duration,
+						A.speed,
+						A.getheight,
+						A.level,
+						B.status 
+		from member2 as A 
+		left join friendBanList as B
+					on A.m_idx = B.t_idx
+		where not	A.m_idx in (#{m_idx})
+			and	A.${searchOption} like concat('%',#{searchStr},'%');
 	</select>
 	
 	<select id="getBanList" resultType="com.spring.javaweb1S.vo.MemberVO">

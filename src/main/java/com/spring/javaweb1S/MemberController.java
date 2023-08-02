@@ -164,7 +164,7 @@ public class MemberController {
 			
 			String domain= memberService.getDomainDom_idx(dom_idx_);
 			String verCode = UUID.randomUUID().toString().substring(0, 6);
-			/*
+			
 			String toMail = emailName+domain;
 			String title = "본인인증 메일입니다.";
 			String content = "<h2>본인인증 코드입니다</h2><hr/>"+verCode+"<hr/>이 코드를 인증 창에 입력해 주시기 바랍니다."	;
@@ -179,7 +179,7 @@ public class MemberController {
 			messageHelper.setText(content,true);
 			
 			mailSender.send(message);
-			*/
+			
 			//이메일을 전송하고 나면 인증 코드를 세션에 저장한다.
 			System.out.println(verCode);
 			session.setAttribute("verCode", verCode);
